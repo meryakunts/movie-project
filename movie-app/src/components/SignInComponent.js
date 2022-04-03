@@ -10,18 +10,41 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { useHistory } from "react-router-dom";
 
 
 const theme = createTheme();
 
 function SignInComponent() {
+
+  let history = useHistory();
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    // console.log(event);
+    // console.log(event.currentTarget);
+    let email = data.get('email');
+    let password = data.get('password');
+    // console.log({
+    //   email: data.get('email'),
+    //   password: data.get('password'),
+    // });
+    const auth = getAuth();
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed in 
+        const user = userCredential.user;
+        // alert("user Signed in");
+        history.push("/home");
+        // ...
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // alert(errorMessage)
+      });
   };
 
   return (
