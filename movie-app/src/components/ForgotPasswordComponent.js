@@ -8,33 +8,30 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { getAuth, updatePassword } from "firebase/auth";
-import { useHistory } from "react-router-dom";
+import { getAuth, sendPasswordResetEmail  } from "firebase/auth";
 
 
 const theme = createTheme();
 
 function ForgotPasswordComponent() {
 
-  let history = useHistory();
-
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log(event);
-    console.log(event.currentTarget);
+    let email = data.get('email');
     const auth = getAuth();
-    const user = auth.currentUser;
-    // // const newPassword = getASecureRandomPassword();
-    // // console.log("newPassword", newPassword)
-    // updatePassword(user, newPassword).then(() => {
-    //   // Update successful.
-    //   alert("Update successful")
-    // }).catch((error) => {
-    //   // An error ocurred
-    //   // ...
-    //   alert("Update not successful")
-    // });
+    sendPasswordResetEmail(auth, email)
+      .then(() => {
+        alert("Password reset email sent!")
+        // Password reset email sent!
+        // ..
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        alert("Password reset email not sent!", errorMessage)
+        // ..
+      });
   };
 
   return (
