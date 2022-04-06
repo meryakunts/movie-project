@@ -19,6 +19,7 @@ const breakPoints = [
         if (currentItem.index === nextItem.index) {
           carouselRef.current.goTo(0);
         }
+        console.log(currentItem.index)
       };
       
       const onPrevStart = (currentItem, nextItem) => {
