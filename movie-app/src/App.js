@@ -6,7 +6,6 @@ import Home from "./components/Home";
 import ForgotPasswordComponent from "./components/ForgotPasswordComponent";
 import db from "./firebase";
 import { onSnapshot, collection } from "firebase/firestore";
-// import FireStoreData from "./components/FireStoreData";
 
 function App() {
   const [movies, setMovies] = useState("Loading");
@@ -50,10 +49,7 @@ function App() {
             ) : (
               <form>
                 {movies.map((movie) => (
-                  <li key={movie.id}>
-                    Name: {movie.name} | Genre: {movie.genre} | Year:{" "}
-                    {movie.year}
-                  </li>
+                  <li key={movie.id}>{movie.name}</li>
                 ))}
               </form>
             )}
