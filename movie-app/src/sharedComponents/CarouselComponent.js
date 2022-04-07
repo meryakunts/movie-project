@@ -15,23 +15,11 @@ const breakPoints = [
     const [items, setItems] = useState([1, 2, 3, 4, 5, 6, 7, 8]);
     const carouselRef = useRef();
 
-    const onNextStart = (currentItem, nextItem) => {
-        if (currentItem.index === nextItem.index) {
-          carouselRef.current.goTo(0);
-        }
-        console.log(currentItem.index)
-      };
-      
-      const onPrevStart = (currentItem, nextItem) => {
-        if (currentItem.index === nextItem.index) {
-          carouselRef.current.goTo(items.length);
-        }
-      };
 
     return (
       <div className="CarouselComponent">
         <div className="carousel-wrapper">
-          <Carousel breakPoints={breakPoints} ref={carouselRef} onPrevStart={onPrevStart} onNextStart={onNextStart}>
+          <Carousel breakPoints={breakPoints} ref={carouselRef}>
             {items.map((item) => (
               <Item key={item}>
                   <CardComponent/>
