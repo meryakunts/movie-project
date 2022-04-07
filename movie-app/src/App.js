@@ -6,11 +6,10 @@ import Home from "./components/Home";
 import ForgotPasswordComponent from "./components/ForgotPasswordComponent";
 import db from "./firebase";
 import { onSnapshot, collection } from "firebase/firestore";
-// import FireStoreData from "./components/FireStoreData";
 
 function App() {
-  const [movies, setMovies] = useState("Loading");
-  const [shows, setShows] = useState("Loading");
+  const [movies, setMovies] = useState("Please wait...");
+  const [shows, setShows] = useState("Please wait...");
 
   useEffect(
     () =>
@@ -45,15 +44,12 @@ function App() {
             <br></br>
             {!movies[0].hasOwnProperty("id") ? (
               <form>
-                <li key="movieLoading">Loading...</li>
+                <li key="movieLoading">Please wait...</li>
               </form>
             ) : (
               <form>
                 {movies.map((movie) => (
-                  <li key={movie.id}>
-                    Name: {movie.name} | Genre: {movie.genre} | Year:{" "}
-                    {movie.year}
-                  </li>
+                  <li key={movie.id}>{movie.name}</li>
                 ))}
               </form>
             )}
@@ -61,7 +57,7 @@ function App() {
             <br></br>
             {!shows[0].hasOwnProperty("id") ? (
               <form>
-                <li key="showLoading">Loading...</li>
+                <li key="showLoading">Please wait...</li>
               </form>
             ) : (
               <form>
