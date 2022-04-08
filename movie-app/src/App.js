@@ -10,6 +10,7 @@ import SignInComponent from "./components/SignInComponent";
 import SignUpComponent from "./components/SignUpComponent";
 import Home from "./components/Home"
 import ForgotPasswordComponent from "./components/ForgotPasswordComponent";
+import NestedList from "./components/sidebar/NestedList";
 
 const firebaseConfig = {
   apiKey: "AIzaSyA50jGxyZVJEu0N_tDJh1SwdbEQzU3HyNs",
@@ -25,6 +26,7 @@ const auth = getAuth(app);
 
 function App() {
   return (
+    <>
     <Router>
         <Switch>
           <Route exact path="/home" component={Home}></Route>
@@ -33,6 +35,8 @@ function App() {
           <Route path="/forgotpassword" component={ForgotPasswordComponent}></Route>
         </Switch>
     </Router>
+    <NestedList />
+    </>
   );
 }
 
