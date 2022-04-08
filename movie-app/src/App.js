@@ -10,6 +10,11 @@ import SignInComponent from "./components/SignInComponent";
 import SignUpComponent from "./components/SignUpComponent";
 import Home from "./components/Home"
 import ForgotPasswordComponent from "./components/ForgotPasswordComponent";
+import Movies from './components/HomeMovies';
+import TopShows from './components/HomeTopshows';
+import TopMovies from './components/HomeTopMovies';
+import Watchlist from './components/HomeWatchlist';
+
 
 const firebaseConfig = {
   apiKey: "AIzaSyA50jGxyZVJEu0N_tDJh1SwdbEQzU3HyNs",
@@ -29,7 +34,13 @@ function App() {
         <Switch>
           <Route exact path="/home" component={Home}></Route>
           <Route path="/signin" component={SignInComponent}></Route>
-          <Route path="/signup" component={SignUpComponent}></Route>
+          <Route path="/movies" component={Movies}></Route>
+          <Route path="/signin" component={SignInComponent}></Route>
+          <Route path="/TopShows" component={TopShows}></Route>
+          <Route path="/TopMovies" component={TopMovies}></Route>
+          <Route path="/Watchlist" component={Watchlist}></Route>
+
+        
           <Route path="/forgotpassword" component={ForgotPasswordComponent}></Route>
         </Switch>
     </Router>

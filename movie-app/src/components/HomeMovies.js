@@ -3,16 +3,13 @@ import haderstyle from "../components/header/navbar.css";
 import Link from "@material-ui/core/Link";
 import HeAder from "../components/Header";
 
-function Home() {
-  return ( 
+function Movies() {
+  return( 
     <div>
-      <HeAder></HeAder>
-      <h1>home page</h1>
+        <HeAder />
+        <h1>Movies page</h1>
     </div>
-    
-  
-  
   )
 }
 
-export default Home;
+export default Movies;
