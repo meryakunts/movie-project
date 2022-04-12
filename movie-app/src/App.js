@@ -5,6 +5,10 @@ import SignUpComponent from "./components/SignUpComponent";
 import Home from "./components/Home";
 import ForgotPasswordComponent from "./components/ForgotPasswordComponent";
 import AllShowing from "./components/AllShowing";
+import Movies from "./components/HomeMovies";
+import TopShows from "./components/HomeTopshows";
+import TopMovies from "./components/HomeTopMovies";
+import Watchlist from "./components/HomeWatchlist";
 
 function App() {
   return (
@@ -13,11 +17,15 @@ function App() {
         <Route exact path="/home" component={Home}></Route>
         <Route path="/signin" component={SignInComponent}></Route>
         <Route path="/signup" component={SignUpComponent}></Route>
+        <Route path="/movies" component={Movies}></Route>
+        <Route path="/TopShows" component={TopShows}></Route>
+        <Route path="/TopMovies" component={TopMovies}></Route>
+        <Route path="/Watchlist" component={Watchlist}></Route>
+        <Route path="/allshowing" component={AllShowing}></Route>
         <Route
           path="/forgotpassword"
           component={ForgotPasswordComponent}
         ></Route>
-        <Route path="/allshowing" component={AllShowing}></Route>
       </Switch>
     </Router>
   );

@@ -1,13 +1,13 @@
 import React from "react";
 import Header from "../components/Header";
 
-function Home() {
+function TopMovies() {
   return (
     <div>
       <Header></Header>
-      <h1>Home Page</h1>
+      <h1>Top Movies page</h1>
     </div>
   );
 }
 
-export default Home;
+export default TopMovies;
