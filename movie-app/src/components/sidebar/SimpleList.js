@@ -38,19 +38,17 @@ const useStyles = makeStyles((theme: Theme) =>
 export default function SimpleList({data}) {
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
-  // const [value, setValue] = React.useState(null)
-    const handleClick = (arg) => {
+    const handleClick = () => {
           setOpen(!open);
-        // setOpen(!open);
     };
-
+    const {Icon} = data;
     return (
       <>
-      <ListItem button onClick={() => handleClick(data.name)}>
+      <ListItem button onClick={handleClick}>
           <ListItemIcon>
-              <StarBorder style='none'/>
+              <Icon  style={{ color: 'blue', size:'small' }}/>
           </ListItemIcon>
-          <ListItemText primary={data.title} style={{ color: 'blue' }} />
+          <ListItemText primary={data.title} style={{ color: 'black' }} />
           {open ? <ExpandLess /> : <ExpandMore />}
       </ListItem>
       <Collapse in={open} timeout="auto" unmountOnExit>
