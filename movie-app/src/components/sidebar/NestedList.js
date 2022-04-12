@@ -77,7 +77,7 @@ const useStyles = makeStyles((theme) =>
     },
     drawerPaper: {
       width: drawerWidth,
-      backgroundColor: "#ffffff",
+      backgroundColor: "#212443",
     },
     drawerHeader: {
       display: "flex",
@@ -86,6 +86,9 @@ const useStyles = makeStyles((theme) =>
       // necessary for content to be below app bar
       ...theme.mixins.toolbar,
       justifyContent: "flex-end",
+    },
+    root: {
+      color: "white",
     },
   })
 );
