@@ -1,40 +1,27 @@
-import React from 'react';
-import haderstyle from '../components/header/navbar.css';
-import Link from '@material-ui/core/Link';
-import Home from '../components/Home';
+import React from "react";
+import Link from "@material-ui/core/Link";
 
-function HeAder() {
-    
-    return( 
-      
-      <div className="header">
-        <div className="header_section">
-          <div className="header_item headerlogo">
-                        LOGO
-          </div>
-      
-            <div className="header_item headerButton">
-              <a className="btna" href="/home"> Home </a>
-              <a className="btna " href="/movies"> Movies</a>
-              <a className="btna " href="/TopShows">Top Shows</a>
-              <a className="btna " href="TopMovies">Top Movies</a>
-              <a className="btna " href="/Watchlist">Watchlist</a>
-        
-            </div>
-         
+function Header() {
+  return (
+    <div className="header">
+      <div className="header_section">
+        <div className="header_item headerlogo">LOGO</div>
+
+        <div className="header_item headerButton">
+          <Link href="/home"> Home </Link>
+          <Link href="/movies"> Movies</Link>
+          <Link href="/topShows">Top Shows</Link>
+          <Link href="topMovies">Top Movies</Link>
+          <Link href="/watchlist">Watchlist</Link>
         </div>
-          <div className="header_section">
-          {/* <input></input> */}
-            <a className="btns" href="#">Setings</a>
-            <a className="btns" href="/signin">Log in</a>
-            
-          </div>
-         
-        </div>
-         
+      </div>
+      <div className="header_section">
+        <Link href="#">Settings</Link>
+        <Link href="/signin">Sign In</Link>
+        <Link href="/signup">Sign Up</Link>
+      </div>
+    </div>
+  );
+}
 
-      
-    )
-  }
-
-export default HeAder;
+export default Header;
