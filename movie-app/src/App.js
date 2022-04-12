@@ -9,25 +9,28 @@ import Movies from "./components/HomeMovies";
 import TopShows from "./components/HomeTopshows";
 import TopMovies from "./components/HomeTopMovies";
 import Watchlist from "./components/HomeWatchlist";
+import NestedList from "./components/sidebar/NestedList";
 
 function App() {
   return (
-    <Router>
-      <Switch>
-        <Route exact path="/home" component={Home}></Route>
-        <Route path="/signin" component={SignInComponent}></Route>
-        <Route path="/signup" component={SignUpComponent}></Route>
-        <Route path="/movies" component={Movies}></Route>
-        <Route path="/TopShows" component={TopShows}></Route>
-        <Route path="/TopMovies" component={TopMovies}></Route>
-        <Route path="/Watchlist" component={Watchlist}></Route>
-        <Route path="/allshowing" component={AllShowing}></Route>
-        <Route
-          path="/forgotpassword"
-          component={ForgotPasswordComponent}
-        ></Route>
-      </Switch>
-    </Router>
+    <>
+      <Router>
+        <Switch>
+          <Route exact path="/home" component={Home}></Route>
+          <Route path="/signin" component={SignInComponent}></Route>
+          <Route path="/signup" component={SignUpComponent}></Route>
+          <Route path="/movies" component={Movies}></Route>
+          <Route path="/topshows" component={TopShows}></Route>
+          <Route path="/topmovies" component={TopMovies}></Route>
+          <Route path="/watchlist" component={Watchlist}></Route>
+          <Route path="/allshowing" component={AllShowing}></Route>
+          <Route
+            path="/forgotpassword"
+            component={ForgotPasswordComponent}
+          ></Route>
+        </Switch>
+      </Router>
+    </>
   );
 }
 
