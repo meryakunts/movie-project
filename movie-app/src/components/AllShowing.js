@@ -31,7 +31,7 @@ export default function AllShowing() {
       <h4>Movies:</h4>
       <br></br>
       {isLoadingMovies ? (
-        <li>Loading...</li>
+        <p>Loading...</p>
       ) : (
         <form>
           {movies.map((movie) => (
@@ -42,7 +42,7 @@ export default function AllShowing() {
       <h4>Shows:</h4>
       <br></br>
       {isLoadingShows ? (
-        <li>Loading...</li>
+        <p>Loading...</p>
       ) : (
         <form>
           {shows.map((show) => (
