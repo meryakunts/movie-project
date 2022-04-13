@@ -1,6 +1,5 @@
 import React from "react";
 import Header from "../components/Header";
-import NestedList from "./sidebar/NestedList";
 import CarouselComponent from "../sharedComponents/CarouselComponent";
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -21,7 +20,6 @@ function Home() {
   return (
     <div className={classes.mainContent}>
       <Header></Header>
-      <h1 className={classes.header}>Home Page</h1>
       <CarouselComponent />
     </div>
   );

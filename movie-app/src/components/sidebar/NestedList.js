@@ -70,7 +70,7 @@ const useStyles = makeStyles((theme) =>
       width: "10px",
     },
     hide: {
-      // display: "none",
+      display: "none",
     },
     drawer: {
       width: drawerWidth,
@@ -78,7 +78,7 @@ const useStyles = makeStyles((theme) =>
     },
     drawerPaper: {
       width: drawerWidth,
-      backgroundColor: "#212443",
+      backgroundColor: "#4c2b5b",
     },
     drawerHeader: {
       display: "flex",
@@ -89,7 +89,7 @@ const useStyles = makeStyles((theme) =>
       justifyContent: "flex-end",
     },
     root: {
-      color: "white",
+      color: "#b597c2",
     },
   })
 );
@@ -193,11 +193,11 @@ export default function NestedList() {
         <List
           component="nav"
           aria-labelledby="nested-list-subheader"
-          subheader={
-            <ListSubheader component="div" id="nested-list-subheader">
-              FILTER
-            </ListSubheader>
-          }
+          // subheader={
+          //   <ListSubheader component="div" id="nested-list-subheader">
+          //     FILTER
+          //   </ListSubheader>
+          // }
           className={classes.root}
         >
           {list.map((item) => (
