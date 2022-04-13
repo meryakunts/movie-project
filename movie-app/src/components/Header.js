@@ -21,6 +21,7 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
   },
   menuButton: {
+    width: "70px",
     marginRight: theme.spacing(2),
   },
   title: {
@@ -173,7 +174,7 @@ export default function Header() {
             aria-label="open drawer"
           >
             {/* <MenuIcon /> */}
-            <NestedList />
+            <NestedList className={classes.nestedList} />
           </IconButton>
           <Typography className={classes.title} variant="h6" noWrap>
             Material-UI

@@ -66,10 +66,11 @@ const useStyles = makeStyles((theme) =>
     // },
     menuButton: {
       marginRight: theme.spacing(5),
-      marginLeft: "15px",
+      marginLeft: "240px",
+      width: "10px",
     },
     hide: {
-      display: "none",
+      // display: "none",
     },
     drawer: {
       width: drawerWidth,
