@@ -1,12 +1,10 @@
-import HeAder from "../components/Header";
 import React from "react";
-import haderstyle from "../components/header/navbar.css";
-import Link from "@material-ui/core/Link";
+import Header from "../components/Header";
 
 function TopMovies() {
   return (
     <div>
-      <HeAder></HeAder>
+      <Header></Header>
       <h1>Top Movies page</h1>
     </div>
   );
