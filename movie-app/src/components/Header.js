@@ -8,19 +8,23 @@ import InputBase from "@material-ui/core/InputBase";
 import Badge from "@material-ui/core/Badge";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
-import MenuIcon from "@material-ui/icons/Menu";
 import SearchIcon from "@material-ui/icons/Search";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import MailIcon from "@material-ui/icons/Mail";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import NestedList from "./sidebar/NestedList";
+import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
+import BookmarkIcon from "@material-ui/icons/Bookmark";
 
 const useStyles = makeStyles((theme) => ({
   grow: {
     flexGrow: 1,
+    height: "5px",
   },
   menuButton: {
+    width: "70px",
+    height: "70px",
     marginRight: theme.spacing(2),
   },
   title: {
@@ -28,6 +32,25 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up("sm")]: {
       display: "block",
     },
+    fontFamily: "fantasy",
+    fontSize: "40px",
+    marginRight: theme.spacing(4),
+  },
+  subTitles: {
+    display: "none",
+    "&:hover": {
+      color: "white",
+      transition: "1s ease-in-out",
+    },
+    [theme.breakpoints.up("sm")]: {
+      display: "block",
+    },
+    fontFamily: "fantasy",
+    fontSize: "30px",
+    marginRight: theme.spacing(3),
+    marginLeft: theme.spacing(3),
+    color: "#bb93cc",
+    // boxShadow: "0px 0px 10px 2px white",
   },
   search: {
     position: "relative",
@@ -36,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
     "&:hover": {
       backgroundColor: alpha(theme.palette.common.white, 0.25),
     },
-    marginRight: theme.spacing(2),
+    marginRight: theme.spacing(4),
     marginLeft: 0,
     width: "100%",
     [theme.breakpoints.up("sm")]: {
@@ -78,6 +101,9 @@ const useStyles = makeStyles((theme) => ({
       display: "none",
     },
   },
+  headerBar: {
+    backgroundColor: "#212443",
+  },
 }));
 
 export default function Header() {
@@ -117,7 +143,8 @@ export default function Header() {
       onClose={handleMenuClose}
     >
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem onClick={handleMenuClose}>Settings</MenuItem>
+      <MenuItem onClick={handleMenuClose}>Sign Out</MenuItem>
     </Menu>
   );
 
@@ -164,7 +191,7 @@ export default function Header() {
 
   return (
     <div className={classes.grow}>
-      <AppBar position="static">
+      <AppBar position="static" className={classes.headerBar}>
         <Toolbar>
           <IconButton
             edge="start"
@@ -173,10 +200,10 @@ export default function Header() {
             aria-label="open drawer"
           >
             {/* <MenuIcon /> */}
-            <NestedList />
+            <NestedList className={classes.nestedList} />
           </IconButton>
           <Typography className={classes.title} variant="h6" noWrap>
-            Material-UI
+            AMNV Movies
           </Typography>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
@@ -191,17 +218,22 @@ export default function Header() {
               inputProps={{ "aria-label": "search" }}
             />
           </div>
+          <Typography className={classes.subTitles} variant="h5" noWrap>
+            Movies
+          </Typography>
+          <Typography className={classes.subTitles} variant="h5" noWrap>
+            Shows
+          </Typography>
+          <Typography className={classes.subTitles} variant="h5" noWrap>
+            Top Rated
+          </Typography>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-            <IconButton aria-label="show 4 new mails" color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <MailIcon />
-              </Badge>
+            <IconButton aria-label="Watchlist" color="inherit">
+              <ShoppingCartIcon />
             </IconButton>
-            <IconButton aria-label="show 17 new notifications" color="inherit">
-              <Badge badgeContent={17} color="secondary">
-                <NotificationsIcon />
-              </Badge>
+            <IconButton aria-label="Watchlist" color="inherit">
+              <BookmarkIcon />
             </IconButton>
             <IconButton
               edge="end"

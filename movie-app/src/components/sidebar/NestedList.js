@@ -66,7 +66,8 @@ const useStyles = makeStyles((theme) =>
     // },
     menuButton: {
       marginRight: theme.spacing(5),
-      marginLeft: "15px",
+      marginLeft: "240px",
+      width: "10px",
     },
     hide: {
       display: "none",
@@ -77,7 +78,7 @@ const useStyles = makeStyles((theme) =>
     },
     drawerPaper: {
       width: drawerWidth,
-      backgroundColor: "#ffffff",
+      backgroundColor: "#4c2b5b",
     },
     drawerHeader: {
       display: "flex",
@@ -86,6 +87,9 @@ const useStyles = makeStyles((theme) =>
       // necessary for content to be below app bar
       ...theme.mixins.toolbar,
       justifyContent: "flex-end",
+    },
+    root: {
+      color: "#b597c2",
     },
   })
 );
@@ -189,11 +193,11 @@ export default function NestedList() {
         <List
           component="nav"
           aria-labelledby="nested-list-subheader"
-          subheader={
-            <ListSubheader component="div" id="nested-list-subheader">
-              FILTER
-            </ListSubheader>
-          }
+          // subheader={
+          //   <ListSubheader component="div" id="nested-list-subheader">
+          //     FILTER
+          //   </ListSubheader>
+          // }
           className={classes.root}
         >
           {list.map((item) => (
