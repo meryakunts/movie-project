@@ -11,7 +11,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { useHistory } from "react-router-dom";
-import { AuthContext } from "./UserContext";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -25,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.secondary.main,
   },
   form: {
-    width: "100%", // Fix IE 11 issue.
+    width: "100%",
     marginTop: theme.spacing(1),
   },
   submit: {
@@ -33,10 +32,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function SignInComponent() {
+function SignInComponent(props) {
   let history = useHistory();
   const classes = useStyles();
-  const value = useContext(AuthContext);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -48,7 +46,7 @@ function SignInComponent() {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
-        alert("user Signed in");
+        props.setLogIn({name:user.uid, isLogged:true});
         history.push("/home");
       })
       .catch((error) => {
@@ -63,7 +61,7 @@ function SignInComponent() {
       <CssBaseline />
       <div className={classes.paper}>
         <Typography component="h1" variant="h5">
-          Sign in {value}
+          Sign in
         </Typography>
         <form className={classes.form} noValidate onSubmit={handleSubmit}>
           <TextField

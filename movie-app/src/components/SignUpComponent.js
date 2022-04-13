@@ -43,7 +43,6 @@ function SignUpComponent() {
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
-        alert("user Signed up");
         history.push("/home");
       })
       .catch((error) => {

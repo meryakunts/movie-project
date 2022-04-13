@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function CardComponent() {
+function CardComponent(props) {
   const classes = useStyles();
 
   return (
@@ -52,8 +52,8 @@ function CardComponent() {
             <MoreVertIcon />
           </IconButton>
         }
-        title="John Wick"
-        subheader="2014"
+        title={props.movie.name}
+        subheader={props.movie.year}
       />
       <CardMedia
         className={classes.media}

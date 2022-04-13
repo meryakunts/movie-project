@@ -11,18 +11,15 @@ const breakPoints = [
     { width: 1200, itemsToShow: 4 }
   ];
 
-  function CarouselComponent() {
-    const [items, setItems] = useState([1, 2, 3, 4, 5, 6, 7, 8]);
-    const carouselRef = useRef();
-
+  function CarouselComponent(props) {
 
     return (
       <div className="CarouselComponent">
         <div className="carousel-wrapper">
-          <Carousel breakPoints={breakPoints} ref={carouselRef}>
-            {items.map((item) => (
-              <Item key={item}>
-                  <CardComponent/>
+          <Carousel breakPoints={breakPoints}>
+            {props.movies.map((item) => (
+              <Item key={item.id}>
+                  <CardComponent movie={item}/>
               </Item>
             ))}
           </Carousel>

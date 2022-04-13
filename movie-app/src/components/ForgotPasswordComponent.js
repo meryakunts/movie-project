@@ -41,12 +41,11 @@ function ForgotPasswordComponent() {
     const auth = getAuth();
     sendPasswordResetEmail(auth, email)
       .then(() => {
-        alert("Password reset email sent!");
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        alert("Password reset email not sent!", errorMessage);
+        alert(errorMessage);
       });
   };
 
