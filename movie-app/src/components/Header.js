@@ -265,14 +265,24 @@ export default function Header(props) {
             )}
             <Typography className={classes.subTitles} variant="h5" noWrap>
               {!login.isLogged && (
-                <Link href="/signin" className={classes.subTitles}>
+                <Link
+                  href="/signin"
+                  className={classes.subTitles}
+                  style={{ textDecoration: "none" }}
+                  color="inherit"
+                >
                   Sign In
                 </Link>
               )}
             </Typography>
             <Typography className={classes.subTitles} variant="h5" noWrap>
               {!login.isLogged && (
-                <Link href="/signup" className={classes.subTitles}>
+                <Link
+                  href="/signup"
+                  className={classes.subTitles}
+                  style={{ textDecoration: "none" }}
+                  color="inherit"
+                >
                   Sign Up
                 </Link>
               )}
