@@ -208,7 +208,6 @@ export default function Header(props) {
             color="inherit"
             aria-label="open drawer"
           >
-            {/* <MenuIcon /> */}
             <NestedList className={classes.nestedList} />
           </IconButton>
           <Link href="/home" style={{ textDecoration: "none" }} color="inherit">
