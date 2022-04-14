@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
     display: "none",
     "&:hover": {
       color: "white",
-      transition: "1s ease-in-out",
+      transition: "0.5s ease-in-out",
     },
     [theme.breakpoints.up("sm")]: {
       display: "block",
@@ -52,7 +52,6 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(3),
     marginLeft: theme.spacing(3),
     color: "#bb93cc",
-    // boxShadow: "0px 0px 10px 2px white",
   },
   search: {
     position: "relative",
@@ -137,7 +136,7 @@ export default function Header(props) {
   const handleSignOut = () => {
     handleMenuClose();
     login.signOut();
-  }
+  };
 
   const menuId = "primary-search-account-menu";
   const renderMenu = (
@@ -226,7 +225,7 @@ export default function Header(props) {
               inputProps={{ "aria-label": "search" }}
             />
           </div>
-          {/* <Typography className={classes.subTitles} variant="h5" noWrap>
+          <Typography className={classes.subTitles} variant="h5" noWrap>
             Movies
           </Typography>
           <Typography className={classes.subTitles} variant="h5" noWrap>
@@ -234,7 +233,7 @@ export default function Header(props) {
           </Typography>
           <Typography className={classes.subTitles} variant="h5" noWrap>
             Top Rated
-          </Typography> */}
+          </Typography>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
             <IconButton aria-label="Watchlist" color="inherit">

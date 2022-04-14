@@ -46,7 +46,7 @@ function SignInComponent(props) {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
-        props.setLogIn({name:user.uid, isLogged:true});
+        props.setLogIn({ name: user.uid, isLogged: true });
         history.push("/home");
       })
       .catch((error) => {
