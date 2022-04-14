@@ -10,10 +10,11 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { getAuth, sendPasswordResetEmail } from "firebase/auth";
+import Header from "./Header";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
-    marginTop: theme.spacing(8),
+    marginTop: theme.spacing(12),
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -50,6 +51,8 @@ function ForgotPasswordComponent() {
   };
 
   return (
+    <div className={classes.mainContent}>
+    <Header></Header>
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
@@ -91,6 +94,7 @@ function ForgotPasswordComponent() {
         </form>
       </div>
     </Container>
+    </div>
   );
 }
 

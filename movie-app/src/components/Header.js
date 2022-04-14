@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
       display: "block",
     },
     fontFamily: "fantasy",
-    fontSize: "40px",
+    fontSize: "36px",
     marginRight: theme.spacing(4),
   },
   subTitles: {
@@ -48,10 +48,12 @@ const useStyles = makeStyles((theme) => ({
       display: "block",
     },
     fontFamily: "fantasy",
-    fontSize: "30px",
+    fontSize: "24px",
     marginRight: theme.spacing(3),
     marginLeft: theme.spacing(3),
     color: "#bb93cc",
+    display: "flex !important",
+    alignItems: "center"
     // boxShadow: "0px 0px 10px 2px white",
   },
   search: {
@@ -137,7 +139,7 @@ export default function Header(props) {
   const handleSignOut = () => {
     handleMenuClose();
     login.signOut();
-  }
+  };
 
   const menuId = "primary-search-account-menu";
   const renderMenu = (
@@ -226,7 +228,7 @@ export default function Header(props) {
               inputProps={{ "aria-label": "search" }}
             />
           </div>
-          {/* <Typography className={classes.subTitles} variant="h5" noWrap>
+          <Typography className={classes.subTitles} variant="h5" noWrap>
             Movies
           </Typography>
           <Typography className={classes.subTitles} variant="h5" noWrap>
@@ -234,7 +236,13 @@ export default function Header(props) {
           </Typography>
           <Typography className={classes.subTitles} variant="h5" noWrap>
             Top Rated
-          </Typography> */}
+          </Typography>
+          <Typography className={classes.subTitles} variant="h5" noWrap>
+            Favorites
+          </Typography>
+          <Typography className={classes.subTitles} variant="h5" noWrap>
+            Watchlist
+          </Typography>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
             <IconButton aria-label="Watchlist" color="inherit">
@@ -255,7 +263,20 @@ export default function Header(props) {
                 <AccountCircle />
               </IconButton>
             )}
-            {!login.isLogged && <Link href="/signin">Sign In</Link>}
+            <Typography className={classes.subTitles} variant="h5" noWrap>
+              {!login.isLogged && (
+                <Link href="/signin" className={classes.subTitles}>
+                  Sign In
+                </Link>
+              )}
+            </Typography>
+            <Typography className={classes.subTitles} variant="h5" noWrap>
+              {!login.isLogged && (
+                <Link href="/signup" className={classes.subTitles}>
+                  Sign Up
+                </Link>
+              )}
+            </Typography>
           </div>
           <div className={classes.sectionMobile}>
             <IconButton
