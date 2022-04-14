@@ -29,7 +29,6 @@ const useStyles = makeStyles(() => ({
   },
   footer: {
     backgroundColor: "#212443",
-    // position: "absolute",
     position: "fixed",
     left: "0",
     bottom: "0",
