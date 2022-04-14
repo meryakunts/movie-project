@@ -72,7 +72,9 @@ function App() {
                 <SignInComponent setLogIn={setLogedInUser} {...props} />
               )}
             />
-            <Route path="/signup" component={SignUpComponent}></Route>
+            {!user.isLogged && (
+              <Route path="/signup" component={SignUpComponent}></Route>
+            )}
             <Route path="/movies" component={Movies}></Route>
             <Route path="/topshows" component={TopShows}></Route>
             <Route path="/topmovies" component={TopMovies}></Route>
