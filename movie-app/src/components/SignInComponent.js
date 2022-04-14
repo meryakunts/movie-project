@@ -11,10 +11,11 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { useHistory } from "react-router-dom";
+import Header from "./Header";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
-    marginTop: theme.spacing(8),
+    marginTop: theme.spacing(12),
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -46,7 +47,7 @@ function SignInComponent(props) {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
-        props.setLogIn({name:user.uid, isLogged:true});
+        props.setLogIn({ name: user.uid, isLogged: true });
         history.push("/home");
       })
       .catch((error) => {
@@ -57,6 +58,8 @@ function SignInComponent(props) {
   };
 
   return (
+    <div className={classes.mainContent}>
+    <Header></Header>
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
@@ -114,6 +117,7 @@ function SignInComponent(props) {
         </form>
       </div>
     </Container>
+    </div>
   );
 }
 

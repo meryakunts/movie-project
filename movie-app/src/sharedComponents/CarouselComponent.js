@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React from "react";
 import Carousel from "react-elastic-carousel";
 import CardComponent from "./CardComponent";
 import Item from "./Item";
