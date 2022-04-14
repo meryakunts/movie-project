@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
     display: "none",
     "&:hover": {
       color: "white",
-      transition: "1s ease-in-out",
+      transition: "0.5s ease-in-out",
     },
     [theme.breakpoints.up("sm")]: {
       display: "block",
@@ -53,8 +53,7 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: theme.spacing(3),
     color: "#bb93cc",
     display: "flex !important",
-    alignItems: "center"
-    // boxShadow: "0px 0px 10px 2px white",
+    alignItems: "center",
   },
   search: {
     position: "relative",

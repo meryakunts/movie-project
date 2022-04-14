@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import Header from "../components/Header";
 import CarouselComponent from "../sharedComponents/CarouselComponent";
 import { makeStyles } from "@material-ui/core/styles";
+import { BottomNavigation } from "@material-ui/core";
 import NestedList from "./sidebar/NestedList";
 
 const useStyles = makeStyles(() => ({
@@ -24,7 +25,16 @@ const useStyles = makeStyles(() => ({
   containerPage: {
     margin: "100px 30px 0",
     color: "white",
-    height: "100vh"
+    height: "100vh",
+  },
+  footer: {
+    backgroundColor: "#212443",
+    // position: "absolute",
+    position: "fixed",
+    left: "0",
+    bottom: "0",
+    height: "100px",
+    width: "100%",
   },
 }));
 
@@ -38,6 +48,7 @@ function Home(props) {
         <h2>Watch Movies Online</h2>
         <CarouselComponent movies={props.movies} shows={props.shows} />
       </div>
+      <BottomNavigation className={classes.footer}></BottomNavigation>
     </div>
   );
 }
