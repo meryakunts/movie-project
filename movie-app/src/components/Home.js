@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import Header from "../components/Header";
 import CarouselComponent from "../sharedComponents/CarouselComponent";
 import { makeStyles } from "@material-ui/core/styles";
@@ -14,13 +14,13 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-function Home() {
+function Home(props) {
   const classes = useStyles();
 
   return (
     <div className={classes.mainContent}>
       <Header></Header>
-      <CarouselComponent />
+      <CarouselComponent movies={props.movies} shows={props.shows}/>
     </div>
   );
 }

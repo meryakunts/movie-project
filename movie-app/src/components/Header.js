@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { alpha, makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -16,6 +16,8 @@ import MoreIcon from "@material-ui/icons/MoreVert";
 import NestedList from "./sidebar/NestedList";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import BookmarkIcon from "@material-ui/icons/Bookmark";
+import Link from "@material-ui/core/Link";
+import { AuthContext } from "./UserContext";
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -106,10 +108,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Header() {
+export default function Header(props) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  const login = useContext(AuthContext);
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -131,6 +134,11 @@ export default function Header() {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
+  const handleSignOut = () => {
+    handleMenuClose();
+    login.signOut();
+  }
+
   const menuId = "primary-search-account-menu";
   const renderMenu = (
     <Menu
@@ -144,7 +152,7 @@ export default function Header() {
     >
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
       <MenuItem onClick={handleMenuClose}>Settings</MenuItem>
-      <MenuItem onClick={handleMenuClose}>Sign Out</MenuItem>
+      <MenuItem onClick={handleSignOut}>Sign Out</MenuItem>
     </Menu>
   );
 
@@ -218,7 +226,7 @@ export default function Header() {
               inputProps={{ "aria-label": "search" }}
             />
           </div>
-          <Typography className={classes.subTitles} variant="h5" noWrap>
+          {/* <Typography className={classes.subTitles} variant="h5" noWrap>
             Movies
           </Typography>
           <Typography className={classes.subTitles} variant="h5" noWrap>
@@ -226,7 +234,7 @@ export default function Header() {
           </Typography>
           <Typography className={classes.subTitles} variant="h5" noWrap>
             Top Rated
-          </Typography>
+          </Typography> */}
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
             <IconButton aria-label="Watchlist" color="inherit">
@@ -235,16 +243,19 @@ export default function Header() {
             <IconButton aria-label="Watchlist" color="inherit">
               <BookmarkIcon />
             </IconButton>
-            <IconButton
-              edge="end"
-              aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
-              color="inherit"
-            >
-              <AccountCircle />
-            </IconButton>
+            {login.isLogged && (
+              <IconButton
+                edge="end"
+                aria-label="account of current user"
+                aria-controls={menuId}
+                aria-haspopup="true"
+                onClick={handleProfileMenuOpen}
+                color="inherit"
+              >
+                <AccountCircle />
+              </IconButton>
+            )}
+            {!login.isLogged && <Link href="/signin">Sign In</Link>}
           </div>
           <div className={classes.sectionMobile}>
             <IconButton
