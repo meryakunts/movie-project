@@ -3,6 +3,7 @@ import Header from "../components/Header";
 import CarouselComponent from "../sharedComponents/CarouselComponent";
 import { makeStyles } from "@material-ui/core/styles";
 import { BottomNavigation } from "@material-ui/core";
+import NestedList from "./sidebar/NestedList";
 
 const useStyles = makeStyles(() => ({
   mainContent: {
@@ -11,6 +12,20 @@ const useStyles = makeStyles(() => ({
   header: {
     marginLeft: "100px",
     color: "#96a5d4",
+    backgroundColor: "#181925",
+    width: "100%",
+    boxSizing: "border-box",
+    flexShrink: "0",
+    position: "fixed",
+    zIndex: "1100",
+    top: "0px",
+    left: "auto",
+    right: "0px",
+  },
+  containerPage: {
+    margin: "100px 30px 0",
+    color: "white",
+    height: "100vh",
   },
   footer: {
     backgroundColor: "#212443",
@@ -29,7 +44,10 @@ function Home(props) {
   return (
     <div className={classes.mainContent}>
       <Header></Header>
-      <CarouselComponent movies={props.movies} shows={props.shows} />
+      <div className={classes.containerPage}>
+        <h2>Watch Movies Online</h2>
+        <CarouselComponent movies={props.movies} shows={props.shows} />
+      </div>
       <BottomNavigation className={classes.footer}></BottomNavigation>
     </div>
   );
