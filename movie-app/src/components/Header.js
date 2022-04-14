@@ -208,12 +208,13 @@ export default function Header(props) {
             color="inherit"
             aria-label="open drawer"
           >
-            {/* <MenuIcon /> */}
             <NestedList className={classes.nestedList} />
           </IconButton>
-          <Typography className={classes.title} variant="h6" noWrap>
-            AMNV Movies
-          </Typography>
+          <Link href="/home" style={{ textDecoration: "none" }} color="inherit">
+            <Typography className={classes.title} variant="h6" noWrap>
+              AMNV Movies
+            </Typography>
+          </Link>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />
