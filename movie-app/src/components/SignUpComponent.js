@@ -9,10 +9,11 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { useHistory } from "react-router-dom";
+import Header from "./Header";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
-    marginTop: theme.spacing(8),
+    marginTop: theme.spacing(12),
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -53,6 +54,8 @@ function SignUpComponent() {
   };
 
   return (
+    <div className={classes.mainContent}>
+    <Header></Header>
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
@@ -127,6 +130,7 @@ function SignUpComponent() {
         </form>
       </div>
     </Container>
+    </div>
   );
 }
 
