@@ -46,7 +46,9 @@ function Home(props) {
       <Header></Header>
       <div className={classes.containerPage}>
         <h2>Watch Movies Online</h2>
-        <CarouselComponent />
+        <CarouselComponent type="movies" />
+        <h2>Watch Shows Online</h2>
+        <CarouselComponent type="shows"/>
       </div>
       <BottomNavigation className={classes.footer}></BottomNavigation>
     </div>
