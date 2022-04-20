@@ -1,8 +1,9 @@
-import React from "react";
+import React, {useContext} from "react";
 import Carousel from "react-elastic-carousel";
 import CardComponent from "./CardComponent";
 import Item from "./Item";
 import "./styles.css";
+import { DataContext } from "../components/DataContext";
 
 const breakPoints = [
     { width: 1, itemsToShow: 1 },
@@ -13,11 +14,13 @@ const breakPoints = [
 
   function CarouselComponent(props) {
 
+    const data = useContext(DataContext)
+
     return (
       <div className="CarouselComponent">
         <div className="carousel-wrapper">
           <Carousel breakPoints={breakPoints}>
-            {props.movies.map((item) => (
+            {data.moviesData.map((item) => (
               <Item key={item.id}>
                   <CardComponent movie={item}/>
               </Item>

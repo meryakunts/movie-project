@@ -4,6 +4,7 @@ import CarouselComponent from "../sharedComponents/CarouselComponent";
 import { makeStyles } from "@material-ui/core/styles";
 import { BottomNavigation } from "@material-ui/core";
 import NestedList from "./sidebar/NestedList";
+import { DataContext } from "./DataContext";
 
 const useStyles = makeStyles(() => ({
   mainContent: {
@@ -45,7 +46,7 @@ function Home(props) {
       <Header></Header>
       <div className={classes.containerPage}>
         <h2>Watch Movies Online</h2>
-        <CarouselComponent movies={props.movies} shows={props.shows} />
+        <CarouselComponent />
       </div>
       <BottomNavigation className={classes.footer}></BottomNavigation>
     </div>
