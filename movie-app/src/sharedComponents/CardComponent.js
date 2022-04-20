@@ -57,7 +57,7 @@ function CardComponent(props) {
     rating,
     stars,
     trailer,
-  } = props.movie;
+  } = props.itemData;
 
   return (
     <Card className={classes.root}>
