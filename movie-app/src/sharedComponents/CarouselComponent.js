@@ -15,7 +15,7 @@ const breakPoints = [
 function CarouselComponent(props) {
   const data = useContext(DataContext);
   const isMovies = (props.type === "movies");
-
+ 
   return (
     <div className="CarouselComponent">
       <div className="carousel-wrapper">
