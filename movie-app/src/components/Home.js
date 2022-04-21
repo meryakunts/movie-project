@@ -39,6 +39,7 @@ const useStyles = makeStyles(() => ({
 
 function Home(props) {
   const classes = useStyles();
+  const [movies] = props.movies;
 
   return (
     <div className={classes.mainContent}>
@@ -47,7 +48,7 @@ function Home(props) {
         <h2>Watch Movies Online</h2>
         <CarouselComponent movies={props.movies} shows={props.shows} />
       </div>
-      <BottomNavigation className={classes.footer}></BottomNavigation>
+      {/* <BottomNavigation className={classes.footer}></BottomNavigation> */}
     </div>
   );
 }
