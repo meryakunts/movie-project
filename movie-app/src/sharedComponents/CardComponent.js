@@ -11,7 +11,6 @@ import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import AddToQueueOutlinedIcon from "@material-ui/icons/AddToQueueOutlined";
 import InfoOutlinedIcon from "@material-ui/icons/InfoOutlined";
 import Tooltip from "@material-ui/core/Tooltip";
-import Fade from "@material-ui/core/Fade";
 import Zoom from "@material-ui/core/Zoom";
 import "./styles.css";
 
