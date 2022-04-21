@@ -2,7 +2,7 @@ import React, { useState, useEffect, useStyles } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import SignInComponent from "./components/SignInComponent";
 import SignUpComponent from "./components/SignUpComponent";
-import Home from "./components/Home";
+import Main from "./components/Main";
 import ForgotPasswordComponent from "./components/ForgotPasswordComponent";
 import AllShowing from "./components/AllShowing";
 import Movies from "./components/HomeMovies";
@@ -15,6 +15,7 @@ import { DataContext } from "./components/DataContext";
 import { userLogin } from "./components/UserContext";
 import db from "./firebase";
 import { onSnapshot, collection } from "firebase/firestore";
+import Dashboard from "./components/Dashboard";
 
 function App() {
   const [user, setUser] = useState(userLogin);
@@ -108,7 +109,8 @@ function App() {
         <DataContext.Provider value={{ moviesData: movies, showsData: shows }}>
           <Router>
             <Switch>
-              <Route exact path="/home" render={(props) => <Home />} />
+              <Route exact path="/home" render={(props) => <Main />} />
+              <Route exact path="/" render={(props) => <Dashboard />} />
               <Route
                 path="/signin"
                 render={(props) => (
