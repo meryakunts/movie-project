@@ -54,12 +54,7 @@ function CardComponent(props) {
       <CardActions>
         <div className="flex-btw">
           <div>
-            <Tooltip
-              TransitionComponent={Fade}
-              TransitionProps={{ timeout: 600 }}
-              title="add to favorites"
-              arrow
-            >
+            <Tooltip TransitionComponent={Zoom} title="add to favorites" arrow>
               <IconButton aria-label="add to favorites" color="inherit">
                 <FavoriteBorderIcon />
               </IconButton>
