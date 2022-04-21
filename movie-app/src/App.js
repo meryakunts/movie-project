@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useStyles } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import SignInComponent from "./components/SignInComponent";
 import SignUpComponent from "./components/SignUpComponent";
@@ -19,12 +19,15 @@ import { onSnapshot, collection } from "firebase/firestore";
 function App() {
   const [user, setUser] = useState(userLogin);
   const [movies, setMovies] = useState([]);
+  const [filteredMovies, setfilteredMovies] = useState([]);
   const [shows, setShows] = useState([]);
 
   useEffect(
     () =>
       onSnapshot(collection(db, "movies"), (snapshot) => {
-        setMovies(snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+        const movies = snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+        setMovies(movies);
+        setfilteredMovies(movies);
       }),
     []
   );
@@ -53,6 +56,50 @@ function App() {
   const signOutCallback = () => {
     localStorage.removeItem("user");
     setUser(userLogin);
+  };
+
+  // const filteredMovies = movies.filter((movie) => {
+  //   return movie.genre === "Fantasy";
+  // });
+
+  console.log(movies)
+
+  const handleFilter = (filterOption) => {
+    let newFilteredMovies = [];
+    console.log(filterOption);
+    const filterKey = filterOption[0];
+
+    if (filterKey === "genre") {
+      newFilteredMovies = movies.filter(movie => {
+        return movie[filterKey] === filterOption[1];
+      })
+    } else if (filterKey === "year") {
+      newFilteredMovies = movies.filter(movie => {
+        if (!filterOption[1].from) {
+          return +movie[filterKey] <= filterOption[1].to
+        } else if (!filterOption[1].to) {
+          return +movie[filterKey] >= filterOption[1].from
+        } else {
+          return +movie[filterKey] >= filterOption[1].from && +movie[filterKey] <= filterOption[1].to
+        }
+      })
+    } else if (filterKey === "price") {
+        if (filterOption[1] === "free") {
+          newFilteredMovies = movies.filter(movie => {
+            return movie[filterKey] === "free";
+          })
+        } else if (filterOption[1] === "buy") {
+          newFilteredMovies = movies.filter(movie => {
+            return movie[filterKey] !== "free";
+          })
+        } else {
+          newFilteredMovies = movies.filter(movie => {
+            return (movie[filterKey] === "free" || +movie[filterKey].slice(1) <= filterOption[1]);
+          })
+        }
+    }
+    console.log(newFilteredMovies);
+    setfilteredMovies(newFilteredMovies);
   };
 
   return (
