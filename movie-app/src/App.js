@@ -11,6 +11,7 @@ import TopMovies from "./components/HomeTopMovies";
 import Watchlist from "./components/HomeWatchlist";
 import NestedList from "./components/sidebar/NestedList";
 import { AuthContext } from "./components/UserContext";
+import { DataContext } from "./components/DataContext";
 import { userLogin } from "./components/UserContext";
 import db from "./firebase";
 import { onSnapshot, collection } from "firebase/firestore";
@@ -104,36 +105,43 @@ function App() {
   return (
     <>
       <AuthContext.Provider value={user}>
-        <Router>
-          <Switch>
-            <Route
-              exact
-              path="/home"
-              render={(props) => (
-                <Home movies={filteredMovies} shows={shows} {...props} />
+        <DataContext.Provider value={{ moviesData: movies, showsData: shows }}>
+          <Router>
+            <Switch>
+              <Route exact path="/home" render={(props) => <Home />} />
+              <Route
+                path="/signin"
+                render={(props) => (
+                  <SignInComponent setLogIn={setLogedInUser} {...props} />
+                )}
+              />
+              {!user.isLogged && (
+                <Route path="/signup" component={SignUpComponent}></Route>
               )}
-            />
-            <Route
-              path="/signin"
-              render={(props) => (
-                <SignInComponent setLogIn={setLogedInUser} {...props} />
+              {!user.isLogged && (
+                <Route path="/movies" component={Movies}></Route>
               )}
-            />
-            <Route path="/signup" component={SignUpComponent}></Route>
-            <Route path="/movies" component={Movies}></Route>
-            <Route path="/topshows" component={TopShows}></Route>
-            <Route path="/topmovies" component={TopMovies}></Route>
-            <Route path="/watchlist" component={Watchlist}></Route>
-            {user.isLogged && (
-              <Route path="/allshowing" component={AllShowing}></Route>
-            )}
-            <Route
-              path="/forgotpassword"
-              component={ForgotPasswordComponent}
-            ></Route>
-          </Switch>
-        </Router>
-        <NestedList className="sidebar" onFilter={handleFilter}/>
+              {!user.isLogged && (
+                <Route path="/topshows" component={TopShows}></Route>
+              )}
+              {!user.isLogged && (
+                <Route path="/topmovies" component={TopMovies}></Route>
+              )}
+              {!user.isLogged && (
+                <Route path="/watchlist" component={Watchlist}></Route>
+              )}
+              {user.isLogged && (
+                <Route path="/allshowing" component={AllShowing}></Route>
+              )}
+              {user.isLogged && (
+                <Route
+                  path="/forgotpassword"
+                  component={ForgotPasswordComponent}
+                ></Route>
+              )}
+            </Switch>
+          </Router>
+        </DataContext.Provider>
       </AuthContext.Provider>
     </>
   );

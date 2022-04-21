@@ -211,7 +211,7 @@ export default function Header(props) {
           </IconButton>
           <Link href="/home" style={{ textDecoration: "none" }} color="inherit">
             <Typography className={classes.title} variant="h6" noWrap>
-              AMNV Movies
+              AMNV
             </Typography>
           </Link>
           <div className={classes.search}>
