@@ -66,11 +66,11 @@ function App() {
   const handleFilter = (filterOption) => {
     let newFilteredMovies = [];
     console.log(filterOption);
-    const filterKey = filterOption[0]
+    const filterKey = filterOption[0];
 
     if (filterKey === "genre") {
       newFilteredMovies = movies.filter(movie => {
-        return movie[filterOption[0]] === filterOption[1];
+        return movie[filterKey] === filterOption[1];
       })
     } else if (filterKey === "year") {
       newFilteredMovies = movies.filter(movie => {
