@@ -34,13 +34,14 @@ const useStyles = makeStyles((theme) =>
   })
 );
 
-export default function SimpleList({ data }) {
+export default function SimpleList({ data, onItemClick }) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const handleClick = () => {
     setOpen(!open);
   };
   const { Icon } = data;
+
   return (
     <>
       <ListItem button onClick={handleClick}>
@@ -54,8 +55,10 @@ export default function SimpleList({ data }) {
         <List component="div" disablePadding>
           {data.items.map((item) => {
             return (
-              <ListItem key={item} button className={classes.nested}>
-                <ListItemText primary={item} />
+              <ListItem key={item.name || item} button className={classes.nested}>
+                <ListItemText onClick={() => {
+                  onItemClick([data.filterBy || data.name, item.filterBy || item]);
+                }} primary={item.name || item} />
               </ListItem>
             );
           })}

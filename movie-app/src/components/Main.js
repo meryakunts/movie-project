@@ -39,6 +39,7 @@ const useStyles = makeStyles(() => ({
 
 function Main(props) {
   const classes = useStyles();
+  const [movies] = props.movies;
 
   return (
     <div className={classes.mainContent}>
