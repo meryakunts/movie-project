@@ -60,14 +60,14 @@ function CardComponent(props) {
               </IconButton>
             </Tooltip>
             <Tooltip TransitionComponent={Zoom} title="add to watchlist" arrow>
-              <IconButton color="primary" aria-label="add to shopping cart">
+              <IconButton color="primary" aria-label="aadd to watchlist">
                 <AddToQueueOutlinedIcon />
               </IconButton>
             </Tooltip>
           </div>
           <div>
             <Tooltip TransitionComponent={Zoom} title="more information" arrow>
-              <IconButton color="primary" aria-label="add to shopping cart">
+              <IconButton color="primary" aria-label="more information">
                 <InfoOutlinedIcon />
               </IconButton>
             </Tooltip>
