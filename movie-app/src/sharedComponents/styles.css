@@ -40,4 +40,12 @@
   text-overflow: ellipsis;
   max-height: 70px;
   overflow: hidden;
+  color: rgb(33, 33, 33);
+}
+
+.flex-btw {
+  display: flex;
+  flex: 1;
+  justify-content: space-between;
+  align-items: center;
 }
