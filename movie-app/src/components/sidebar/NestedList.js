@@ -37,7 +37,7 @@ import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import { red } from "@material-ui/core/colors";
 
-const drawerWidth = 200;
+// const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -47,20 +47,20 @@ const useStyles = makeStyles((theme) =>
       top: "22px",
       color: "#ffffff"
     },
-    menuButton: {
-      marginRight: theme.spacing(5),
-      marginLeft: "240px",
-      width: "10px",
-    },
+    // menuButton: {
+    //   marginRight: theme.spacing(5),
+    //   marginLeft: "240px",
+    //   width: "10px",
+    // },
     hide: {
       display: "none",
     },
     drawer: {
-      width: drawerWidth,
+      // width: drawerWidth,
       flexShrink: 0,
     },
     drawerPaper: {
-      width: drawerWidth,
+      // width: drawerWidth,
       backgroundColor: "#4c2b5b",
     },
     drawerHeader: {
