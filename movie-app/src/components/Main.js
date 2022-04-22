@@ -1,14 +1,15 @@
 import React, { useContext } from "react";
-import Header from "../components/Header";
+import Header from "./Header";
 import CarouselComponent from "../sharedComponents/CarouselComponent";
 import { makeStyles } from "@material-ui/core/styles";
-import { BottomNavigation } from "@material-ui/core";
+
 import NestedList from "./sidebar/NestedList";
+import { DataContext } from "./DataContext";
 
 const useStyles = makeStyles(() => ({
-  mainContent: {
-    background: "#181925",
-  },
+  // mainContent: {
+  //   background: "#181925",
+  // },
   header: {
     marginLeft: "100px",
     color: "#96a5d4",
@@ -23,9 +24,8 @@ const useStyles = makeStyles(() => ({
     right: "0px",
   },
   containerPage: {
-    margin: "100px 30px 0",
-    color: "white",
-    height: "100vh",
+    margin: "20px 0",
+    color: "black",
   },
   footer: {
     backgroundColor: "#212443",
@@ -37,19 +37,19 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-function Home(props) {
+function Main(props) {
   const classes = useStyles();
 
   return (
     <div className={classes.mainContent}>
-      <Header></Header>
       <div className={classes.containerPage}>
         <h2>Watch Movies Online</h2>
-        <CarouselComponent movies={props.movies} shows={props.shows} />
+        <CarouselComponent type="movies" />
+        <h2>Watch Shows Online</h2>
+        <CarouselComponent type="shows"/>
       </div>
-      <BottomNavigation className={classes.footer}></BottomNavigation>
     </div>
   );
 }
 
-export default Home;
+export default Main;

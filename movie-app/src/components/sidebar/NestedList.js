@@ -41,29 +41,12 @@ const drawerWidth = 200;
 
 const useStyles = makeStyles((theme) =>
   createStyles({
-    // : Theme
-    //     root: {
-    //       width: '100%',
-    //       maxWidth: 360,
-    //       backgroundColor: theme.palette.background.paper,
-    //     },
-    //     nested: {
-    //       paddingLeft: theme.spacing(4),
-    //     },
-    //   }),
-    // );
-
-    // iconMenuButton: {
-    //   marginLeft: '10px'
-    // },
-    // appBarShift: {
-    //   width: `calc(100% - ${drawerWidth}px)`,
-    //   marginLeft: drawerWidth,
-    //   transition: theme.transitions.create(['margin', 'width'], {
-    //     easing: theme.transitions.easing.easeOut,
-    //     duration: theme.transitions.duration.enteringScreen,
-    //   }),
-    // },
+    menuIcon: {
+      position: "fixed",
+      left: "10px",
+      top: "22px",
+      color: "#ffffff"
+    },
     menuButton: {
       marginRight: theme.spacing(5),
       marginLeft: "240px",
@@ -94,7 +77,7 @@ const useStyles = makeStyles((theme) =>
   })
 );
 
-export default function NestedList() {
+export default function NestedList({onFilter}) {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = useState(false);
@@ -108,59 +91,67 @@ export default function NestedList() {
   };
 
   const list = [
-    {
-      title: "SORT BY",
-      name: "sort",
-      Icon: SortIcon,
-      items: ["Popular", "New Releases", "Recently Added", "IMDb Rating"],
-    },
+    // {
+    //   title: "SORT BY",
+    //   name: "sort",
+    //   Icon: SortIcon,
+    //   items: ["Popular", "New Releases", "Recently Added", "IMDb Rating"],
+    // },
     {
       title: "SOURCE",
       name: "source",
+      filterBy: "price",
       Icon: ShopIcon,
-      items: ["Free", "Rent or Buy"],
+      items: ["free", "buy"],
     },
     {
       title: "GENRE",
       name: "genre",
       Icon: MovieIcon,
       items: [
-        "Drama",
-        "Comedy",
-        "Romance",
-        "Thriller",
         "Action",
-        "Kids & Family",
-        "Fantasy",
         "Animation",
+        "Horror",
+        "Thriller",
+        "Adventure",
+        "Sci-fi",
+        "Fantasy"
       ],
     },
-    {
-      title: "NEW RELEASES",
-      name: "newReleases",
-      Icon: FiberNewIcon,
-      items: ["Last 3 months", "Last 6 months", "Last 9 months"],
-    },
+    // {
+    //   title: "NEW RELEASES",
+    //   name: "newReleases",
+    //   Icon: FiberNewIcon,
+    //   items: ["Last 3 months", "Last 6 months", "Last 9 months"],
+    // },
     {
       title: "YEAR",
-      year: "genre",
+      name: "year",
       Icon: TheatersIcon,
-      items: ["2020 & Newer", "2010-2019", "2001-2009", "2000 & Older"],
+      items: [
+        {name: "2020 & Newer", filterBy: {from: 2020, to: null}}, 
+        {name: "2010-2019", filterBy: {from: 2010, to: 2019}}, 
+        {name: "2001-2009", filterBy: {from: 2001, to: 2009}}, 
+        {name:"2000 & Older", filterBy: {from: null, to: 2000}}
+      ],
     },
-    { title: "RATING", name: "rating", Icon: StarsIcon, items: ["Stars(***)"] },
+    { title: "RATING", name: "rating", Icon: StarsIcon, items: ["Stars"] },
     {
       title: "PRICE",
       name: "price",
       Icon: CreditCardIcon,
       items: [
-        "4.99 or Less",
-        "3.99 or Less",
-        "2.99 or Less",
-        "1.99 or Less",
-        "0.99 or Less",
+        {name: "19.99 or Less", filterBy: 19.99},
+        {name: "9.99 or Less", filterBy: 9.99},
+        {name: "4.99 or Less", filterBy: 4.99},
       ],
     },
   ];
+
+  const handleItemClick = (filter) => {
+    onFilter(filter);
+  }
+
   return (
     <>
       <IconButton
@@ -170,7 +161,7 @@ export default function NestedList() {
         edge="start"
         className={clsx(classes.menuButton, open && classes.hide)}
       >
-        <MenuIcon />
+      <MenuIcon className={classes.menuIcon}/>
       </IconButton>
       <Drawer
         className={classes.drawer}
@@ -201,7 +192,7 @@ export default function NestedList() {
           className={classes.root}
         >
           {list.map((item) => (
-            <SimpleList key={item.title} data={item} />
+            <SimpleList onItemClick={handleItemClick} key={item.title} data={item} />
           ))}
         </List>
       </Drawer>
