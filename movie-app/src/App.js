@@ -143,6 +143,7 @@ function App() {
               )}
             </Switch>
           </Router>
+          <NestedList className="sidebar" onFilter={handleFilter}/>
         </DataContext.Provider>
       </AuthContext.Provider>
     </>
