@@ -1,31 +1,41 @@
-import React from "react";
+import React, { useContext } from "react";
 import Carousel from "react-elastic-carousel";
 import CardComponent from "./CardComponent";
 import Item from "./Item";
 import "./styles.css";
+import { DataContext } from "../components/DataContext";
 
 const breakPoints = [
-    { width: 1, itemsToShow: 1 },
-    { width: 550, itemsToShow: 2, itemsToScroll: 2 },
-    { width: 768, itemsToShow: 3 },
-    { width: 1200, itemsToShow: 4 }
-  ];
+  { width: 1, itemsToShow: 1 },
+  { width: 550, itemsToShow: 2, itemsToScroll: 2 },
+  { width: 768, itemsToShow: 4 },
+  { width: 1200, itemsToShow: 6 },
+];
 
-  function CarouselComponent(props) {
-
-    return (
-      <div className="CarouselComponent">
-        <div className="carousel-wrapper">
-          <Carousel breakPoints={breakPoints}>
-            {props.movies.map((item) => (
+function CarouselComponent(props) {
+  const data = useContext(DataContext);
+  const isMovies = (props.type === "movies");
+ 
+  return (
+    <div className="CarouselComponent">
+      <div className="carousel-wrapper">
+        <Carousel breakPoints={breakPoints}>
+          {isMovies &&
+            data.moviesData.map((item) => (
               <Item key={item.id}>
-                  <CardComponent movie={item}/>
+                <CardComponent itemData={item} />
               </Item>
             ))}
-          </Carousel>
-        </div>
+          {!isMovies &&
+            data.showsData.map((item) => (
+              <Item key={item.id}>
+                <CardComponent itemData={item} /> 
+              </Item>
+            ))}
+        </Carousel>
       </div>
-    );
-  }
+    </div>
+  );
+}
 
-  export default CarouselComponent;
+export default CarouselComponent;
