@@ -61,7 +61,6 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
   },
   drawerPaper: {
-    background: 'red',
     position: 'relative',
     whiteSpace: 'nowrap',
     width: drawerWidth,
@@ -107,9 +106,11 @@ export default function Dashboard() {
   const [open, setOpen] = React.useState(true);
   const handleDrawerOpen = () => {
     setOpen(true);
+    console.log("das")
   };
   const handleDrawerClose = () => {
     setOpen(false);
+    console.log("das")
   };
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
