@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -8,29 +8,18 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 
 
 
-function DialogComponent() {
-  const [open, setOpen] = useState(false);
+function DialogComponent({onClose, data}) {
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
+  const { name } = data;
 
   return (
     <div>
-      <Button variant="outlined" color="primary" >
-        Open form dialog
-      </Button>
       <Dialog
-        open={open}
-        onClose={handleClose}
         aria-labelledby="draggable-dialog-title"
+        open={true}
       >
         <DialogTitle style={{ cursor: 'move' }} id="draggable-dialog-title">
-          Subscribe
+          Subscribe {name}
         </DialogTitle>
         <DialogContent>
           <DialogContentText>
@@ -39,10 +28,10 @@ function DialogComponent() {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button autoFocus onClick={handleClose} color="primary">
+          <Button autoFocus color="primary" onClick={onClose}>
             Cancel
           </Button>
-          <Button onClick={handleClose} color="primary">
+          <Button color="primary" onClick={onClose}>
             Subscribe
           </Button>
         </DialogActions>
