@@ -37,7 +37,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-function Main(props) {
+function Main() {
   const classes = useStyles();
 
   return (

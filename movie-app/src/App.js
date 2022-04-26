@@ -107,7 +107,7 @@ function App() {
   return (
     <>
       <AuthContext.Provider value={user}>
-        <DataContext.Provider value={{ moviesData: movies, showsData: shows }}>
+        <DataContext.Provider value={{ moviesData: movies, showsData: shows, filterFunc: handleFilter }}>
           <Router>
             <Switch>
               <Route exact path="/home" render={(props) => <Main />} />
@@ -144,6 +144,7 @@ function App() {
               )}
             </Switch>
           </Router>
+          {/* <NestedList className="sidebar" onFilter={handleFilter}/> */}
         </DataContext.Provider>
       </AuthContext.Provider>
     </>

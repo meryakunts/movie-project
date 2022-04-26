@@ -15,9 +15,9 @@ import Paper from '@material-ui/core/Paper';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import NestedList from './sidebar/NestedList';
 import Link from "@material-ui/core/Link";
 import Main from './Main';
+import NestedList from './sidebar/NestedList';
 
 
 const drawerWidth = 240;
@@ -106,9 +106,11 @@ export default function Dashboard() {
   const [open, setOpen] = React.useState(true);
   const handleDrawerOpen = () => {
     setOpen(true);
+    console.log("das")
   };
   const handleDrawerClose = () => {
     setOpen(false);
+    console.log("das")
   };
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
