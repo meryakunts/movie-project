@@ -1,3 +1,7 @@
+body {
+  background-color: #f4fbff !important;
+}
+
 .CarouselComponent {
   font-family: sans-serif;
   display: flex;
@@ -48,4 +52,54 @@
   flex: 1;
   justify-content: space-between;
   align-items: center;
+  height: 48px;
 }
+
+/* global dialog style */
+.MuiDialogActions-spacing {
+  padding: 0 !important;
+}
+
+.flexDescript {
+  display: flex;
+}
+
+.flexDescript p {
+  font-weight: bold;
+}
+.flexDescript span {
+  font-weight: normal;
+}
+
+@media screen and (max-width: 576px) {
+  .flexDescript {
+    flex-direction: column;
+  }
+}
+
+.dialogText {
+  font-size: 1rem;
+  font-style: italic;
+  font-weight: normal;
+  padding-bottom: 1.2rem;
+  border-bottom: 2px solid hsla(0, 0%, 100%, 0.4);
+  display: block;
+}
+
+.closeBtn {
+  color: white !important ;
+  cursor: pointer;
+  position: absolute;
+  right: 0;
+  top: 0;
+  margin: 10px;
+}
+
+.closeBtn:hover {
+  opacity: 0.4;
+  transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+}
+
+/* 
+background-color: rgb(255, 223, 222);
+background-color: rgb(106, 123, 162); */
