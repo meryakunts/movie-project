@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
@@ -13,7 +13,7 @@ import InfoOutlinedIcon from "@material-ui/icons/InfoOutlined";
 import Tooltip from "@material-ui/core/Tooltip";
 import Zoom from "@material-ui/core/Zoom";
 import "./styles.css";
-import DialogComponent from "./DialogComponent"
+import DialogComponent from "./DialogComponent";
 
 const useStyles = makeStyles({
   root: {
@@ -76,14 +76,18 @@ function CardComponent(props) {
           </div>
           <div>
             <Tooltip TransitionComponent={Zoom} title="more information" arrow>
-              <IconButton color="primary" aria-label="more information" onClick={handleClickOpen}>
+              <IconButton
+                color="primary"
+                aria-label="more information"
+                onClick={handleClickOpen}
+              >
                 <InfoOutlinedIcon />
               </IconButton>
             </Tooltip>
           </div>
         </div>
       </CardActions>
-      {open && <DialogComponent onClose={handleClose} data={props.itemData}/>}
+      {open && <DialogComponent onClose={handleClose} data={props.itemData} />}
     </Card>
   );
 }
