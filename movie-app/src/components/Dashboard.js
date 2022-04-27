@@ -68,6 +68,7 @@ const useStyles = makeStyles((theme) => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
     }),
+    backgroundColor: "#3f51b5"
   },
   drawerPaperClose: {
     overflowX: 'hidden',
