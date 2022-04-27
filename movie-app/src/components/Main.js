@@ -7,9 +7,10 @@ import NestedList from "./sidebar/NestedList";
 import { DataContext } from "./DataContext";
 
 const useStyles = makeStyles(() => ({
-  // mainContent: {
-  //   background: "#181925",
-  // },
+  mainContent: {
+    // background: "#181925",
+    // background: "linear-gradient(90deg, rgba(39,75,152,1) 0%, rgba(104,130,187,1) 0%, rgba(52,77,148,1) 14%)"
+  },
   header: {
     marginLeft: "100px",
     color: "#96a5d4",

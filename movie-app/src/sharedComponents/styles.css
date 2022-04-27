@@ -1,3 +1,7 @@
+body {
+  background-color: #f4fbff !important;
+}
+
 .CarouselComponent {
   font-family: sans-serif;
   display: flex;
@@ -48,6 +52,7 @@
   flex: 1;
   justify-content: space-between;
   align-items: center;
+  height: 48px;
 }
 
 /* global dialog style */
@@ -94,3 +99,7 @@
   opacity: 0.4;
   transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
+
+/* 
+background-color: rgb(255, 223, 222);
+background-color: rgb(106, 123, 162); */
