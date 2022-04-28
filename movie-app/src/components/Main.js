@@ -8,7 +8,7 @@ import { DataContext } from "./DataContext";
 
 const useStyles = makeStyles(() => ({
   mainContent: {
-    // background: "#181925",
+    // background: "red",
     // background: "linear-gradient(90deg, rgba(39,75,152,1) 0%, rgba(104,130,187,1) 0%, rgba(52,77,148,1) 14%)"
   },
   header: {
