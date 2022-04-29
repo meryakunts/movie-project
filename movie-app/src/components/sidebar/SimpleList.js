@@ -36,7 +36,7 @@ export default function SimpleList({ data, onItemClick }) {
         <ListItemIcon>
           <Icon style={{ color: "#d1afdf", size: "small" }} />
         </ListItemIcon>
-        <ListItemText primary={data.title} style={{ color: "#b597c2" }} />
+        <ListItemText primary={data.title} style={{ color: "rgb(255, 223, 222)" }} />
         {open ? <ExpandLess /> : <ExpandMore />}
       </ListItem>
       <Collapse in={open} timeout="auto" unmountOnExit>

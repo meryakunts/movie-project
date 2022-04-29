@@ -109,7 +109,7 @@ function App() {
         <DataContext.Provider value={{ moviesData: movies, showsData: shows, filterFunc: handleFilter }}>
           <Router>
             <Switch>
-              <Route exact path="/home" render={(props) => <Main />} />
+              {/* <Route exact path="/home" render={(props) => <Main />} /> */}
               <Route exact path="/" render={(props) => <Dashboard />} />
               <Route
                 path="/signin"
@@ -135,7 +135,7 @@ function App() {
               {user.isLogged && (
                 <Route path="/allshowing" component={AllShowing}></Route>
               )}
-              {user.isLogged && (
+              {!user.isLogged && (
                 <Route
                   path="/forgotpassword"
                   component={ForgotPasswordComponent}
