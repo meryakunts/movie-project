@@ -52,7 +52,6 @@ function ForgotPasswordComponent() {
 
   return (
     <div className={classes.mainContent}>
-    <Header></Header>
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>

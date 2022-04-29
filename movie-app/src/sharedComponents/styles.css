@@ -100,6 +100,53 @@ body {
   transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-/* 
-background-color: rgb(255, 223, 222);
-background-color: rgb(106, 123, 162); */
+
+.headerCom {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+}
+
+.subTitles {
+  display: block;
+}
+
+.subTitles a {
+  color: rgb(255, 223, 222);
+  cursor: pointer;
+  display: flex !important;
+  overflow: hidden;
+  position: relative;
+  font-size: 20px;
+  transition: 0.3s;
+  align-items: center;
+  font-weight: 400;
+  line-height: 1.6;
+  margin-left: 24px;
+  margin-right: 24px;
+  letter-spacing: 0.7px;
+}
+
+.subTitles a::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 0;
+  border-bottom: 2px solid;
+  border-color: rgb(255, 223, 222);
+  background: rgb(255, 223, 222);
+  transform: translateX(calc(-100% - 2px));
+  transition: 0.3s;
+}
+
+.subTitles a:hover {
+  text-decoration: none;
+}
+
+.subTitles a:hover::after {
+  width: 100%;
+  transform: translateX(0);
+}

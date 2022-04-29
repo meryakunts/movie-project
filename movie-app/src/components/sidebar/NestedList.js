@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) =>
       justifyContent: "flex-end",
     },
     root: {
-      color: "#b597c2",
+      color: "rgb(255, 223, 222)",
     },
   })
 );
