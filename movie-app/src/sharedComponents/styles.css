@@ -2,6 +2,10 @@ body {
   background-color: #f4fbff !important;
 }
 
+.primaryColor {
+  color: #ffdfde !important;
+}
+
 .CarouselComponent {
   font-family: sans-serif;
   display: flex;
@@ -150,3 +154,4 @@ body {
   width: 100%;
   transform: translateX(0);
 }
+
