@@ -17,10 +17,10 @@ import Link from "@material-ui/core/Link";
 import Main from "./Main";
 import NestedList from "./sidebar/NestedList";
 import Header from "./Header";
-import InputBase from "@material-ui/core/InputBase";
-import SearchIcon from "@material-ui/icons/Search";
-import logo2 from "../Images/logo2.png";
-import logo6 from "../Images/logo6.png";
+// import InputBase from "@material-ui/core/InputBase";
+// import SearchIcon from "@material-ui/icons/Search";
+import logo from "../Images/logo.png";
+import Search from "./Search";
 
 const drawerWidth = 240;
 
@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "flex-end",
-    color: "#fff",
+    color: "rgb(255, 223, 222)",
     padding: "0 8px",
     ...theme.mixins.toolbar,
   },
@@ -58,6 +58,7 @@ const useStyles = makeStyles((theme) => ({
   },
   menuButton: {
     marginRight: 36,
+    color: "rgb(255, 223, 222)",
   },
   menuButtonHidden: {
     display: "none",
@@ -116,44 +117,46 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "space-between",
     flex: "1",
   },
-  search: {
-    position: "relative",
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: alpha(theme.palette.common.white, 0.15),
-    "&:hover": {
-      backgroundColor: alpha(theme.palette.common.white, 0.25),
-    },
-    marginRight: theme.spacing(4),
-    marginLeft: 0,
-    width: "100%",
-    [theme.breakpoints.up("sm")]: {
-      marginLeft: theme.spacing(3),
-      width: "auto",
-    },
-    flex: "1"
-  },
-  searchIcon: {
-    padding: theme.spacing(0, 2),
-    height: "100%",
-    position: "absolute",
-    pointerEvents: "none",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  inputRoot: {
-    color: "inherit",
-  },
-  inputInput: {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
-    transition: theme.transitions.create("width"),
-    width: "100%",
-    [theme.breakpoints.up("md")]: {
-      width: "20ch",
-    },
-  },
+  // search: {
+  //   position: "relative",
+  //   borderRadius: theme.shape.borderRadius,
+  //   backgroundColor: alpha(theme.palette.common.white, 0.15),
+  //   "&:hover": {
+  //     backgroundColor: alpha(theme.palette.common.white, 0.25),
+  //   },
+  //   marginRight: theme.spacing(4),
+  //   marginLeft: 0,
+  //   width: "100%",
+  //   [theme.breakpoints.up("sm")]: {
+  //     marginLeft: theme.spacing(3),
+  //     width: "auto",
+  //   },
+  //   flex: "1",
+  // },
+  // searchIcon: {
+  //   padding: theme.spacing(0, 2),
+  //   height: "100%",
+  //   position: "absolute",
+  //   pointerEvents: "none",
+  //   display: "flex",
+  //   alignItems: "center",
+  //   justifyContent: "center",
+  //   color: "rgb(255, 223, 222)",
+  // },
+  // inputRoot: {
+  //   color: "rgb(255, 223, 222)",
+  //   width: "100%",
+  // },
+  // inputInput: {
+  //   padding: theme.spacing(1, 1, 1, 0),
+  //   // vertical padding + font size from searchIcon
+  //   paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
+  //   transition: theme.transitions.create("width"),
+  //   width: "100%",
+  //   [theme.breakpoints.up("md")]: {
+  //     width: "100%",
+  //   },
+  // },
 }));
 
 export default function Dashboard() {
@@ -197,27 +200,32 @@ export default function Dashboard() {
               noWrap
               className={classes.title}
             >
-              <Link href="/" style={{ textDecoration: "none", color: "rgb(255, 223, 222)" }}>
-              <img src={logo2} width="50" height="50" />
+              <Link
+                href="/"
+                style={{
+                  textDecoration: "none",
+                  color: "rgb(255, 223, 222)",
+                  display: "flex",
+                }}
+              >
+                <img src={logo} width="50" height="50" />
               </Link>
-              {/* <Link href="/" style={{ textDecoration: "none", color: "rgb(255, 223, 222)", display: "flex"  }}>
-              <img src={logo6} width="50" height="50" />
-              </Link> */}
             </Typography>
-            <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
-            </div>
-            <InputBase
-              placeholder="Search…"
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-              inputProps={{ "aria-label": "search" }}
-            />
-          </div>
-            <Header/>
+            {/* <div className={classes.search}>
+              <div className={classes.searchIcon}>
+                <SearchIcon />
+              </div>
+              <InputBase
+                placeholder="Search…"
+                classes={{
+                  root: classes.inputRoot,
+                  input: classes.inputInput,
+                }}
+                inputProps={{ "aria-label": "search" }}
+              />
+            </div> */}
+            <Search />
+            <Header />
           </div>
         </Toolbar>
       </AppBar>

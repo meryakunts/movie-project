@@ -76,14 +76,14 @@ export default function NestedList() {
     //   items: ["Popular", "New Releases", "Recently Added", "IMDb Rating"],
     // },
     {
-      title: "SOURCE",
+      title: "source",
       name: "source",
       filterBy: "price",
       Icon: ShopIcon,
-      items: ["free", "buy"],
+      items: ["Free", "Buy"],
     },
     {
-      title: "GENRE",
+      title: "genre",
       name: "genre",
       Icon: MovieIcon,
       items: [
@@ -103,7 +103,7 @@ export default function NestedList() {
     //   items: ["Last 3 months", "Last 6 months", "Last 9 months"],
     // },
     {
-      title: "YEAR",
+      title: "year",
       name: "year",
       Icon: TheatersIcon,
       items: [
@@ -113,9 +113,9 @@ export default function NestedList() {
         {name:"2000 & Older", filterBy: {from: null, to: 2000}}
       ],
     },
-    { title: "RATING", name: "rating", Icon: StarsIcon, items: ["Stars"] },
+    { title: "rating", name: "rating", Icon: StarsIcon, items: ["Stars"] },
     {
-      title: "PRICE",
+      title: "price",
       name: "price",
       Icon: CreditCardIcon,
       items: [
