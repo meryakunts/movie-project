@@ -5,6 +5,7 @@ import { makeStyles } from "@material-ui/core/styles";
 
 import NestedList from "./sidebar/NestedList";
 import { DataContext } from "./DataContext";
+import SearchList from "./SearchList";
 
 const useStyles = makeStyles(() => ({
   mainContent: {
@@ -45,9 +46,11 @@ function Main() {
     <div className={classes.mainContent}>
       <div className={classes.containerPage}>
         <h2>Watch Movies Online</h2>
-        <CarouselComponent type="movies" />
+        <SearchList type="movies"/>
+        {/* <CarouselComponent type="movies" /> */}
         <h2>Watch Shows Online</h2>
-        <CarouselComponent type="shows"/>
+        <SearchList type="shows"/>
+        {/* <CarouselComponent type="shows"/> */}
       </div>
     </div>
   );
