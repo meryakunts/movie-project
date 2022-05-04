@@ -1,7 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { alpha, makeStyles } from "@material-ui/core/styles";
 import InputBase from "@material-ui/core/InputBase";
 import SearchIcon from "@material-ui/icons/Search";
+import { DataContext } from "../components/DataContext";
+import Item from "../sharedComponents/Item";
+import CardComponent from "../sharedComponents/CardComponent";
 
 const useStyles = makeStyles((theme) => ({
   search: {
@@ -48,21 +51,46 @@ const useStyles = makeStyles((theme) => ({
 
 function Search() {
   const classes = useStyles();
+  const [searchInput, setSearchInput] = useState("");
+  const [filteredResults, setFilteredResults] = useState([]);
+  const data = useContext(DataContext);
+  const { moviesData, showsData } = data;
+  let allData = moviesData.concat(showsData);
+  console.log("allData", allData);
+
+  const searchItems = (searchValue) => {
+    setSearchInput(searchValue);
+    console.log(searchValue);
+    // if (searchInput !== "") {
+    //   const filteredData = allData.filter((item) => {
+    //     return Object.values(item)
+    //       .join("")
+    //       .toLowerCase()
+    //       .includes(searchInput.toLowerCase());
+    //   });
+    //   setFilteredResults(filteredData);
+    // } else {
+    //   setFilteredResults(allData);
+    // }
+  };
 
   return (
-    <div className={classes.search}>
-    <div className={classes.searchIcon}>
-      <SearchIcon />
-    </div>
-    <InputBase
-      placeholder="Search…"
-      classes={{
-        root: classes.inputRoot,
-        input: classes.inputInput,
-      }}
-      inputProps={{ "aria-label": "search" }}
-    />
-  </div>
+    <>
+      <div className={classes.search}>
+        <div className={classes.searchIcon}>
+          <SearchIcon />
+        </div>
+        <InputBase
+          placeholder="Search…"
+          classes={{
+            root: classes.inputRoot,
+            input: classes.inputInput,
+          }}
+          inputProps={{ "aria-label": "search" }}
+          onChange={(e) => searchItems(e.target.value)}
+        />
+      </div>
+    </>
   );
 }
 
