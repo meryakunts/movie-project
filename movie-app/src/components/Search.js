@@ -49,18 +49,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Search() {
+function Search(props) {
   const classes = useStyles();
-  const [searchInput, setSearchInput] = useState("");
-  const [filteredResults, setFilteredResults] = useState([]);
-  const data = useContext(DataContext);
-  const { moviesData, showsData } = data;
-  let allData = moviesData.concat(showsData);
-  console.log("allData", allData);
+  const {searchFunc} = useContext(DataContext);
 
-  const searchItems = (searchValue) => {
-    setSearchInput(searchValue);
-    console.log(searchValue);
+  const searchItems = (event) => {
+    if (event.key == "Enter") {
+      let value = event.target.value;
+      if (value !== "") {
+        searchFunc(value)
+      }
+     
+    }
     // if (searchInput !== "") {
     //   const filteredData = allData.filter((item) => {
     //     return Object.values(item)
@@ -87,7 +87,7 @@ function Search() {
             input: classes.inputInput,
           }}
           inputProps={{ "aria-label": "search" }}
-          onChange={(e) => searchItems(e.target.value)}
+          onKeyDown = {searchItems}
         />
       </div>
     </>
