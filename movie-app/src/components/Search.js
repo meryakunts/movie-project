@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useState, useContext } from "react";
 import { alpha, makeStyles } from "@material-ui/core/styles";
 import InputBase from "@material-ui/core/InputBase";
 import SearchIcon from "@material-ui/icons/Search";
+import { DataContext } from "../components/DataContext";
+import Item from "../sharedComponents/Item";
+import CardComponent from "../sharedComponents/CardComponent";
 
 const useStyles = makeStyles((theme) => ({
   search: {
@@ -46,23 +49,48 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Search() {
+function Search(props) {
   const classes = useStyles();
+  const {searchFunc} = useContext(DataContext);
+
+  const searchItems = (event) => {
+    if (event.key == "Enter") {
+      let value = event.target.value;
+      if (value !== "") {
+        searchFunc(value)
+      }
+     
+    }
+    // if (searchInput !== "") {
+    //   const filteredData = allData.filter((item) => {
+    //     return Object.values(item)
+    //       .join("")
+    //       .toLowerCase()
+    //       .includes(searchInput.toLowerCase());
+    //   });
+    //   setFilteredResults(filteredData);
+    // } else {
+    //   setFilteredResults(allData);
+    // }
+  };
 
   return (
-    <div className={classes.search}>
-    <div className={classes.searchIcon}>
-      <SearchIcon />
-    </div>
-    <InputBase
-      placeholder="Search…"
-      classes={{
-        root: classes.inputRoot,
-        input: classes.inputInput,
-      }}
-      inputProps={{ "aria-label": "search" }}
-    />
-  </div>
+    <>
+      <div className={classes.search}>
+        <div className={classes.searchIcon}>
+          <SearchIcon />
+        </div>
+        <InputBase
+          placeholder="Search…"
+          classes={{
+            root: classes.inputRoot,
+            input: classes.inputInput,
+          }}
+          inputProps={{ "aria-label": "search" }}
+          onKeyDown = {searchItems}
+        />
+      </div>
+    </>
   );
 }
 

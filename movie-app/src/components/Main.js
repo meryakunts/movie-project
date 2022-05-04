@@ -1,10 +1,12 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import Header from "./Header";
 import CarouselComponent from "../sharedComponents/CarouselComponent";
 import { makeStyles } from "@material-ui/core/styles";
 
 import NestedList from "./sidebar/NestedList";
 import { DataContext } from "./DataContext";
+import Data from "../sharedComponents/Data";
+import Button from '@material-ui/core/Button';
 
 const useStyles = makeStyles(() => ({
   mainContent: {
@@ -40,14 +42,25 @@ const useStyles = makeStyles(() => ({
 
 function Main() {
   const classes = useStyles();
-
+  const data = useContext(DataContext);
+  const { searchFunc, searchString } = data;
   return (
     <div className={classes.mainContent}>
       <div className={classes.containerPage}>
-        <h2>Watch Movies Online</h2>
-        <CarouselComponent type="movies" />
-        <h2>Watch Shows Online</h2>
-        <CarouselComponent type="shows"/>
+        {searchString != "" ? (
+          <div>
+            <h2>Search Results</h2>
+            <Button variant="contained" onClick={()=>searchFunc("")}>Default</Button>
+            <Data />
+          </div>
+        ) : (
+          <div>
+            <h2>Watch Movies Online</h2>
+            <CarouselComponent type="movies" />
+            <h2>Watch Shows Online</h2>
+            <CarouselComponent type="shows" />
+          </div>
+        )}
       </div>
     </div>
   );

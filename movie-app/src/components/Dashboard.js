@@ -95,7 +95,7 @@ const useStyles = makeStyles((theme) => ({
   appBarSpacer: theme.mixins.toolbar,
   content: {
     flexGrow: 1,
-    height: "100vh",
+    // height: "100vh",
     overflow: "auto",
   },
   container: {
@@ -164,11 +164,9 @@ export default function Dashboard() {
   const [open, setOpen] = React.useState(true);
   const handleDrawerOpen = () => {
     setOpen(true);
-    console.log("das");
   };
   const handleDrawerClose = () => {
     setOpen(false);
-    console.log("das");
   };
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
@@ -250,7 +248,7 @@ export default function Dashboard() {
           <Grid container spacing={3}>
             <Grid item xs={12}>
               <Paper className={classes.paper}>
-                <Main />
+                <Main/>
               </Paper>
             </Grid>
           </Grid>
