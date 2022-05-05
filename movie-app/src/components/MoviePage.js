@@ -54,7 +54,10 @@ const useStyles = makeStyles((theme) => ({
       color: "#3972a0",
     },
     trailer: {
-      margin: "auto",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      flex: "1",
     },
   },
 }));
@@ -88,7 +91,10 @@ export default function MoviePage(props) {
           description here. Movie description here. Movie description here.
         </p>
         <div className={classes.trailer}>
-          <ReactPlayer url="https://www.youtube.com/watch?v=oUFJJNQGwhk" />
+          <ReactPlayer
+            url="https://www.youtube.com/watch?v=oUFJJNQGwhk"
+            style={{ margin: "auto" }}
+          />
         </div>
       </div>
     </div>
