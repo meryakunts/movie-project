@@ -19,6 +19,16 @@ const useStyles = makeStyles((theme) =>
     nested: {
       paddingLeft: theme.spacing(4),
     },
+    menuItem: {
+      "& span": {
+        color: "#ffdfde",
+        fontSize: "20px",
+        transition: "0.3s",
+        fontWeight: "400",
+        letterSpacing: "0.7px",
+        textTransform: "capitalize",
+      }
+    }
   })
 );
 
@@ -34,9 +44,9 @@ export default function SimpleList({ data, onItemClick }) {
     <>
       <ListItem button onClick={handleClick}>
         <ListItemIcon>
-          <Icon style={{ color: "#d1afdf", size: "small" }} />
+          <Icon style={{ color: "#ffdfde", size: "small" }} />
         </ListItemIcon>
-        <ListItemText primary={data.title} style={{ color: "#b597c2" }} />
+        <ListItemText primary={data.title} className={classes.menuItem} />
         {open ? <ExpandLess /> : <ExpandMore />}
       </ListItem>
       <Collapse in={open} timeout="auto" unmountOnExit>

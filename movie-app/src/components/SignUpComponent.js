@@ -44,7 +44,7 @@ function SignUpComponent() {
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
-        history.push("/home");
+        history.push("/");
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -55,7 +55,6 @@ function SignUpComponent() {
 
   return (
     <div className={classes.mainContent}>
-    <Header></Header>
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>

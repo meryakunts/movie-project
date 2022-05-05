@@ -23,7 +23,8 @@ function App() {
   const [filteredMovies, setfilteredMovies] = useState([]);
   const [shows, setShows] = useState([]);
   const [filteredShows, setfilteredShows] = useState([]);
-
+  const [searchedString, setSearchedString] = useState("");
+  
   useEffect(
     () =>
       onSnapshot(collection(db, "movies"), (snapshot) => {
@@ -123,15 +124,18 @@ function App() {
     filteredData = allData;
     setDataState();
   }
+  const handleSearch = (str) => {
+    setSearchedString(str);
+  }
 
   return (
     <>
       <AuthContext.Provider value={user}>
-        <DataContext.Provider value={{ moviesData: filteredMovies, showsData: filteredShows, filterFunc: handleFilter, onResetFilter: resetFilters }}>
+        <DataContext.Provider value={{ moviesData: filteredMovies, showsData: filteredShows, filterFunc: handleFilter, onResetFilter: resetFilters,  searchFunc: handleSearch, searchString: searchedString}}>
           <Router>
             <Switch>
-              <Route exact path="/home" render={(props) => <Main />} />
-              <Route exact path="/" render={(props) => <Dashboard />} />
+              {/* <Route exact path="/home" render={(props) => <Main />} /> */}
+              <Route exact path="/" render={(props) => <Dashboard/>} />
               <Route
                 path="/signin"
                 render={(props) => (
@@ -156,7 +160,7 @@ function App() {
               {user.isLogged && (
                 <Route path="/allshowing" component={AllShowing}></Route>
               )}
-              {user.isLogged && (
+              {!user.isLogged && (
                 <Route
                   path="/forgotpassword"
                   component={ForgotPasswordComponent}
