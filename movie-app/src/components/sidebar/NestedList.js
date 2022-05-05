@@ -113,7 +113,14 @@ export default function NestedList() {
         {name:"2000 & Older", filterBy: {from: null, to: 2000}}
       ],
     },
-    { title: "RATING", name: "rating", Icon: StarsIcon, items: ["Stars"] },
+    { title: "RATING",
+      name: "rating", 
+      Icon: StarsIcon, 
+      items: [
+        {name: "From 1 to 4.99", filterBy: {from: 1, to: 4.99}},
+        {name: "From 5 to 6.99", filterBy: {from: 5, to: 6.99}},
+        {name: "From 7 to 10", filterBy: {from: 7, to: 10}}
+      ] },
     {
       title: "PRICE",
       name: "price",
