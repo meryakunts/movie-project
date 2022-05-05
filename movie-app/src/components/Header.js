@@ -1,28 +1,23 @@
 import React, { useContext } from "react";
 import { alpha, makeStyles } from "@material-ui/core/styles";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
-import InputBase from "@material-ui/core/InputBase";
 import Badge from "@material-ui/core/Badge";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
-import SearchIcon from "@material-ui/icons/Search";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import MailIcon from "@material-ui/icons/Mail";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import MoreIcon from "@material-ui/icons/MoreVert";
-import NestedList from "./sidebar/NestedList";
-import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
-import BookmarkIcon from "@material-ui/icons/Bookmark";
 import Link from "@material-ui/core/Link";
 import { AuthContext } from "./UserContext";
+import "../sharedComponents/styles.css";
 
 const useStyles = makeStyles((theme) => ({
   grow: {
-    flexGrow: 1,
-    height: "5px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
   },
   menuButton: {
     width: "70px",
@@ -38,60 +33,47 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "36px",
     marginRight: theme.spacing(4),
   },
-  subTitles: {
-    display: "none",
-    "&:hover": {
-      color: "white",
-      transition: "0.5s ease-in-out",
-    },
-    [theme.breakpoints.up("sm")]: {
-      display: "block",
-    },
-    fontFamily: "fantasy",
-    fontSize: "24px",
-    marginRight: theme.spacing(3),
-    marginLeft: theme.spacing(3),
-    color: "#bb93cc",
-    display: "flex !important",
-    alignItems: "center",
-  },
-  search: {
-    position: "relative",
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: alpha(theme.palette.common.white, 0.15),
-    "&:hover": {
-      backgroundColor: alpha(theme.palette.common.white, 0.25),
-    },
-    marginRight: theme.spacing(4),
-    marginLeft: 0,
-    width: "100%",
-    [theme.breakpoints.up("sm")]: {
-      marginLeft: theme.spacing(3),
-      width: "auto",
-    },
-  },
-  searchIcon: {
-    padding: theme.spacing(0, 2),
-    height: "100%",
-    position: "absolute",
-    pointerEvents: "none",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  inputRoot: {
-    color: "inherit",
-  },
-  inputInput: {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
-    transition: theme.transitions.create("width"),
-    width: "100%",
-    [theme.breakpoints.up("md")]: {
-      width: "20ch",
-    },
-  },
+  // subTitles: {
+  //   display: "none",
+  //   [theme.breakpoints.up("sm")]: {
+  //     display: "block",
+  //   },
+  //   "& a": {
+  //     fontSize: "20px",
+  //     marginRight: theme.spacing(3),
+  //     marginLeft: theme.spacing(3),
+  //     color: "#fff",
+  //     display: "flex !important",
+  //     alignItems: "center",
+  //     fontWeight: "400",
+  //     cursor: "pointer",
+  //     lineHeight: "1.6",
+  //     position: "relative",
+  //     overflow: "hidden",
+  //     letterSpacing: ".7px",
+  //     transition: ".3s",
+  //     "&:after": {
+  //       content: "",
+  //       position: "absolute",
+  //       bottom: "0",
+  //       left: "0",
+  //       width: "100%",
+  //       height: "0",
+  //       borderBottom: "2px solid",
+  //       borderColor: "#ff9201",
+  //       background: "#ff9201",
+  //       transform: "translateX(calc(-100% - 2px))",
+  //       transition: ".3s",
+  //     },
+  //     "&:hover": {
+  //       textDecoration: "none",
+  //       "&:after": {
+  //         width: "100%",
+  //         transform: "translateX(0)",
+  //       },
+  //     },
+  //   },
+  // },
   sectionDesktop: {
     display: "none",
     [theme.breakpoints.up("md")]: {
@@ -200,106 +182,49 @@ export default function Header(props) {
 
   return (
     <div className={classes.grow}>
-      <AppBar position="static" className={classes.headerBar}>
-        <Toolbar>
+      <div className={classes.sectionDesktop}>
+        <Typography className="subTitles" variant="h5" noWrap>
+          {!login.isLogged && <Link href="/signin">Movies</Link>}
+        </Typography>
+        <Typography className="subTitles" variant="h5" noWrap>
+          {!login.isLogged && <Link href="/signin">Shows</Link>}
+        </Typography>
+        <Typography className="subTitles" variant="h5" noWrap>
+          {!login.isLogged && <Link href="/signin">Favorites</Link>}
+        </Typography>
+        <Typography className="subTitles" variant="h5" noWrap>
+          {!login.isLogged && <Link href="/signin">Watchlist</Link>}
+        </Typography>
+        {login.isLogged && (
           <IconButton
-            edge="start"
-            className={classes.menuButton}
+            edge="end"
+            aria-label="account of current user"
+            aria-controls={menuId}
+            aria-haspopup="true"
+            onClick={handleProfileMenuOpen}
             color="inherit"
-            aria-label="open drawer"
           >
+            <AccountCircle />
           </IconButton>
-          <Link href="/home" style={{ textDecoration: "none" }} color="inherit">
-            <Typography className={classes.title} variant="h6" noWrap>
-              AMNV
-            </Typography>
-          </Link>
-          <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
-            </div>
-            <InputBase
-              placeholder="Search…"
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-              inputProps={{ "aria-label": "search" }}
-            />
-          </div>
-          <Typography className={classes.subTitles} variant="h5" noWrap>
-            Movies
-          </Typography>
-          <Typography className={classes.subTitles} variant="h5" noWrap>
-            Shows
-          </Typography>
-          <Typography className={classes.subTitles} variant="h5" noWrap>
-            Top Rated
-          </Typography>
-          <Typography className={classes.subTitles} variant="h5" noWrap>
-            Favorites
-          </Typography>
-          <Typography className={classes.subTitles} variant="h5" noWrap>
-            Watchlist
-          </Typography>
-          <div className={classes.grow} />
-          <div className={classes.sectionDesktop}>
-            <IconButton aria-label="Watchlist" color="inherit">
-              <ShoppingCartIcon />
-            </IconButton>
-            <IconButton aria-label="Watchlist" color="inherit">
-              <BookmarkIcon />
-            </IconButton>
-            {login.isLogged && (
-              <IconButton
-                edge="end"
-                aria-label="account of current user"
-                aria-controls={menuId}
-                aria-haspopup="true"
-                onClick={handleProfileMenuOpen}
-                color="inherit"
-              >
-                <AccountCircle />
-              </IconButton>
-            )}
-            <Typography className={classes.subTitles} variant="h5" noWrap>
-              {!login.isLogged && (
-                <Link
-                  href="/signin"
-                  className={classes.subTitles}
-                  style={{ textDecoration: "none" }}
-                  color="inherit"
-                >
-                  Sign In
-                </Link>
-              )}
-            </Typography>
-            <Typography className={classes.subTitles} variant="h5" noWrap>
-              {!login.isLogged && (
-                <Link
-                  href="/signup"
-                  className={classes.subTitles}
-                  style={{ textDecoration: "none" }}
-                  color="inherit"
-                >
-                  Sign Up
-                </Link>
-              )}
-            </Typography>
-          </div>
-          <div className={classes.sectionMobile}>
-            <IconButton
-              aria-label="show more"
-              aria-controls={mobileMenuId}
-              aria-haspopup="true"
-              onClick={handleMobileMenuOpen}
-              color="inherit"
-            >
-              <MoreIcon />
-            </IconButton>
-          </div>
-        </Toolbar>
-      </AppBar>
+        )}
+        <Typography className="subTitles" variant="h5" noWrap>
+          {!login.isLogged && <Link href="/signin">Sign In</Link>}
+        </Typography>
+        <Typography className="subTitles" variant="h5" noWrap>
+          {!login.isLogged && <Link href="/signup">Sign Up</Link>}
+        </Typography>
+      </div>
+      <div className={classes.sectionMobile}>
+        <IconButton
+          aria-label="show more"
+          aria-controls={mobileMenuId}
+          aria-haspopup="true"
+          onClick={handleMobileMenuOpen}
+          color="inherit"
+        >
+          <MoreIcon />
+        </IconButton>
+      </div>
       {renderMobileMenu}
       {renderMenu}
     </div>

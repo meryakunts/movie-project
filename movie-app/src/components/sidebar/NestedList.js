@@ -1,20 +1,18 @@
-import { React, useState } from "react";
+import { React, useState, useContext } from "react";
 import SimpleList from "./SimpleList";
-import { makeStyles, useTheme, createStyles } from "@material-ui/core/styles";
+import {
+  makeStyles,
+  Theme,
+  useTheme,
+  createStyles,
+} from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
-import SortIcon from "@material-ui/icons/Sort";
 import MovieIcon from "@material-ui/icons/Movie";
 import ShopIcon from "@material-ui/icons/Shop";
-import FiberNewIcon from "@material-ui/icons/FiberNew";
 import TheatersIcon from "@material-ui/icons/Theaters";
 import StarsIcon from "@material-ui/icons/Stars";
 import CreditCardIcon from "@material-ui/icons/CreditCard";
-import clsx from "clsx";
-import Drawer from "@material-ui/core/Drawer";
-import IconButton from "@material-ui/core/IconButton";
-import MenuIcon from "@material-ui/icons/Menu";
-import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import ChevronRightIcon from "@material-ui/icons/ChevronRight";
+import { DataContext } from "../DataContext";
 
 // const drawerWidth = 240;
 
@@ -24,7 +22,7 @@ const useStyles = makeStyles((theme) =>
       position: "fixed",
       left: "10px",
       top: "22px",
-      color: "#ffffff"
+      color: "#ffffff",
     },
     // menuButton: {
     //   marginRight: theme.spacing(5),
@@ -51,23 +49,24 @@ const useStyles = makeStyles((theme) =>
       justifyContent: "flex-end",
     },
     root: {
-      color: "#b597c2",
+      color: "rgb(255, 223, 222)",
     },
   })
 );
 
-export default function NestedList({onFilter}) {
+export default function NestedList() {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = useState(false);
+  const { filterFunc } = useContext(DataContext);
 
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
+  // const handleDrawerOpen = () => {
+  //   setOpen(true);
+  // };
 
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
+  // const handleDrawerClose = () => {
+  //   setOpen(false);
+  // };
 
   const list = [
     // {
@@ -77,14 +76,14 @@ export default function NestedList({onFilter}) {
     //   items: ["Popular", "New Releases", "Recently Added", "IMDb Rating"],
     // },
     {
-      title: "SOURCE",
+      title: "source",
       name: "source",
       filterBy: "price",
       Icon: ShopIcon,
-      items: ["free", "buy"],
+      items: ["Free", "Buy"],
     },
     {
-      title: "GENRE",
+      title: "genre",
       name: "genre",
       Icon: MovieIcon,
       items: [
@@ -94,7 +93,7 @@ export default function NestedList({onFilter}) {
         "Thriller",
         "Adventure",
         "Sci-fi",
-        "Fantasy"
+        "Fantasy",
       ],
     },
     // {
@@ -104,36 +103,36 @@ export default function NestedList({onFilter}) {
     //   items: ["Last 3 months", "Last 6 months", "Last 9 months"],
     // },
     {
-      title: "YEAR",
+      title: "year",
       name: "year",
       Icon: TheatersIcon,
       items: [
-        {name: "2020 & Newer", filterBy: {from: 2020, to: null}}, 
-        {name: "2010-2019", filterBy: {from: 2010, to: 2019}}, 
-        {name: "2001-2009", filterBy: {from: 2001, to: 2009}}, 
-        {name:"2000 & Older", filterBy: {from: null, to: 2000}}
+        { name: "2020 & Newer", filterBy: { from: 2020, to: null } },
+        { name: "2010-2019", filterBy: { from: 2010, to: 2019 } },
+        { name: "2001-2009", filterBy: { from: 2001, to: 2009 } },
+        { name: "2000 & Older", filterBy: { from: null, to: 2000 } },
       ],
     },
-    { title: "RATING", name: "rating", Icon: StarsIcon, items: ["Stars"] },
+    { title: "rating", name: "rating", Icon: StarsIcon, items: ["Stars"] },
     {
-      title: "PRICE",
+      title: "price",
       name: "price",
       Icon: CreditCardIcon,
       items: [
-        {name: "19.99 or Less", filterBy: 19.99},
-        {name: "9.99 or Less", filterBy: 9.99},
-        {name: "4.99 or Less", filterBy: 4.99},
+        { name: "19.99 or Less", filterBy: 19.99 },
+        { name: "9.99 or Less", filterBy: 9.99 },
+        { name: "4.99 or Less", filterBy: 4.99 },
       ],
     },
   ];
 
   const handleItemClick = (filter) => {
-    onFilter(filter);
-  }
+    filterFunc(filter);
+  };
 
   return (
     <>
-      <IconButton
+      {/* <IconButton
         color="inherit"
         aria-label="open drawer"
         onClick={handleDrawerOpen}
@@ -141,8 +140,8 @@ export default function NestedList({onFilter}) {
         className={clsx(classes.menuButton, open && classes.hide)}
       >
       <MenuIcon className={classes.menuIcon}/>
-      </IconButton>
-      <Drawer
+      </IconButton> */}
+      <div
         className={classes.drawer}
         variant="persistent"
         anchor="left"
@@ -151,7 +150,7 @@ export default function NestedList({onFilter}) {
           paper: classes.drawerPaper,
         }}
       >
-        <div className={classes.drawerHeader}>
+        {/* <div className={classes.drawerHeader}>
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === "ltr" ? (
               <ChevronLeftIcon />
@@ -159,7 +158,7 @@ export default function NestedList({onFilter}) {
               <ChevronRightIcon />
             )}
           </IconButton>
-        </div>
+        </div> */}
         <List
           component="nav"
           aria-labelledby="nested-list-subheader"
@@ -171,10 +170,14 @@ export default function NestedList({onFilter}) {
           className={classes.root}
         >
           {list.map((item) => (
-            <SimpleList onItemClick={handleItemClick} key={item.title} data={item} />
+            <SimpleList
+              onItemClick={handleItemClick}
+              key={item.title}
+              data={item}
+            />
           ))}
         </List>
-      </Drawer>
+      </div>
     </>
   );
 }

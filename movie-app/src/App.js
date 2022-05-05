@@ -23,6 +23,7 @@ function App() {
   const [movies, setMovies] = useState([]);
   const [filteredMovies, setfilteredMovies] = useState([]);
   const [shows, setShows] = useState([]);
+  const [searchedString, setSearchedString] = useState("");
 
   useEffect(
     () =>
@@ -113,13 +114,25 @@ function App() {
     setfilteredMovies(newFilteredMovies);
   };
 
+  const handleSearch = (str) => {
+    setSearchedString(str);
+  };
+
   return (
     <>
       <AuthContext.Provider value={user}>
-        <DataContext.Provider value={{ moviesData: movies, showsData: shows }}>
+        <DataContext.Provider
+          value={{
+            moviesData: movies,
+            showsData: shows,
+            filterFunc: handleFilter,
+            searchFunc: handleSearch,
+            searchString: searchedString,
+          }}
+        >
           <Router>
             <Switch>
-              <Route exact path="/home" render={(props) => <Main />} />
+              {/* <Route exact path="/home" render={(props) => <Main />} /> */}
               <Route exact path="/" render={(props) => <Dashboard />} />
               <Route
                 path="/signin"
@@ -145,10 +158,7 @@ function App() {
               {user.isLogged && (
                 <Route path="/allshowing" component={AllShowing}></Route>
               )}
-              {user.isLogged && (
-                <Route path="/moviepage" component={MoviePage}></Route>
-              )}
-              {user.isLogged && (
+              {!user.isLogged && (
                 <Route
                   path="/forgotpassword"
                   component={ForgotPasswordComponent}
@@ -156,7 +166,7 @@ function App() {
               )}
             </Switch>
           </Router>
-          <NestedList className="sidebar" onFilter={handleFilter} />
+          {/* <NestedList className="sidebar" onFilter={handleFilter}/> */}
         </DataContext.Provider>
       </AuthContext.Provider>
     </>

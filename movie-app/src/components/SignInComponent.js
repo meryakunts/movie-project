@@ -48,7 +48,7 @@ function SignInComponent(props) {
       .then((userCredential) => {
         const user = userCredential.user;
         props.setLogIn({ name: user.uid, isLogged: true });
-        history.push("/home");
+        history.push("/");
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -59,7 +59,6 @@ function SignInComponent(props) {
 
   return (
     <div className={classes.mainContent}>
-    <Header></Header>
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
