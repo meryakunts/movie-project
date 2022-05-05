@@ -9,12 +9,14 @@ import ReactPlayer from "react-player";
 import { Gradient } from "@material-ui/icons";
 import { DataContext } from "../components/DataContext";
 import ArrowBackRoundedIcon from "@material-ui/icons/ArrowBackRounded";
+import { useLocation } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
     justifyContent: "center",
-    backgroundColor: "grey",
+    background:
+      "linear-gradient(to right bottom, hsl(220, 80%, 10%), hsl(195, 50%, 50%))",
   },
   body: {
     backgroundImage: `url("https://cdn.discordapp.com/attachments/521049144740020234/971398550799941662/movie-image.png")`,
@@ -25,20 +27,25 @@ const useStyles = makeStyles((theme) => ({
   title: {
     color: "#08c0e8",
     marginTop: "50%",
+    marginLeft: "2%",
+    fontSize: "40px",
   },
   container: {
     display: "flex",
     flexDirection: "column",
     boxShadow: "0px 0px 10px",
     background: "#14324c",
+    width: "55%",
   },
   description: {
     margin: "2% 10%",
+    fontSize: "18px",
+    color: "white",
   },
-  stars: {
-    marginLeft: "5%",
-    marginTop: "-2%",
+  details: {
+    marginLeft: "8%",
     color: "#608bb1",
+    fontSize: "14px",
   },
   backArrow: {
     color: "white",
@@ -46,14 +53,20 @@ const useStyles = makeStyles((theme) => ({
     "&:hover": {
       color: "#3972a0",
     },
+    trailer: {
+      margin: "auto",
+    },
   },
 }));
 
-export default function MoviePage() {
+export default function MoviePage(props) {
   const classes = useStyles();
+  // const location = useLocation();
+  // const { from } = location.state;
 
   const handleArrow = () => {
-    console.log("arrow is clicked");
+    // console.log(props.location);
+    props.history.goBack();
   };
 
   return (
@@ -66,18 +79,18 @@ export default function MoviePage() {
           />
           <h1 className={classes.title}>Movie Name</h1>
         </div>
-        <p className={classes.stars}>stars over here</p>
-        <p className={classes.description}>
-          Movie description here. Movie description here. Movie description
-          here. Movie description here. Movie description here.{" "}
+        <p className={classes.details}>
+          stars over here | year: 0000 | Rating: 0 | Price: 0
         </p>
         <p className={classes.description}>
           Movie description here. Movie description here. Movie description
-          here. Movie description here. Movie description here.{" "}
+          here. Movie description here. Movie description here. Movie
+          description here. Movie description here. Movie description here.
         </p>
+        <div className={classes.trailer}>
+          <ReactPlayer url="https://www.youtube.com/watch?v=oUFJJNQGwhk" />
+        </div>
       </div>
-
-      {/* <ReactPlayer url="https://www.youtube.com/watch?v=oUFJJNQGwhk" /> */}
     </div>
   );
 }

@@ -158,6 +158,9 @@ function App() {
               {user.isLogged && (
                 <Route path="/allshowing" component={AllShowing}></Route>
               )}
+              {user.isLogged && (
+                <Route path="/moviepage" component={MoviePage}></Route>
+              )}
               {!user.isLogged && (
                 <Route
                   path="/forgotpassword"
