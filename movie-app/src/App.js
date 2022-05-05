@@ -5,6 +5,7 @@ import SignUpComponent from "./components/SignUpComponent";
 import Main from "./components/Main";
 import ForgotPasswordComponent from "./components/ForgotPasswordComponent";
 import AllShowing from "./components/AllShowing";
+import MoviePage from "./components/MoviePage";
 import Movies from "./components/HomeMovies";
 import TopShows from "./components/HomeTopshows";
 import TopMovies from "./components/HomeTopMovies";
@@ -26,7 +27,10 @@ function App() {
   useEffect(
     () =>
       onSnapshot(collection(db, "movies"), (snapshot) => {
-        const movies = snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+        const movies = snapshot.docs.map((doc) => ({
+          ...doc.data(),
+          id: doc.id,
+        }));
         setMovies(movies);
         setfilteredMovies(movies);
       }),
@@ -63,43 +67,49 @@ function App() {
   //   return movie.genre === "Fantasy";
   // });
 
-  console.log(movies)
+  // console.log(movies);
 
   const handleFilter = (filterOption) => {
     let newFilteredMovies = [];
-    console.log(filterOption);
+    // console.log(filterOption);
     const filterKey = filterOption[0];
 
     if (filterKey === "genre") {
-      newFilteredMovies = movies.filter(movie => {
+      newFilteredMovies = movies.filter((movie) => {
         return movie[filterKey] === filterOption[1];
-      })
+      });
     } else if (filterKey === "year") {
-      newFilteredMovies = movies.filter(movie => {
+      newFilteredMovies = movies.filter((movie) => {
         if (!filterOption[1].from) {
-          return +movie[filterKey] <= filterOption[1].to
+          return +movie[filterKey] <= filterOption[1].to;
         } else if (!filterOption[1].to) {
-          return +movie[filterKey] >= filterOption[1].from
+          return +movie[filterKey] >= filterOption[1].from;
         } else {
-          return +movie[filterKey] >= filterOption[1].from && +movie[filterKey] <= filterOption[1].to
+          return (
+            +movie[filterKey] >= filterOption[1].from &&
+            +movie[filterKey] <= filterOption[1].to
+          );
         }
-      })
+      });
     } else if (filterKey === "price") {
-        if (filterOption[1] === "free") {
-          newFilteredMovies = movies.filter(movie => {
-            return movie[filterKey] === "free";
-          })
-        } else if (filterOption[1] === "buy") {
-          newFilteredMovies = movies.filter(movie => {
-            return movie[filterKey] !== "free";
-          })
-        } else {
-          newFilteredMovies = movies.filter(movie => {
-            return (movie[filterKey] === "free" || +movie[filterKey].slice(1) <= filterOption[1]);
-          })
-        }
+      if (filterOption[1] === "free") {
+        newFilteredMovies = movies.filter((movie) => {
+          return movie[filterKey] === "free";
+        });
+      } else if (filterOption[1] === "buy") {
+        newFilteredMovies = movies.filter((movie) => {
+          return movie[filterKey] !== "free";
+        });
+      } else {
+        newFilteredMovies = movies.filter((movie) => {
+          return (
+            movie[filterKey] === "free" ||
+            +movie[filterKey].slice(1) <= filterOption[1]
+          );
+        });
+      }
     }
-    console.log(newFilteredMovies);
+    // console.log(newFilteredMovies);
     setfilteredMovies(newFilteredMovies);
   };
 
@@ -136,6 +146,9 @@ function App() {
                 <Route path="/allshowing" component={AllShowing}></Route>
               )}
               {user.isLogged && (
+                <Route path="/moviepage" component={MoviePage}></Route>
+              )}
+              {user.isLogged && (
                 <Route
                   path="/forgotpassword"
                   component={ForgotPasswordComponent}
@@ -143,7 +156,7 @@ function App() {
               )}
             </Switch>
           </Router>
-          <NestedList className="sidebar" onFilter={handleFilter}/>
+          <NestedList className="sidebar" onFilter={handleFilter} />
         </DataContext.Provider>
       </AuthContext.Provider>
     </>
