@@ -158,7 +158,7 @@ function App() {
               {!user.isLogged && (
                 <Route path="/allshowing" component={AllShowing}></Route>
               )}
-              {!user.isLogged && (
+              {user.isLogged && (
                 <Route path="/moviepage" component={MoviePage}></Route>
               )}
               {!user.isLogged && (
