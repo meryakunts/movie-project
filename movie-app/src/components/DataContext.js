@@ -6,7 +6,6 @@ export const data = {
   filterFunc: () => {},
   searchFunc: () => {},
   searchString: "",
-  cardClicked: false,
 };
 
 export const DataContext = createContext(data);
