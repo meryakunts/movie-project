@@ -22,23 +22,25 @@ function App() {
   const [movies, setMovies] = useState([]);
   const [filteredMovies, setfilteredMovies] = useState([]);
   const [shows, setShows] = useState([]);
+  const [filteredShows, setfilteredShows] = useState([]);
   const [searchedString, setSearchedString] = useState("");
   
-
   useEffect(
     () =>
       onSnapshot(collection(db, "movies"), (snapshot) => {
         const movies = snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
         setMovies(movies);
         setfilteredMovies(movies);
-      }),
+      }), 
     []
   );
 
   useEffect(
     () =>
       onSnapshot(collection(db, "tvshows"), (snapshot) => {
-        setShows(snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+        const shows = snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+        setShows(shows);
+        setfilteredShows(shows);
       }),
     []
   );
@@ -61,50 +63,67 @@ function App() {
     setUser(userLogin);
   };
 
-  // const filteredMovies = movies.filter((movie) => {
-  //   return movie.genre === "Fantasy";
-  // });
+  const setDataState = () => {
+    setfilteredMovies(filteredData[0]);
+    setfilteredShows(filteredData[1]);
+  }
 
-  console.log(movies)
+  console.log(movies);
+  console.log(shows);
+  let filteredData = [];
+  let allData = [movies, shows];
 
   const handleFilter = (filterOption) => {
-    let newFilteredMovies = [];
-    console.log(filterOption);
     const filterKey = filterOption[0];
 
     if (filterKey === "genre") {
-      newFilteredMovies = movies.filter(movie => {
-        return movie[filterKey] === filterOption[1];
+      filteredData = allData.map(data => {
+        return data.filter(item => {
+          return item[filterKey] === filterOption[1];
+        });
       })
     } else if (filterKey === "year") {
-      newFilteredMovies = movies.filter(movie => {
-        if (!filterOption[1].from) {
-          return +movie[filterKey] <= filterOption[1].to
-        } else if (!filterOption[1].to) {
-          return +movie[filterKey] >= filterOption[1].from
-        } else {
-          return +movie[filterKey] >= filterOption[1].from && +movie[filterKey] <= filterOption[1].to
-        }
-      })
+        filteredData = allData.map(data => {
+          return data.filter(item => {
+            if (!filterOption[1].from) {
+              return +item[filterKey] <= filterOption[1].to
+            } else if (!filterOption[1].to) {
+              return +item[filterKey] >= filterOption[1].from
+            } else {
+              return +item[filterKey] >= filterOption[1].from && +item[filterKey] <= filterOption[1].to
+            }
+          }) 
+        })
     } else if (filterKey === "price") {
+      filteredData = allData.map(data => {
         if (filterOption[1] === "free") {
-          newFilteredMovies = movies.filter(movie => {
+         return movies.filter(movie => {
             return movie[filterKey] === "free";
           })
         } else if (filterOption[1] === "buy") {
-          newFilteredMovies = movies.filter(movie => {
+          return movies.filter(movie => {
             return movie[filterKey] !== "free";
           })
         } else {
-          newFilteredMovies = movies.filter(movie => {
+          return movies.filter(movie => {
             return (movie[filterKey] === "free" || +movie[filterKey].slice(1) <= filterOption[1]);
           })
         }
+      })
+    } else if (filterKey === "rating") {
+      filteredData = allData.map(data => {
+        return data.filter(item => {
+            return +item[filterKey] >= filterOption[1].from && +item[filterKey] <= filterOption[1].to
+        }) 
+      })
     }
-    console.log(newFilteredMovies);
-    setfilteredMovies(newFilteredMovies);
+    setDataState();
   };
 
+  const resetFilters = () => {
+    filteredData = allData;
+    setDataState();
+  }
   const handleSearch = (str) => {
     setSearchedString(str);
   }
@@ -112,7 +131,7 @@ function App() {
   return (
     <>
       <AuthContext.Provider value={user}>
-        <DataContext.Provider value={{ moviesData: movies, showsData: shows, filterFunc: handleFilter, searchFunc: handleSearch, searchString: searchedString}}>
+        <DataContext.Provider value={{ moviesData: filteredMovies, showsData: filteredShows, filterFunc: handleFilter, onResetFilter: resetFilters,  searchFunc: handleSearch, searchString: searchedString}}>
           <Router>
             <Switch>
               {/* <Route exact path="/home" render={(props) => <Main />} /> */}
