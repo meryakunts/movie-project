@@ -35,6 +35,14 @@ const useStyles = makeStyles((theme) => ({
     background:
       " linear-gradient(to right top, hsl(236, 50%, 50%), hsl(195, 50%, 50%))",
     height: "48px",
+    color: "rgb(97, 97, 97)",
+    transition: "box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
+    boxShadow: "none",
+    borderRadius: '12px',
+    overflow: 'hidden',
+    marginBottom: '24px',
+    border: '1px solid #5c95c96b',
+    background: 'rgb(255, 255, 255)',
     "& div": {
       minHeight: "100%",
     },
@@ -124,6 +132,7 @@ function Main() {
             </Typography>
           </Container>
         </div>
+        <div>
         {searchString != "" ? (
           <div>
             <Data />
@@ -136,6 +145,10 @@ function Main() {
             <CarouselComponent type="shows" />
           </div>
         )}
+        </div>
+        <div className={classes.moviesPage}>
+        {searchString != "" &&  <Data />}
+        </div>
       </div>
     </div>
   );

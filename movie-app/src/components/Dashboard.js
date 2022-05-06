@@ -24,6 +24,7 @@ import Header from "./Header";
 // import SearchIcon from "@material-ui/icons/Search";
 import logo from "../Images/logo.png";
 import Search from "./Search";
+import Movies from "./Movies";
 
 const drawerWidth = 240;
 
@@ -173,6 +174,7 @@ export default function Dashboard() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
   const {onResetFilter} = useContext(DataContext);
+
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -217,7 +219,7 @@ export default function Dashboard() {
                   display: "flex",
                 }}
               >
-                <img src={logo} width="50" height="50" />
+                <img src={logo} alt={logo} width="50" height="50" />
               </Link>
             </Typography>
             {/* <div className={classes.search}>

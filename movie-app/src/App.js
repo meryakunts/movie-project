@@ -5,7 +5,7 @@ import SignUpComponent from "./components/SignUpComponent";
 import Main from "./components/Main";
 import ForgotPasswordComponent from "./components/ForgotPasswordComponent";
 import AllShowing from "./components/AllShowing";
-import Movies from "./components/HomeMovies";
+import Movies from "./components/Movies";
 import TopShows from "./components/HomeTopshows";
 import TopMovies from "./components/HomeTopMovies";
 import Watchlist from "./components/HomeWatchlist";
@@ -145,7 +145,7 @@ function App() {
               {!user.isLogged && (
                 <Route path="/signup" component={SignUpComponent}></Route>
               )}
-              {!user.isLogged && (
+              {user.isLogged && (
                 <Route path="/movies" component={Movies}></Route>
               )}
               {!user.isLogged && (
