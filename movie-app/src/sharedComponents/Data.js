@@ -90,7 +90,7 @@ function Data() {
           })}
         {!isNotEmpty && (
           <div className={classes.noData}>
-             <img src={noitem} width="150" height="150" />
+             <img src={noitem} width="150" height="150"  alt={"not found item"}/>
             <h2>Sorry, no results found.</h2>
           </div>
         )}
