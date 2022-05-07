@@ -6,7 +6,7 @@ import Main from "./components/Main";
 import ForgotPasswordComponent from "./components/ForgotPasswordComponent";
 import AllShowing from "./components/AllShowing";
 import MoviePage from "./components/MoviePage";
-import Movies from "./components/HomeMovies";
+import Movies from "./components/Movies";
 import TopShows from "./components/HomeTopshows";
 import TopMovies from "./components/HomeTopMovies";
 import Watchlist from "./components/HomeWatchlist";
@@ -23,6 +23,7 @@ function App() {
   const [movies, setMovies] = useState([]);
   const [filteredMovies, setfilteredMovies] = useState([]);
   const [shows, setShows] = useState([]);
+  const [filteredShows, setfilteredShows] = useState([]);
   const [searchedString, setSearchedString] = useState("");
 
   useEffect(
@@ -41,7 +42,12 @@ function App() {
   useEffect(
     () =>
       onSnapshot(collection(db, "tvshows"), (snapshot) => {
-        setShows(snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+        const shows = snapshot.docs.map((doc) => ({
+          ...doc.data(),
+          id: doc.id,
+        }));
+        setShows(shows);
+        setfilteredShows(shows);
       }),
     []
   );
@@ -64,56 +70,76 @@ function App() {
     setUser(userLogin);
   };
 
-  // const filteredMovies = movies.filter((movie) => {
-  //   return movie.genre === "Fantasy";
-  // });
+  const setDataState = () => {
+    setfilteredMovies(filteredData[0]);
+    setfilteredShows(filteredData[1]);
+  };
 
-  // console.log(movies);
+  console.log(movies);
+  console.log(shows);
+  let filteredData = [];
+  let allData = [movies, shows];
 
   const handleFilter = (filterOption) => {
-    let newFilteredMovies = [];
-    // console.log(filterOption);
     const filterKey = filterOption[0];
 
     if (filterKey === "genre") {
-      newFilteredMovies = movies.filter((movie) => {
-        return movie[filterKey] === filterOption[1];
+      filteredData = allData.map((data) => {
+        return data.filter((item) => {
+          return item[filterKey] === filterOption[1];
+        });
       });
     } else if (filterKey === "year") {
-      newFilteredMovies = movies.filter((movie) => {
-        if (!filterOption[1].from) {
-          return +movie[filterKey] <= filterOption[1].to;
-        } else if (!filterOption[1].to) {
-          return +movie[filterKey] >= filterOption[1].from;
-        } else {
-          return (
-            +movie[filterKey] >= filterOption[1].from &&
-            +movie[filterKey] <= filterOption[1].to
-          );
-        }
+      filteredData = allData.map((data) => {
+        return data.filter((item) => {
+          if (!filterOption[1].from) {
+            return +item[filterKey] <= filterOption[1].to;
+          } else if (!filterOption[1].to) {
+            return +item[filterKey] >= filterOption[1].from;
+          } else {
+            return (
+              +item[filterKey] >= filterOption[1].from &&
+              +item[filterKey] <= filterOption[1].to
+            );
+          }
+        });
       });
     } else if (filterKey === "price") {
-      if (filterOption[1] === "free") {
-        newFilteredMovies = movies.filter((movie) => {
-          return movie[filterKey] === "free";
-        });
-      } else if (filterOption[1] === "buy") {
-        newFilteredMovies = movies.filter((movie) => {
-          return movie[filterKey] !== "free";
-        });
-      } else {
-        newFilteredMovies = movies.filter((movie) => {
+      filteredData = allData.map((data) => {
+        if (filterOption[1] === "free") {
+          return movies.filter((movie) => {
+            return movie[filterKey] === "free";
+          });
+        } else if (filterOption[1] === "buy") {
+          return movies.filter((movie) => {
+            return movie[filterKey] !== "free";
+          });
+        } else {
+          return movies.filter((movie) => {
+            return (
+              movie[filterKey] === "free" ||
+              +movie[filterKey].slice(1) <= filterOption[1]
+            );
+          });
+        }
+      });
+    } else if (filterKey === "rating") {
+      filteredData = allData.map((data) => {
+        return data.filter((item) => {
           return (
-            movie[filterKey] === "free" ||
-            +movie[filterKey].slice(1) <= filterOption[1]
+            +item[filterKey] >= filterOption[1].from &&
+            +item[filterKey] <= filterOption[1].to
           );
         });
-      }
+      });
     }
-    // console.log(newFilteredMovies);
-    setfilteredMovies(newFilteredMovies);
+    setDataState();
   };
 
+  const resetFilters = () => {
+    filteredData = allData;
+    setDataState();
+  };
   const handleSearch = (str) => {
     setSearchedString(str);
   };
@@ -123,9 +149,10 @@ function App() {
       <AuthContext.Provider value={user}>
         <DataContext.Provider
           value={{
-            moviesData: movies,
-            showsData: shows,
+            moviesData: filteredMovies,
+            showsData: filteredShows,
             filterFunc: handleFilter,
+            onResetFilter: resetFilters,
             searchFunc: handleSearch,
             searchString: searchedString,
           }}
@@ -143,7 +170,7 @@ function App() {
               {!user.isLogged && (
                 <Route path="/signup" component={SignUpComponent}></Route>
               )}
-              {!user.isLogged && (
+              {user.isLogged && (
                 <Route path="/movies" component={Movies}></Route>
               )}
               {!user.isLogged && (

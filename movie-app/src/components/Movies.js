@@ -1,11 +1,10 @@
 import React from "react";
-import Header from "../components/Header";
+import Dashboard from "./Dashboard";
 
 function Movies() {
   return (
     <div>
-      <Header />
-      <h1>Movies page</h1>
+      <Dashboard/>
     </div>
   );
 }

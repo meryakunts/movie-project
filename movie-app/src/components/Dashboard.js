@@ -1,6 +1,6 @@
-import React from "react";
+import React, {useContext} from "react";
 import clsx from "clsx";
-import { alpha, makeStyles } from "@material-ui/core/styles";
+import { makeStyles, createStyles, Theme, alpha } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Drawer from "@material-ui/core/Drawer";
 import AppBar from "@material-ui/core/AppBar";
@@ -16,11 +16,15 @@ import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import Link from "@material-ui/core/Link";
 import Main from "./Main";
 import NestedList from "./sidebar/NestedList";
+import { DataContext } from "./DataContext";
+import Button from '@material-ui/core/Button';
+import RotateLeftIcon from '@material-ui/icons/RotateLeft';
 import Header from "./Header";
 // import InputBase from "@material-ui/core/InputBase";
 // import SearchIcon from "@material-ui/icons/Search";
 import logo from "../Images/logo.png";
 import Search from "./Search";
+import Movies from "./Movies";
 
 const drawerWidth = 240;
 
@@ -38,6 +42,9 @@ const useStyles = makeStyles((theme) => ({
     color: "rgb(255, 223, 222)",
     padding: "0 8px",
     ...theme.mixins.toolbar,
+  },
+  rotateLeftIcon: {
+    color: '#b597c2',
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
@@ -62,6 +69,9 @@ const useStyles = makeStyles((theme) => ({
   },
   menuButtonHidden: {
     display: "none",
+  },
+  resetButton: {
+    backgroundColor: 'pink',
   },
   title: {
     fontWeight: "bold",
@@ -162,6 +172,8 @@ const useStyles = makeStyles((theme) => ({
 export default function Dashboard() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
+  const {onResetFilter} = useContext(DataContext);
+
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -206,7 +218,7 @@ export default function Dashboard() {
                   display: "flex",
                 }}
               >
-                <img src={logo} width="50" height="50" />
+                <img src={logo} alt={logo} width="50" height="50" />
               </Link>
             </Typography>
             {/* <div className={classes.search}>
@@ -240,6 +252,12 @@ export default function Dashboard() {
           </IconButton>
         </div>
         <Divider />
+        <Button 
+          variant="contained" 
+          onClick={onResetFilter} 
+          className={classes.resetButton}>   
+        <RotateLeftIcon className={classes.rotateLeftIcon}/>
+        </Button>
         <NestedList />
       </Drawer>
       <main className={classes.content}>
