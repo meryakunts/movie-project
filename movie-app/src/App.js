@@ -7,6 +7,7 @@ import ForgotPasswordComponent from "./components/ForgotPasswordComponent";
 import AllShowing from "./components/AllShowing";
 import MoviePage from "./components/MoviePage";
 import Movies from "./components/Movies";
+import Shows from "./components/Shows";
 import TopShows from "./components/HomeTopshows";
 import TopMovies from "./components/HomeTopMovies";
 import Watchlist from "./components/HomeWatchlist";
@@ -55,6 +56,7 @@ function App() {
   useEffect(() => {
     let data = localStorage.getItem("user");
     const initialValue = JSON.parse(data);
+    console.log("data", data);
     if (initialValue) {
       setUser({ ...initialValue, signOut: signOutCallback });
     }
@@ -160,7 +162,11 @@ function App() {
           <Router>
             <Switch>
               {/* <Route exact path="/home" render={(props) => <Main />} /> */}
-              <Route exact path="/" render={(props) => <Dashboard />} />
+              <Route
+                exact
+                path="/"
+                render={(props) => <Dashboard type={"main"} {...props} />}
+              />
               <Route
                 path="/signin"
                 render={(props) => (
@@ -171,16 +177,32 @@ function App() {
                 <Route path="/signup" component={SignUpComponent}></Route>
               )}
               {user.isLogged && (
-                <Route path="/movies" component={Movies}></Route>
+                <Route
+                  path="/movies"
+                  render={(props) => <Dashboard type={"movies"} {...props} />}
+                ></Route>
               )}
-              {!user.isLogged && (
-                <Route path="/topshows" component={TopShows}></Route>
+              {user.isLogged && (
+                <Route
+                  path="/shows"
+                  render={(props) => <Dashboard type={"shows"} {...props} />}
+                ></Route>
               )}
-              {!user.isLogged && (
-                <Route path="/topmovies" component={TopMovies}></Route>
+              {user.isLogged && (
+                <Route
+                  path="/watchlist"
+                  render={(props) => (
+                    <Dashboard type={"watchlist"} {...props} />
+                  )}
+                ></Route>
               )}
-              {!user.isLogged && (
-                <Route path="/watchlist" component={Watchlist}></Route>
+              {user.isLogged && (
+                <Route
+                  path="/favorites"
+                  render={(props) => (
+                    <Dashboard type={"favorites"} {...props} />
+                  )}
+                ></Route>
               )}
               {user.isLogged && (
                 <Route path="/allshowing" component={AllShowing}></Route>

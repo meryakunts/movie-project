@@ -14,6 +14,8 @@ import { AuthContext } from "./UserContext";
 import "../sharedComponents/styles.css";
 import Movies from "./Movies";
 import { useHistory } from "react-router-dom";
+import Tooltip from "@material-ui/core/Tooltip";
+import Zoom from "@material-ui/core/Zoom";
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -127,10 +129,6 @@ export default function Header(props) {
     login.signOut();
   };
 
-  const hello = () => {
-    history.push("/movies");
-  };
-
   const menuId = "primary-search-account-menu";
   const renderMenu = (
     <Menu
@@ -187,9 +185,7 @@ export default function Header(props) {
           {!login.isLogged ? (
             <Link href="/signin">Movies</Link>
           ) : (
-            <Link href="/movies" onClick={hello}>
-              Movies
-            </Link>
+            <Link href="/movies">Movies</Link>
           )}
         </Typography>
         <Typography className="subTitles" variant="h5" noWrap>
@@ -214,16 +210,20 @@ export default function Header(props) {
           )}
         </Typography>
         {login.isLogged && (
-          <IconButton
-            edge="end"
-            aria-label="account of current user"
-            aria-controls={menuId}
-            aria-haspopup="true"
-            onClick={handleProfileMenuOpen}
-            color="inherit"
-          >
-            <AccountCircle />
-          </IconButton>
+          <div>
+            <Tooltip TransitionComponent={Zoom} title={login.email} arrow>
+              <IconButton
+                edge="end"
+                aria-label="account of current user"
+                aria-controls={menuId}
+                aria-haspopup="true"
+                onClick={handleProfileMenuOpen}
+                color="inherit"
+              >
+                <AccountCircle />
+              </IconButton>
+            </Tooltip>
+          </div>
         )}
         <Typography className="subTitles" variant="h5" noWrap>
           {!login.isLogged && <Link href="/signin">Sign In</Link>}

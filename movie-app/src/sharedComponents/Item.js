@@ -8,7 +8,7 @@ export default styled.div`
   width: 100%;
   background-color: transparent;
   color: #fff;
-  margin: 15px;
   font-size: 4em;
+  margin: 10px;
   transition: all 0.5s ease-out;
 `;
