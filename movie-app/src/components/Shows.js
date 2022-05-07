@@ -13,13 +13,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Movies() {
+function Shows() {
   const data = useContext(DataContext);
   const classes = useStyles();
   return (
     <Container className={classes.cardGrid} maxWidth="xl">
       <Grid container spacing={3}>
-        {data.moviesData.map((item) => {
+        {data.showsData.map((item) => {
           return (
             <Grid item key={item.id} xs={12} sm={6} md={3}>
               <Item key={item.id}>
@@ -33,4 +33,4 @@ function Movies() {
   );
 }
 
-export default Movies;
+export default Shows;
