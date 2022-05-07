@@ -44,6 +44,11 @@ body {
   color: #fff;
   background-color: #407abf;
   box-shadow: 0 0 2px 0 #333;
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  line-height: 40px;
+  font-size: 1.2em;
 }
 
 .CarouselComponent .rec-arrow:focus {
