@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import CarouselComponent from "../sharedComponents/CarouselComponent";
 import { makeStyles } from "@material-ui/core/styles";
 import { DataContext } from "./DataContext";
@@ -14,8 +14,8 @@ const useStyles = makeStyles((theme) => ({
     "& h2": {
       margin: "5px 0",
       fontWeight: "normal",
-      color: "rgba(0, 0, 0, 0.87)"
-    }
+      color: "rgba(0, 0, 0, 0.87)",
+    },
   },
 }));
 
@@ -23,13 +23,13 @@ function Main() {
   const classes = useStyles();
   return (
     <div className={classes.mainContent}>
-          <div>
-            <h2>Watch Movies Online</h2>
-            <CarouselComponent type="movies" />
-            <h2>Watch Shows Online</h2>
-            <CarouselComponent type="shows" />
-          </div>
-        </div>
+      <div>
+        <h2>Watch Movies Online</h2>
+        <CarouselComponent type="movies" />
+        <h2>Watch Shows Online</h2>
+        <CarouselComponent type="shows" />
+      </div>
+    </div>
   );
 }
 

@@ -5,6 +5,7 @@ import SignUpComponent from "./components/SignUpComponent";
 import Main from "./components/Main";
 import ForgotPasswordComponent from "./components/ForgotPasswordComponent";
 import AllShowing from "./components/AllShowing";
+import MoviePage from "./components/MoviePage";
 import Movies from "./components/Movies";
 import Shows from "./components/Shows";
 import TopShows from "./components/HomeTopshows";
@@ -55,7 +56,7 @@ function App() {
   useEffect(() => {
     let data = localStorage.getItem("user");
     const initialValue = JSON.parse(data);
-    console.log("data", data)
+    console.log("data", data);
     if (initialValue) {
       setUser({ ...initialValue, signOut: signOutCallback });
     }
@@ -205,6 +206,9 @@ function App() {
               )}
               {user.isLogged && (
                 <Route path="/allshowing" component={AllShowing}></Route>
+              )}
+              {user.isLogged && (
+                <Route path="/moviepage" component={MoviePage}></Route>
               )}
               {!user.isLogged && (
                 <Route

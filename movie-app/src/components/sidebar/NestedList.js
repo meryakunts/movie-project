@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) =>
       position: "fixed",
       left: "10px",
       top: "22px",
-      color: "#ffffff"
+      color: "#ffffff",
     },
     // menuButton: {
     //   marginRight: theme.spacing(5),
@@ -58,7 +58,7 @@ export default function NestedList() {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = useState(false);
-  const {filterFunc} = useContext(DataContext);
+  const { filterFunc } = useContext(DataContext);
 
   // const handleDrawerOpen = () => {
   //   setOpen(true);
@@ -93,7 +93,7 @@ export default function NestedList() {
         "Thriller",
         "Adventure",
         "Sci-fi",
-        "Fantasy"
+        "Fantasy",
       ],
     },
     // {
@@ -107,10 +107,10 @@ export default function NestedList() {
       name: "year",
       Icon: TheatersIcon,
       items: [
-        {name: "2020 & Newer", filterBy: {from: 2020, to: null}}, 
-        {name: "2010-2019", filterBy: {from: 2010, to: 2019}}, 
-        {name: "2001-2009", filterBy: {from: 2001, to: 2009}}, 
-        {name:"2000 & Older", filterBy: {from: null, to: 2000}}
+        { name: "2020 & Newer", filterBy: { from: 2020, to: null } },
+        { name: "2010-2019", filterBy: { from: 2010, to: 2019 } },
+        { name: "2001-2009", filterBy: { from: 2001, to: 2009 } },
+        { name: "2000 & Older", filterBy: { from: null, to: 2000 } },
       ],
     },
     { title: "rating",
@@ -126,16 +126,16 @@ export default function NestedList() {
       name: "price",
       Icon: CreditCardIcon,
       items: [
-        {name: "19.99 or Less", filterBy: 19.99},
-        {name: "9.99 or Less", filterBy: 9.99},
-        {name: "4.99 or Less", filterBy: 4.99},
+        { name: "19.99 or Less", filterBy: 19.99 },
+        { name: "9.99 or Less", filterBy: 9.99 },
+        { name: "4.99 or Less", filterBy: 4.99 },
       ],
     },
   ];
 
   const handleItemClick = (filter) => {
     filterFunc(filter);
-  }
+  };
 
   return (
     <>
@@ -177,7 +177,11 @@ export default function NestedList() {
           className={classes.root}
         >
           {list.map((item) => (
-            <SimpleList onItemClick={handleItemClick} key={item.title} data={item} />
+            <SimpleList
+              onItemClick={handleItemClick}
+              key={item.title}
+              data={item}
+            />
           ))}
         </List>
       </div>

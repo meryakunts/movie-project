@@ -43,9 +43,9 @@ const useStyles = makeStyles((theme) => ({
     "& h2": {
       color: "#4a6cca",
       fontSize: "1.2rem",
-      fontWeight: "normal"
-    }
-  }
+      fontWeight: "normal",
+    },
+  },
 }));
 
 function Data() {
@@ -90,7 +90,7 @@ function Data() {
           })}
         {!isNotEmpty && (
           <div className={classes.noData}>
-             <img src={noitem} width="150" height="150"  alt={"not found item"}/>
+            <img src={noitem} width="150" height="150" alt={"not found item"} />
             <h2>Sorry, no results found.</h2>
           </div>
         )}

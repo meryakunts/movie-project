@@ -14,6 +14,8 @@ import Tooltip from "@material-ui/core/Tooltip";
 import Zoom from "@material-ui/core/Zoom";
 import "./styles.css";
 import DialogComponent from "./DialogComponent";
+import { OpenInBrowser, OpenInNew } from "@material-ui/icons";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 const useStyles = makeStyles({
   root: {
@@ -37,56 +39,77 @@ function CardComponent(props) {
 
   return (
     <Card className={classes.root}>
-      <CardActionArea>
-        <CardMedia
-          component="img"
-          alt="Contemplative Reptile"
-          height="140"
-          image="https://images.cdn1.stockunlimited.net/preview1300/film-reel-with-popcorn_1972467.jpg"
-          title={name}
-          className="cardTitle"
-        />
-        <CardContent>
-          <Typography
-            gutterBottom
-            variant="h5"
-            component="h2"
+      <Link
+        to="/moviepage"
+        style={{ textDecoration: "none" }}
+        state={{ from: "Main" }}
+      >
+        <CardActionArea>
+          <CardMedia
+            component="img"
+            alt="Contemplative Reptile"
+            height="140"
+            image="https://images.cdn1.stockunlimited.net/preview1300/film-reel-with-popcorn_1972467.jpg"
+            title={name}
             className="cardTitle"
-          >
-            <span className="textEllipsis gray-text">{name}</span>
-          </Typography>
-          <Typography variant="body2" color="textSecondary" component="p">
-            <span className="textEllipsis gray-text">{description}</span>
-          </Typography>
-        </CardContent>
-      </CardActionArea>
-      <CardActions>
-        <div className="flex-btw">
-          <div>
-            <Tooltip TransitionComponent={Zoom} title="add to favorites" arrow>
-              <IconButton aria-label="add to favorites">
-                <FavoriteBorderIcon />
-              </IconButton>
-            </Tooltip>
-            <Tooltip TransitionComponent={Zoom} title="add to watchlist" arrow>
-              <IconButton aria-label="aadd to watchlist">
-                <AddToQueueOutlinedIcon />
-              </IconButton>
-            </Tooltip>
-          </div>
-          <div>
-            <Tooltip TransitionComponent={Zoom} title="more information" arrow>
-              <IconButton
-                aria-label="more information"
-                onClick={handleClickOpen}
+          />
+          <CardContent>
+            <Typography
+              gutterBottom
+              variant="h5"
+              component="h2"
+              className="cardTitle"
+            >
+              <span className="textEllipsis gray-text">{name}</span>
+            </Typography>
+            <Typography variant="body2" color="textSecondary" component="p">
+              <span className="textEllipsis gray-text">{description}</span>
+            </Typography>
+          </CardContent>
+        </CardActionArea>
+        <CardActions>
+          <div className="flex-btw">
+            <div>
+              <Tooltip
+                TransitionComponent={Zoom}
+                title="add to favorites"
+                arrow
               >
-                <InfoOutlinedIcon />
-              </IconButton>
-            </Tooltip>
+                <IconButton aria-label="add to favorites" color="inherit">
+                  <FavoriteBorderIcon />
+                </IconButton>
+              </Tooltip>
+              <Tooltip
+                TransitionComponent={Zoom}
+                title="add to watchlist"
+                arrow
+              >
+                <IconButton color="primary" aria-label="aadd to watchlist">
+                  <AddToQueueOutlinedIcon />
+                </IconButton>
+              </Tooltip>
+            </div>
+            <div>
+              <Tooltip
+                TransitionComponent={Zoom}
+                title="more information"
+                arrow
+              >
+                <IconButton
+                  color="primary"
+                  aria-label="more information"
+                  onClick={handleClickOpen}
+                >
+                  <InfoOutlinedIcon />
+                </IconButton>
+              </Tooltip>
+            </div>
           </div>
-        </div>
-      </CardActions>
-      {open && <DialogComponent onClose={handleClose} data={props.itemData} />}
+        </CardActions>
+        {open && (
+          <DialogComponent onClose={handleClose} data={props.itemData} />
+        )}
+      </Link>
     </Card>
   );
 }
