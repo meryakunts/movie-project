@@ -6,7 +6,7 @@ import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
 import ReactPlayer from "react-player";
-import { Gradient } from "@material-ui/icons";
+import { Gradient, LocalPrintshopSharp } from "@material-ui/icons";
 import { DataContext } from "../components/DataContext";
 import ArrowBackRoundedIcon from "@material-ui/icons/ArrowBackRounded";
 import { useLocation } from "react-router-dom";
@@ -64,6 +64,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function MoviePage(props) {
   const classes = useStyles();
+  console.log("props", LocalPrintshopSharp)
   // const location = useLocation();
   // const { from } = location.state;
 

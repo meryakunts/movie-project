@@ -17,6 +17,10 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
+    background: "#f4fbffe8",
+    padding: theme.spacing(2),
+    borderRadius: "4px",
+    boxShadow: "rgb(0 0 0 / 25%) 0px 14px 28px, rgb(0 0 0 / 22%) 0px 10px 10px"
   },
   avatar: {
     margin: theme.spacing(1),
@@ -28,6 +32,7 @@ const useStyles = makeStyles((theme) => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
+    background: "linear-gradient(to right top, hsl(236, 50%, 50%), hsl(195, 50%, 50%))",
   },
 }));
 
