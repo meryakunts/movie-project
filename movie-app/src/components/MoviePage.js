@@ -5,7 +5,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
-import ReactPlayer from "react-player";
+// import ReactPlayer from "react-player";
+import ReactPlayer from 'react-player/youtube'
 import { Gradient, LocalPrintshopSharp } from "@material-ui/icons";
 import { DataContext } from "../components/DataContext";
 import ArrowBackRoundedIcon from "@material-ui/icons/ArrowBackRounded";
@@ -15,87 +16,81 @@ const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
     justifyContent: "center",
-    background:
-      "linear-gradient(to right bottom, hsl(220, 80%, 10%), hsl(195, 50%, 50%))",
-  },
-  body: {
-    backgroundImage: `url("https://cdn.discordapp.com/attachments/521049144740020234/971398550799941662/movie-image.png")`,
-    backgroundSize: "cover",
-    backgroundPositionY: "bottom",
-    width: "100%",
+    flexDirection: "column",
+    alignItems: "center",
   },
   title: {
-    color: "#08c0e8",
-    marginTop: "50%",
-    marginLeft: "2%",
-    fontSize: "40px",
-  },
-  container: {
-    display: "flex",
-    flexDirection: "column",
-    boxShadow: "0px 0px 10px",
-    background: "#14324c",
-    width: "55%",
+    fontSize: "1.6rem",
+    margin: "10px",
+    color: "#4069bf"
   },
   description: {
-    margin: "2% 10%",
-    fontSize: "18px",
-    color: "white",
+    fontSize: "1rem",
+    color: "#222",
+    margin: "5px",
+    textAlign: "center"
   },
   details: {
-    marginLeft: "8%",
-    color: "#608bb1",
-    fontSize: "14px",
-  },
-  backArrow: {
-    color: "white",
-    fontSize: "48px",
-    "&:hover": {
-      color: "#3972a0",
-    },
-    trailer: {
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      flex: "1",
+    color: "#222",
+    fontSize: "1rem",
+    display: "flex",
+    flexDirection: "column",
+    margin: "5px",
+    "& span": {
+      padding: "3px",
+      lineHeight: "1.2"
     },
   },
+  trailer: {
+    padding: "5px 0",
+    "& div": {
+      width: "100% !important",
+      height: "100%",
+    }
+  }
 }));
 
 export default function MoviePage(props) {
   const classes = useStyles();
-  console.log("props", LocalPrintshopSharp)
+  const {
+    description,
+    name,
+    title,
+    genre,
+    price,
+    rating,
+    src,
+    stars,
+    trailer,
+    year,
+  } = props.data;
+
+  // console.log("props", LocalPrintshopSharp)
   // const location = useLocation();
   // const { from } = location.state;
 
-  const handleArrow = () => {
-    // console.log(props.location);
-    props.history.goBack();
-  };
+  // const handleArrow = () => {
+  //   // console.log(props.location);
+  //   props.history.goBack();
+  // };
 
   return (
     <div className={classes.root}>
-      <div className={classes.container}>
-        <div className={classes.body}>
-          <ArrowBackRoundedIcon
-            className={classes.backArrow}
-            onClick={handleArrow}
-          />
-          <h1 className={classes.title}>Movie Name</h1>
+      <div>
+        <div>
+          <h1 className={classes.title}>{name}</h1>
+          <img src={src} alt={title} width="100%" height="100%" />
         </div>
+        <p className={classes.description}>{description}</p>
         <p className={classes.details}>
-          stars over here | year: 0000 | Rating: 0 | Price: 0
-        </p>
-        <p className={classes.description}>
-          Movie description here. Movie description here. Movie description
-          here. Movie description here. Movie description here. Movie
-          description here. Movie description here. Movie description here.
+          <span>Genre: {genre}</span>
+          <span> Year: {year}</span>
+          <span>Stars: {stars}</span>
+          <span>Rating: {rating}</span>
+          <span>Price: {price}</span>
         </p>
         <div className={classes.trailer}>
-          <ReactPlayer
-            url="https://www.youtube.com/watch?v=oUFJJNQGwhk"
-            style={{ margin: "auto" }}
-          />
+          <ReactPlayer url={trailer} style={{ margin: "auto" }} />
         </div>
       </div>
     </div>

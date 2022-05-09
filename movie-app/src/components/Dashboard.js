@@ -35,6 +35,10 @@ import Shows from "./Shows";
 import Favorites from "./Favorites";
 import Watchlist from "./Watchlist";
 import { AuthContext } from "./UserContext";
+import MoviePage from "./MoviePage";
+import KeyboardBackspaceOutlinedIcon from "@material-ui/icons/KeyboardBackspaceOutlined";
+import Tooltip from "@material-ui/core/Tooltip";
+import Zoom from "@material-ui/core/Zoom";
 
 const drawerWidth = 240;
 
@@ -167,13 +171,13 @@ const useStyles = makeStyles((theme) => ({
     background: "rgb(255, 255, 255)",
     "& div": {
       minHeight: "100%",
-      padding: "10px"
+      padding: "10px",
     },
     "& p": {
       margin: "0",
       lineHeight: "1",
-      fontSize: "1rem"
-    }
+      fontSize: "1rem",
+    },
   },
   icon: {
     marginRight: theme.spacing(2),
@@ -200,15 +204,12 @@ const useStyles = makeStyles((theme) => ({
     background: "red",
   },
   backBtn: {
-    background:
-      "linear-gradient(to right top, hsl(236, 50%, 50%), hsl(195, 50%, 50%))",
-    color: "white",
+    color: "#4069bf",
     fontWeight: "bold",
-    padding: " 6px 12px",
+    padding: "5px",
     position: "absolute",
-    right: "0",
+    left: "0",
     top: "5%",
-    borderRadius: "0",
   },
   cardMedia: {
     paddingTop: "56.25%", // 16:9
@@ -261,13 +262,15 @@ const useStyles = makeStyles((theme) => ({
 export default function Dashboard(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
-  const { onResetFilter, searchFunc, searchString } = useContext(DataContext);
+  const { onResetFilter, searchFunc, searchString, clickedData, itemClicked } =
+    useContext(DataContext);
   const { email } = useContext(AuthContext);
   const isMovies = props.type === "movies";
   const isMain = props.type === "main";
   const isShows = props.type === "shows";
   const isFavorites = props.type === "favorites";
   const isWatchlist = props.type === "watchlist";
+
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -385,15 +388,25 @@ export default function Dashboard(props) {
                   </AppBar>
                   <div className={classes.heroContent}>
                     <Container maxWidth="md">
-                      {searchString && (
-                        <Button
-                          variant="contained"
-                          onClick={() => searchFunc("")}
-                          className={classes.backBtn}
-                        >
-                          go back
-                        </Button>
-                      )}
+                      {searchString ||
+                        (clickedData && (
+                          <Tooltip
+                            TransitionComponent={Zoom}
+                            title="go back"
+                            arrow
+                          >
+                            <IconButton
+                              variant="contained"
+                              onClick={() => {
+                                searchFunc("");
+                                itemClicked(null);
+                              }}
+                              className={classes.backBtn}
+                            >
+                              <KeyboardBackspaceOutlinedIcon />
+                            </IconButton>
+                          </Tooltip>
+                        ))}
                       <Typography
                         component="h2"
                         variant="h2"
@@ -418,7 +431,9 @@ export default function Dashboard(props) {
                     </Container>
                   </div>
                   <div>
-                    {searchString != "" ? (
+                    {clickedData ? (
+                      <MoviePage data={clickedData} />
+                    ) : searchString != "" ? (
                       <div>
                         <Data />
                       </div>

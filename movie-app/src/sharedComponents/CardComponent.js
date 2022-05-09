@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
@@ -16,6 +16,8 @@ import "./styles.css";
 import DialogComponent from "./DialogComponent";
 import { OpenInBrowser, OpenInNew } from "@material-ui/icons";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import MoviePage from "../components/MoviePage";
+import { DataContext } from "../components/DataContext";
 
 const useStyles = makeStyles({
   root: {
@@ -26,24 +28,28 @@ const useStyles = makeStyles({
 function CardComponent(props) {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
+  const [clicked, setClicked] = useState(false);
+  const {itemClicked} = useContext(DataContext);
 
-  const handleClickOpen = () => {
+  const handleClickOpen = (e) => {
     setOpen(true);
+    e.stopPropagation();
   };
 
-  const handleClose = () => {
+  const handleClose = (e) => {
     setOpen(false);
+    e.stopPropagation();
+  };
+
+  const handleClickItem = () => {
+    itemClicked(props.itemData)
   };
 
   const { description, name } = props.itemData;
 
   return (
-    <Card className={classes.root}>
-      <Link
-        to="/moviepage"
-        style={{ textDecoration: "none" }}
-        state={{ from: "Main" }}
-      >
+    <div>
+      <Card className={classes.root} onClick={handleClickItem}>
         <CardActionArea>
           <CardMedia
             component="img"
@@ -109,8 +115,8 @@ function CardComponent(props) {
         {open && (
           <DialogComponent onClose={handleClose} data={props.itemData} />
         )}
-      </Link>
-    </Card>
+      </Card>
+    </div>
   );
 }
 
