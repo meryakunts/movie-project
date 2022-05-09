@@ -60,21 +60,7 @@ export default function NestedList() {
   const [open, setOpen] = useState(false);
   const {filterFunc} = useContext(DataContext);
 
-  // const handleDrawerOpen = () => {
-  //   setOpen(true);
-  // };
-
-  // const handleDrawerClose = () => {
-  //   setOpen(false);
-  // };
-
   const list = [
-    // {
-    //   title: "SORT BY",
-    //   name: "sort",
-    //   Icon: SortIcon,
-    //   items: ["Popular", "New Releases", "Recently Added", "IMDb Rating"],
-    // },
     {
       title: "source",
       name: "source",
@@ -96,12 +82,6 @@ export default function NestedList() {
         "Fantasy"
       ],
     },
-    // {
-    //   title: "NEW RELEASES",
-    //   name: "newReleases",
-    //   Icon: FiberNewIcon,
-    //   items: ["Last 3 months", "Last 6 months", "Last 9 months"],
-    // },
     {
       title: "year",
       name: "year",
@@ -120,7 +100,7 @@ export default function NestedList() {
         {name: "From 1 to 4.99", filterBy: {from: 1, to: 4.99}},
         {name: "From 5 to 6.99", filterBy: {from: 5, to: 6.99}},
         {name: "From 7 to 10", filterBy: {from: 7, to: 10}}
-      ] },
+      ]},
     {
       title: "price",
       name: "price",
@@ -139,15 +119,6 @@ export default function NestedList() {
 
   return (
     <>
-      {/* <IconButton
-        color="inherit"
-        aria-label="open drawer"
-        onClick={handleDrawerOpen}
-        edge="start"
-        className={clsx(classes.menuButton, open && classes.hide)}
-      >
-      <MenuIcon className={classes.menuIcon}/>
-      </IconButton> */}
       <div
         className={classes.drawer}
         variant="persistent"
@@ -157,23 +128,9 @@ export default function NestedList() {
           paper: classes.drawerPaper,
         }}
       >
-        {/* <div className={classes.drawerHeader}>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === "ltr" ? (
-              <ChevronLeftIcon />
-            ) : (
-              <ChevronRightIcon />
-            )}
-          </IconButton>
-        </div> */}
         <List
           component="nav"
           aria-labelledby="nested-list-subheader"
-          // subheader={
-          //   <ListSubheader component="div" id="nested-list-subheader">
-          //     FILTER
-          //   </ListSubheader>
-          // }
           className={classes.root}
         >
           {list.map((item) => (

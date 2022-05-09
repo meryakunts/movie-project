@@ -33,7 +33,7 @@ function CardComponent(props) {
     setOpen(false);
   };
 
-  const { description, name } = props.itemData;
+  const { description, name, src } = props.itemData;
 
   return (
     <Card className={classes.root}>
@@ -42,7 +42,7 @@ function CardComponent(props) {
           component="img"
           alt="Contemplative Reptile"
           height="140"
-          image="https://images.cdn1.stockunlimited.net/preview1300/film-reel-with-popcorn_1972467.jpg"
+          image={src ? src : "https://images.cdn1.stockunlimited.net/preview1300/film-reel-with-popcorn_1972467.jpg"}
           title={name}
           className="cardTitle"
         />
