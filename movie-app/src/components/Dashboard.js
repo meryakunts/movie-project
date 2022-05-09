@@ -388,25 +388,42 @@ export default function Dashboard(props) {
                   </AppBar>
                   <div className={classes.heroContent}>
                     <Container maxWidth="md">
-                      {searchString ||
-                        (clickedData && (
-                          <Tooltip
-                            TransitionComponent={Zoom}
-                            title="go back"
-                            arrow
+                      {searchString && (
+                        <Tooltip
+                          TransitionComponent={Zoom}
+                          title="go back"
+                          arrow
+                        >
+                          <IconButton
+                            variant="contained"
+                            onClick={() => {
+                              searchFunc("");
+                              itemClicked(null);
+                            }}
+                            className={classes.backBtn}
                           >
-                            <IconButton
-                              variant="contained"
-                              onClick={() => {
-                                searchFunc("");
-                                itemClicked(null);
-                              }}
-                              className={classes.backBtn}
-                            >
-                              <KeyboardBackspaceOutlinedIcon />
-                            </IconButton>
-                          </Tooltip>
-                        ))}
+                            <KeyboardBackspaceOutlinedIcon />
+                          </IconButton>
+                        </Tooltip>
+                      )}
+                      {clickedData && (
+                        <Tooltip
+                          TransitionComponent={Zoom}
+                          title="go back"
+                          arrow
+                        >
+                          <IconButton
+                            variant="contained"
+                            onClick={() => {
+                              searchFunc("");
+                              itemClicked(null);
+                            }}
+                            className={classes.backBtn}
+                          >
+                            <KeyboardBackspaceOutlinedIcon />
+                          </IconButton>
+                        </Tooltip>
+                      )}
                       <Typography
                         component="h2"
                         variant="h2"
