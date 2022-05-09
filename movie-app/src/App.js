@@ -113,32 +113,27 @@ function App() {
     } else if (filterKey === "price") {
       filteredData = allData.map((data) => {
         if (filterOption[1] === "free") {
-          return movies.filter((movie) => {
-            return movie[filterKey] === "free";
-          });
+         return data.filter(item => {
+            return item[filterKey] === "free";
+          })
         } else if (filterOption[1] === "buy") {
-          return movies.filter((movie) => {
-            return movie[filterKey] !== "free";
-          });
+          return data.filter(item => {
+             return item[filterKey] !== "free";
+           })
         } else {
-          return movies.filter((movie) => {
-            return (
-              movie[filterKey] === "free" ||
-              +movie[filterKey].slice(1) <= filterOption[1]
-            );
-          });
+          return data.filter(item => {
+            return (item[filterKey] === "free" || +item[filterKey].slice(1) <= filterOption[1]);
+          })
         }
-      });
-    } else if (filterKey === "rating") {
-      filteredData = allData.map((data) => {
-        return data.filter((item) => {
-          return (
-            +item[filterKey] >= filterOption[1].from &&
-            +item[filterKey] <= filterOption[1].to
-          );
-        });
-      });
+      })
+      } else if (filterKey === "rating") {
+        filteredData = allData.map(data => {
+          return data.filter(item => {
+              return +item[filterKey] >= filterOption[1].from && +item[filterKey] <= filterOption[1].to
+          }) 
+      })
     }
+    console.log(filterOption)
     setDataState();
   };
 
