@@ -19,14 +19,17 @@ import db from "./firebase";
 import { onSnapshot, collection } from "firebase/firestore";
 import Dashboard from "./components/Dashboard";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { useHistory } from "react-router-dom";
 
 function App() {
+  let history = useHistory();
   const [user, setUser] = useState(userLogin);
   const [movies, setMovies] = useState([]);
   const [filteredMovies, setfilteredMovies] = useState([]);
   const [shows, setShows] = useState([]);
   const [filteredShows, setfilteredShows] = useState([]);
   const [searchedString, setSearchedString] = useState("");
+  const [itemclickedData, setItemclickedData] = useState(null);
 
   useEffect(
     () =>
@@ -147,6 +150,10 @@ function App() {
     setSearchedString(str);
   };
 
+  const handleClick = (item) => {
+    setItemclickedData(item);
+  };
+
   return (
     <>
       <AuthContext.Provider value={user}>
@@ -158,6 +165,8 @@ function App() {
             onResetFilter: resetFilters,
             searchFunc: handleSearch,
             searchString: searchedString,
+            itemClicked: handleClick,
+            clickedData: itemclickedData,
           }}
         >
           <Router>
@@ -175,7 +184,12 @@ function App() {
                 )}
               />
               {!user.isLogged && (
-                <Route path="/signup" component={SignUpComponent}></Route>
+                <Route
+                  path="/signup"
+                  render={(props) => (
+                    <SignUpComponent setLogIn={setLoggedInUser} {...props} />
+                  )}
+                ></Route>
               )}
               {user.isLogged && (
                 <Route

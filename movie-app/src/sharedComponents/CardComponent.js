@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
@@ -18,6 +18,10 @@ import { OpenInBrowser, OpenInNew } from "@material-ui/icons";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { userLogin } from "../components/UserContext";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import MoviePage from "../components/MoviePage";
+import { DataContext } from "../components/DataContext";
+import { AuthContext } from "../components/UserContext";
+import { useHistory } from "react-router-dom";
 import db from "../firebase";
 import {
   collection,
@@ -41,6 +45,7 @@ function CardComponent(props) {
   const [currentUser, setCurrentUser] = useState("");
   const [userFavorites, setUserFavorites] = useState("");
   const [userWatchlist, setUserWatchlist] = useState("");
+  const [clicked, setClicked] = useState(false);
   const auth = getAuth();
 
   onAuthStateChanged(auth, (user) => {
@@ -53,12 +58,25 @@ function CardComponent(props) {
     }
   });
 
-  const handleClickOpen = () => {
+  const { itemClicked } = useContext(DataContext);
+  let history = useHistory();
+  const { isLogged } = useContext(AuthContext);
+
+  const handleClickOpen = (e) => {
     setOpen(true);
+    e.stopPropagation();
   };
 
-  const handleClose = () => {
+  const handleClose = (e) => {
     setOpen(false);
+    e.stopPropagation();
+  };
+
+  const handleClickItem = () => {
+    itemClicked(props.itemData);
+    if (!isLogged) {
+      history.push("/signIn");
+    }
   };
 
   const { description, name, id } = props.itemData;
@@ -114,73 +132,89 @@ function CardComponent(props) {
   };
 
   return (
-    <Card className={classes.root}>
-      <CardActionArea>
-        <Link
-          to="/moviepage"
-          style={{ textDecoration: "none" }}
-          state={{ from: "Main" }}
-        >
-          <CardMedia
-            component="img"
-            alt="Contemplative Reptile"
-            height="140"
-            image="https://images.cdn1.stockunlimited.net/preview1300/film-reel-with-popcorn_1972467.jpg"
-            title={name}
-            className="cardTitle"
-          />
-          <CardContent>
-            <Typography
-              gutterBottom
-              variant="h5"
-              component="h2"
+    <div>
+      <Card className={classes.root} onClick={handleClickItem}>
+        <CardActionArea>
+          <Link
+            to="/moviepage"
+            style={{ textDecoration: "none" }}
+            state={{ from: "Main" }}
+          >
+            <CardMedia
+              component="img"
+              alt="Contemplative Reptile"
+              height="140"
+              image="https://images.cdn1.stockunlimited.net/preview1300/film-reel-with-popcorn_1972467.jpg"
+              title={name}
               className="cardTitle"
-            >
-              <span className="textEllipsis gray-text">{name}</span>
-            </Typography>
-            <Typography variant="body2" color="textSecondary" component="p">
-              <span className="textEllipsis gray-text">{description}</span>
-            </Typography>
-          </CardContent>
-        </Link>
-      </CardActionArea>
-      <CardActions>
-        <div className="flex-btw">
-          <div>
-            <Tooltip TransitionComponent={Zoom} title="add to favorites" arrow>
-              <IconButton
-                aria-label="add to favorites"
-                color="inherit"
-                onClick={handleFavorite}
+            />
+            <CardContent>
+              <Typography
+                gutterBottom
+                variant="h5"
+                component="h2"
+                className="cardTitle"
               >
-                <FavoriteBorderIcon />
-              </IconButton>
-            </Tooltip>
-            <Tooltip TransitionComponent={Zoom} title="add to watchlist" arrow>
-              <IconButton
-                color="primary"
-                aria-label="add to watchlist"
-                onClick={handleWatchlist}
+                <span className="textEllipsis gray-text">{name}</span>
+              </Typography>
+              <Typography variant="body2" color="textSecondary" component="p">
+                <span className="textEllipsis gray-text">{description}</span>
+              </Typography>
+            </CardContent>
+          </Link>
+        </CardActionArea>
+        <CardActions>
+          <div className="flex-btw">
+            <div>
+              <Tooltip
+                TransitionComponent={Zoom}
+                title="add to favorites"
+                arrow
               >
-                <AddToQueueOutlinedIcon />
-              </IconButton>
-            </Tooltip>
+                <IconButton
+                  aria-label="add to favorites"
+                  color="inherit"
+                  onClick={handleFavorite}
+                >
+                  <FavoriteBorderIcon />
+                </IconButton>
+              </Tooltip>
+              <Tooltip
+                TransitionComponent={Zoom}
+                title="add to watchlist"
+                arrow
+              >
+                <IconButton
+                  color="primary"
+                  aria-label="add to watchlist"
+                  onClick={handleWatchlist}
+                >
+                  <AddToQueueOutlinedIcon />
+                </IconButton>
+              </Tooltip>
+            </div>
+            <div>
+              <Tooltip
+                TransitionComponent={Zoom}
+                title="more information"
+                arrow
+              >
+                <IconButton
+                  color="primary"
+                  aria-label="more information"
+                  onClick={handleClickOpen}
+                >
+                  <InfoOutlinedIcon />
+                </IconButton>
+              </Tooltip>
+            </div>
           </div>
-          <div>
-            <Tooltip TransitionComponent={Zoom} title="more information" arrow>
-              <IconButton
-                color="primary"
-                aria-label="more information"
-                onClick={handleClickOpen}
-              >
-                <InfoOutlinedIcon />
-              </IconButton>
-            </Tooltip>
-          </div>
-        </div>
-      </CardActions>
-      {open && <DialogComponent onClose={handleClose} data={props.itemData} />}
-    </Card>
+        </CardActions>
+        {open && (
+          <DialogComponent onClose={handleClose} data={props.itemData} />
+        )}
+      </Card>
+    </div>
   );
 }
 

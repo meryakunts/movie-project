@@ -1,5 +1,13 @@
+html {
+  height: 100%;
+}
+
 body {
-  background-color: #f4fbff !important;
+  background-color: #b8d7e9 !important;
+  background-image: url(bg-img1.jpg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
 }
 
 .primaryColor {
