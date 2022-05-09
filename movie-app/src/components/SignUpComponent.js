@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function SignUpComponent() {
+function SignUpComponent(props) {
   let history = useHistory();
   const classes = useStyles();
 
@@ -49,7 +49,9 @@ function SignUpComponent() {
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
+        props.setLogIn({ name: user.uid, isLogged: true, email: user.email });
         history.push("/");
+
       })
       .catch((error) => {
         const errorCode = error.code;

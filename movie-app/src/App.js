@@ -151,8 +151,7 @@ function App() {
 
   const handleClick = (item) => {
     setItemclickedData(item);
-  }
-  
+  };
 
   return (
     <>
@@ -166,7 +165,7 @@ function App() {
             searchFunc: handleSearch,
             searchString: searchedString,
             itemClicked: handleClick,
-            clickedData: itemclickedData
+            clickedData: itemclickedData,
           }}
         >
           <Router>
@@ -184,7 +183,12 @@ function App() {
                 )}
               />
               {!user.isLogged && (
-                <Route path="/signup" component={SignUpComponent}></Route>
+                <Route
+                  path="/signup"
+                  render={(props) => (
+                    <SignUpComponent setLogIn={setLogedInUser} {...props} />
+                  )}
+                ></Route>
               )}
               {user.isLogged && (
                 <Route
