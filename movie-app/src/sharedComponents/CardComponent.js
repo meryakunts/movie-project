@@ -90,7 +90,7 @@ function CardComponent(props) {
 
   const handleFavorite = async () => {
     console.log(id);
-    const pickedItemId = id;
+    let pickedItemId = id;
     let alreadyAdded = false;
     userFavorites.map((item) => {
       if (item.id === pickedItemId) {
@@ -100,8 +100,10 @@ function CardComponent(props) {
     });
     // console.log(alreadyAdded);
     if (alreadyAdded) {
+      console.log("already added, deleting");
       return handleDeleteFave(pickedItemId);
     } else {
+      alreadyAdded = false;
       const collectionRef = collection(db, "favorites");
       const payload = { name, pickedItemId, currentUser, description };
       const docRef = await addDoc(collectionRef, payload);
@@ -133,35 +135,29 @@ function CardComponent(props) {
 
   return (
     <div>
-      <Card className={classes.root} onClick={handleClickItem}>
-        <CardActionArea>
-          <Link
-            to="/moviepage"
-            style={{ textDecoration: "none" }}
-            state={{ from: "Main" }}
-          >
-            <CardMedia
-              component="img"
-              alt="Contemplative Reptile"
-              height="140"
-              image="https://images.cdn1.stockunlimited.net/preview1300/film-reel-with-popcorn_1972467.jpg"
-              title={name}
+      <Card className={classes.root}>
+        <CardActionArea onClick={handleClickItem}>
+          <CardMedia
+            component="img"
+            alt="Contemplative Reptile"
+            height="140"
+            image="https://images.cdn1.stockunlimited.net/preview1300/film-reel-with-popcorn_1972467.jpg"
+            title={name}
+            className="cardTitle"
+          />
+          <CardContent>
+            <Typography
+              gutterBottom
+              variant="h5"
+              component="h2"
               className="cardTitle"
-            />
-            <CardContent>
-              <Typography
-                gutterBottom
-                variant="h5"
-                component="h2"
-                className="cardTitle"
-              >
-                <span className="textEllipsis gray-text">{name}</span>
-              </Typography>
-              <Typography variant="body2" color="textSecondary" component="p">
-                <span className="textEllipsis gray-text">{description}</span>
-              </Typography>
-            </CardContent>
-          </Link>
+            >
+              <span className="textEllipsis gray-text">{name}</span>
+            </Typography>
+            <Typography variant="body2" color="textSecondary" component="p">
+              <span className="textEllipsis gray-text">{description}</span>
+            </Typography>
+          </CardContent>
         </CardActionArea>
         <CardActions>
           <div className="flex-btw">
