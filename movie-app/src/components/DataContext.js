@@ -6,6 +6,8 @@ export const data = {
   filterFunc: () => {},
   searchFunc: () => {},
   searchString: "",
+  itemClicked: (item) => {},
+  clickedData: {}
 };
 
 export const DataContext = createContext(data);

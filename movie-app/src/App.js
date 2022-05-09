@@ -26,6 +26,7 @@ function App() {
   const [shows, setShows] = useState([]);
   const [filteredShows, setfilteredShows] = useState([]);
   const [searchedString, setSearchedString] = useState("");
+  const [itemclickedData, setItemclickedData] = useState(null);
 
   useEffect(
     () =>
@@ -146,6 +147,10 @@ function App() {
     setSearchedString(str);
   };
 
+  const handleClick = (item) => {
+    setItemclickedData(item)
+  }
+
   return (
     <>
       <AuthContext.Provider value={user}>
@@ -157,6 +162,8 @@ function App() {
             onResetFilter: resetFilters,
             searchFunc: handleSearch,
             searchString: searchedString,
+            itemClicked: handleClick,
+            clickedData: itemclickedData
           }}
         >
           <Router>
