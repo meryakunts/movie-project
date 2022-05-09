@@ -449,7 +449,7 @@ export default function Dashboard(props) {
                       >
                         {searchString != ""
                           ? " Search Results"
-                          : "Let's film together )"}
+                          : "Let's film together!"}
                       </Typography>
                       <Typography
                         variant="h5"

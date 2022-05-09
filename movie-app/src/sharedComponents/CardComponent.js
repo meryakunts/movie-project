@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
@@ -16,10 +16,22 @@ import "./styles.css";
 import DialogComponent from "./DialogComponent";
 import { OpenInBrowser, OpenInNew } from "@material-ui/icons";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { userLogin } from "../components/UserContext";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import MoviePage from "../components/MoviePage";
 import { DataContext } from "../components/DataContext";
 import { AuthContext } from "../components/UserContext";
 import { useHistory } from "react-router-dom";
+import db from "../firebase";
+import {
+  collection,
+  addDoc,
+  doc,
+  query,
+  where,
+  deleteDoc,
+  getDocs,
+} from "firebase/firestore";
 
 const useStyles = makeStyles({
   root: {
@@ -30,8 +42,23 @@ const useStyles = makeStyles({
 function CardComponent(props) {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
+  const [currentUser, setCurrentUser] = useState("");
+  const [userFavorites, setUserFavorites] = useState("");
+  const [userWatchlist, setUserWatchlist] = useState("");
   const [clicked, setClicked] = useState(false);
-  const {itemClicked} = useContext(DataContext);
+  const auth = getAuth();
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      const uid = user.uid;
+      setCurrentUser(uid);
+    } else {
+      const uid = "";
+      setCurrentUser(uid);
+    }
+  });
+
+  const { itemClicked } = useContext(DataContext);
   let history = useHistory();
   const { isLogged } = useContext(AuthContext);
 
@@ -48,21 +75,77 @@ function CardComponent(props) {
   const handleClickItem = () => {
     itemClicked(props.itemData);
     if (!isLogged) {
-      history.push("/signIn")
+      history.push("/signIn");
     }
   };
 
-  const { description, name, src } = props.itemData;
+  const { description, name, id, src } = props.itemData;
+
+  const handleDeleteFave = async (docId) => {
+    console.log("handling delete");
+    const docRef = doc(db, "favorites", docId);
+    deleteDoc(docRef);
+    currentFavorites();
+  };
+
+  const handleFavorite = async () => {
+    console.log(id);
+    let pickedItemId = id;
+    let alreadyAdded = false;
+    userFavorites.map((item) => {
+      if (item.id === pickedItemId) {
+        alreadyAdded = true;
+        return;
+      }
+    });
+    // console.log(alreadyAdded);
+    if (alreadyAdded) {
+      console.log("already added, deleting");
+      return handleDeleteFave(pickedItemId);
+    } else {
+      alreadyAdded = false;
+      const collectionRef = collection(db, "favorites");
+      const payload = { name, pickedItemId, currentUser, description };
+      const docRef = await addDoc(collectionRef, payload);
+      currentFavorites();
+    }
+  };
+
+  const currentFavorites = async () => {
+    const collectionRef = collection(db, "favorites");
+    const q = query(collectionRef, where("currentUser", "==", currentUser));
+    const snapshot = await getDocs(q);
+    const results = snapshot.docs.map((doc) => ({
+      ...doc.data(),
+      id: id,
+    }));
+    console.log(results);
+    setUserFavorites(results);
+  };
+
+  useEffect(() => {
+    // console.log(currentUser);
+    currentFavorites();
+  }, [currentUser]);
+
+  const handleWatchlist = (e) => {
+    console.log("added to watchlist");
+    console.log(id);
+  };
 
   return (
     <div>
-      <Card className={classes.root} onClick={handleClickItem}>
-        <CardActionArea>
+      <Card className={classes.root}>
+        <CardActionArea onClick={handleClickItem}>
           <CardMedia
             component="img"
             alt="Contemplative Reptile"
             height="140"
-            image={src ? src : "https://images.cdn1.stockunlimited.net/preview1300/film-reel-with-popcorn_1972467.jpg"}
+            image={
+              src
+                ? src
+                : "https://images.cdn1.stockunlimited.net/preview1300/film-reel-with-popcorn_1972467.jpg"
+            }
             title={name}
             className="cardTitle"
           />
@@ -88,7 +171,11 @@ function CardComponent(props) {
                 title="add to favorites"
                 arrow
               >
-                <IconButton aria-label="add to favorites" color="inherit">
+                <IconButton
+                  aria-label="add to favorites"
+                  color="inherit"
+                  onClick={handleFavorite}
+                >
                   <FavoriteBorderIcon />
                 </IconButton>
               </Tooltip>
@@ -97,7 +184,11 @@ function CardComponent(props) {
                 title="add to watchlist"
                 arrow
               >
-                <IconButton color="primary" aria-label="aadd to watchlist">
+                <IconButton
+                  color="primary"
+                  aria-label="add to watchlist"
+                  onClick={handleWatchlist}
+                >
                   <AddToQueueOutlinedIcon />
                 </IconButton>
               </Tooltip>
