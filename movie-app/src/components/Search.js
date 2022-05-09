@@ -59,6 +59,7 @@ function Search(props) {
       if (value !== "") {
         searchFunc(value)
       }
+     
     }
     // if (searchInput !== "") {
     //   const filteredData = allData.filter((item) => {

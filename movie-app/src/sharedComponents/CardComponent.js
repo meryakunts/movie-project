@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
@@ -14,6 +14,12 @@ import Tooltip from "@material-ui/core/Tooltip";
 import Zoom from "@material-ui/core/Zoom";
 import "./styles.css";
 import DialogComponent from "./DialogComponent";
+import { OpenInBrowser, OpenInNew } from "@material-ui/icons";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import MoviePage from "../components/MoviePage";
+import { DataContext } from "../components/DataContext";
+import { AuthContext } from "../components/UserContext";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles({
   root: {
@@ -24,70 +30,100 @@ const useStyles = makeStyles({
 function CardComponent(props) {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
+  const [clicked, setClicked] = useState(false);
+  const {itemClicked} = useContext(DataContext);
+  let history = useHistory();
+  const { isLogged } = useContext(AuthContext);
 
-  const handleClickOpen = () => {
+  const handleClickOpen = (e) => {
     setOpen(true);
+    e.stopPropagation();
   };
 
-  const handleClose = () => {
+  const handleClose = (e) => {
     setOpen(false);
+    e.stopPropagation();
+  };
+
+  const handleClickItem = () => {
+    itemClicked(props.itemData);
+    if (!isLogged) {
+      history.push("/signIn")
+    }
   };
 
   const { description, name, src } = props.itemData;
 
   return (
-    <Card className={classes.root}>
-      <CardActionArea>
-        <CardMedia
-          component="img"
-          alt="Contemplative Reptile"
-          height="140"
-          image={src ? src : "https://images.cdn1.stockunlimited.net/preview1300/film-reel-with-popcorn_1972467.jpg"}
-          title={name}
-          className="cardTitle"
-        />
-        <CardContent>
-          <Typography
-            gutterBottom
-            variant="h5"
-            component="h2"
+    <div>
+      <Card className={classes.root} onClick={handleClickItem}>
+        <CardActionArea>
+          <CardMedia
+            component="img"
+            alt="Contemplative Reptile"
+            height="140"
+            image="https://images.cdn1.stockunlimited.net/preview1300/film-reel-with-popcorn_1972467.jpg"
+            title={name}
             className="cardTitle"
-          >
-            <span className="textEllipsis gray-text">{name}</span>
-          </Typography>
-          <Typography variant="body2" color="textSecondary" component="p">
-            <span className="textEllipsis gray-text">{description}</span>
-          </Typography>
-        </CardContent>
-      </CardActionArea>
-      <CardActions>
-        <div className="flex-btw">
-          <div>
-            <Tooltip TransitionComponent={Zoom} title="add to favorites" arrow>
-              <IconButton aria-label="add to favorites">
-                <FavoriteBorderIcon />
-              </IconButton>
-            </Tooltip>
-            <Tooltip TransitionComponent={Zoom} title="add to watchlist" arrow>
-              <IconButton aria-label="aadd to watchlist">
-                <AddToQueueOutlinedIcon />
-              </IconButton>
-            </Tooltip>
-          </div>
-          <div>
-            <Tooltip TransitionComponent={Zoom} title="more information" arrow>
-              <IconButton
-                aria-label="more information"
-                onClick={handleClickOpen}
+          />
+          <CardContent>
+            <Typography
+              gutterBottom
+              variant="h5"
+              component="h2"
+              className="cardTitle"
+            >
+              <span className="textEllipsis gray-text">{name}</span>
+            </Typography>
+            <Typography variant="body2" color="textSecondary" component="p">
+              <span className="textEllipsis gray-text">{description}</span>
+            </Typography>
+          </CardContent>
+        </CardActionArea>
+        <CardActions>
+          <div className="flex-btw">
+            <div>
+              <Tooltip
+                TransitionComponent={Zoom}
+                title="add to favorites"
+                arrow
               >
-                <InfoOutlinedIcon />
-              </IconButton>
-            </Tooltip>
+                <IconButton aria-label="add to favorites" color="inherit">
+                  <FavoriteBorderIcon />
+                </IconButton>
+              </Tooltip>
+              <Tooltip
+                TransitionComponent={Zoom}
+                title="add to watchlist"
+                arrow
+              >
+                <IconButton color="primary" aria-label="aadd to watchlist">
+                  <AddToQueueOutlinedIcon />
+                </IconButton>
+              </Tooltip>
+            </div>
+            <div>
+              <Tooltip
+                TransitionComponent={Zoom}
+                title="more information"
+                arrow
+              >
+                <IconButton
+                  color="primary"
+                  aria-label="more information"
+                  onClick={handleClickOpen}
+                >
+                  <InfoOutlinedIcon />
+                </IconButton>
+              </Tooltip>
+            </div>
           </div>
-        </div>
-      </CardActions>
-      {open && <DialogComponent onClose={handleClose} data={props.itemData} />}
-    </Card>
+        </CardActions>
+        {open && (
+          <DialogComponent onClose={handleClose} data={props.itemData} />
+        )}
+      </Card>
+    </div>
   );
 }
 

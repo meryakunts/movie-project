@@ -1,6 +1,11 @@
-import React, {useContext} from "react";
+import React, { useContext } from "react";
 import clsx from "clsx";
-import { makeStyles, createStyles, Theme, alpha } from "@material-ui/core/styles";
+import {
+  makeStyles,
+  createStyles,
+  Theme,
+  alpha,
+} from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Drawer from "@material-ui/core/Drawer";
 import AppBar from "@material-ui/core/AppBar";
@@ -20,20 +25,29 @@ import Link from "@material-ui/core/Link";
 import Main from "./Main";
 import NestedList from "./sidebar/NestedList";
 import { DataContext } from "./DataContext";
-import Button from '@material-ui/core/Button';
-import RotateLeftIcon from '@material-ui/icons/RotateLeft';
+import Data from "../sharedComponents/Data";
+import Button from "@material-ui/core/Button";
+import RotateLeftIcon from "@material-ui/icons/RotateLeft";
 import Header from "./Header";
 // import InputBase from "@material-ui/core/InputBase";
 // import SearchIcon from "@material-ui/icons/Search";
 import logo from "../Images/logo.png";
 import Search from "./Search";
+import Movies from "./Movies";
+import Shows from "./Shows";
+import Favorites from "./Favorites";
+import Watchlist from "./Watchlist";
+import { AuthContext } from "./UserContext";
+import MoviePage from "./MoviePage";
+import KeyboardBackspaceOutlinedIcon from "@material-ui/icons/KeyboardBackspaceOutlined";
+import Tooltip from "@material-ui/core/Tooltip";
+import Zoom from "@material-ui/core/Zoom";
 
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
-    height: "100vh",
   },
   toolbar: {
     paddingRight: 24, // keep right padding when drawer closed
@@ -47,7 +61,7 @@ const useStyles = makeStyles((theme) => ({
     ...theme.mixins.toolbar,
   },
   rotateLeftIcon: {
-    color: '#b597c2',
+    color: "#b597c2",
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
@@ -138,9 +152,84 @@ const useStyles = makeStyles((theme) => ({
   },
   resetAll: {
     color: '#ffdfde',
-    fontWeight: "bold"
-  }
-
+    fontWeight: "bold",
+  }, 
+  header: {
+    marginLeft: "100px",
+    color: "#96a5d4",
+    backgroundColor: "#181925",
+    width: "100%",
+    boxSizing: "border-box",
+    flexShrink: "0",
+    position: "fixed",
+    zIndex: "1100",
+    top: "0px",
+    left: "auto",
+    right: "0px",
+  },
+  containerPage: {
+    margin: "20px 0",
+    color: "black",
+  },
+  bgColor: {
+    background:
+      " linear-gradient(to right top, hsl(236, 50%, 50%), hsl(195, 50%, 50%))",
+    color: "rgb(97, 97, 97)",
+    transition: "box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
+    boxShadow: "none",
+    borderRadius: "12px",
+    overflow: "hidden",
+    marginBottom: "10px",
+    border: "1px solid #5c95c96b",
+    background: "rgb(255, 255, 255)",
+    "& div": {
+      minHeight: "100%",
+      padding: "10px",
+    },
+    "& p": {
+      margin: "0",
+      lineHeight: "1",
+      fontSize: "1rem",
+    },
+  },
+  icon: {
+    marginRight: theme.spacing(2),
+  },
+  heroContent: {
+    backgroundColor: theme.palette.background.paper,
+    padding: theme.spacing(1, 0, 1),
+    position: "relative",
+    "& h2": {
+      fontSize: "1.8rem",
+      fontWeight: "normal",
+    },
+    "& p": {
+      fontSize: "1.2rem",
+      fontWeight: "normal",
+    },
+  },
+  heroButtons: {
+    marginTop: theme.spacing(4),
+  },
+  cardGrid: {
+    paddingTop: theme.spacing(8),
+    paddingBottom: theme.spacing(8),
+    background: "red",
+  },
+  backBtn: {
+    color: "#4069bf",
+    fontWeight: "bold",
+    padding: "5px",
+    position: "absolute",
+    left: "0",
+    top: "5%",
+  },
+  cardMedia: {
+    paddingTop: "56.25%", // 16:9
+  },
+  cardContent: {
+    flexGrow: 1,
+  },
   // search: {
   //   position: "relative",
   //   borderRadius: theme.shape.borderRadius,
@@ -183,10 +272,18 @@ const useStyles = makeStyles((theme) => ({
   // },
 }));
 
-export default function Dashboard() {
+export default function Dashboard(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
-  const {onResetFilter} = useContext(DataContext);
+  const { onResetFilter, searchFunc, searchString, clickedData, itemClicked } =
+    useContext(DataContext);
+  const { email, isLogged } = useContext(AuthContext);
+  const isMovies = props.type === "movies";
+  const isMain = props.type === "main";
+  const isShows = props.type === "shows";
+  const isFavorites = props.type === "favorites";
+  const isWatchlist = props.type === "watchlist";
+
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -231,7 +328,7 @@ export default function Dashboard() {
                   display: "flex",
                 }}
               >
-                <img src={logo} width="50" height="50" />
+                <img src={logo} alt={logo} width="50" height="50" />
               </Link>
             </Typography>
             {/* <div className={classes.search}>
@@ -283,7 +380,111 @@ export default function Dashboard() {
           <Grid container spacing={3}>
             <Grid item xs={12}>
               <Paper className={classes.paper}>
-                <Main/>
+                <div className={classes.containerPage}>
+                  <AppBar position="relative" className={classes.bgColor}>
+                    <Toolbar>
+                      <Typography variant="h6" color="inherit" noWrap>
+                        {searchString != "" ? (
+                          <p>Search results</p>
+                        ) : isMain ? (
+                          <p>Home Page</p>
+                        ) : isMovies ? (
+                          <p>Movies</p>
+                        ) : isShows ? (
+                          <p>Shows</p>
+                        ) : isFavorites ? (
+                          <p>Favorites</p>
+                        ) : isWatchlist ? (
+                          <p>Watchlist</p>
+                        ) : (
+                          <div></div>
+                        )}
+                      </Typography>
+                    </Toolbar>
+                  </AppBar>
+                  <div className={classes.heroContent}>
+                    <Container maxWidth="md">
+                      {searchString && (
+                        <Tooltip
+                          TransitionComponent={Zoom}
+                          title="go back"
+                          arrow
+                        >
+                          <IconButton
+                            variant="contained"
+                            onClick={() => {
+                              searchFunc("");
+                              itemClicked(null);
+                            }}
+                            className={classes.backBtn}
+                          >
+                            <KeyboardBackspaceOutlinedIcon />
+                          </IconButton>
+                        </Tooltip>
+                      )}
+                      {clickedData && (
+                        <Tooltip
+                          TransitionComponent={Zoom}
+                          title="go back"
+                          arrow
+                        >
+                          <IconButton
+                            variant="contained"
+                            onClick={() => {
+                              searchFunc("");
+                              itemClicked(null);
+                            }}
+                            className={classes.backBtn}
+                          >
+                            <KeyboardBackspaceOutlinedIcon />
+                          </IconButton>
+                        </Tooltip>
+                      )}
+                      <Typography
+                        component="h2"
+                        variant="h2"
+                        align="center"
+                        color="textPrimary"
+                        gutterBottom
+                      >
+                        {searchString != ""
+                          ? " Search Results"
+                          : "Let's film together )"}
+                      </Typography>
+                      <Typography
+                        variant="h5"
+                        align="center"
+                        color="textSecondary"
+                        paragraph
+                      >
+                        “ Three films a day, three books a week and records of
+                        great music would be enough to make me happy to the day
+                        I die. ” ― François Truffaut
+                      </Typography>
+                    </Container>
+                  </div>
+                  <div>
+                    {isLogged && clickedData ? (
+                      <MoviePage data={clickedData} />
+                    ) : searchString != "" ? (
+                      <div>
+                        <Data />
+                      </div>
+                    ) : isMain ? (
+                      <Main />
+                    ) : isMovies ? (
+                      <Movies />
+                    ) : isShows ? (
+                      <Shows />
+                    ) : isFavorites ? (
+                      <Favorites />
+                    ) : isWatchlist ? (
+                      <Watchlist />
+                    ) : (
+                      <div></div>
+                    )}
+                  </div>
+                </div>
               </Paper>
             </Grid>
           </Grid>

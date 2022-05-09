@@ -11,13 +11,17 @@ import NotificationsIcon from "@material-ui/icons/Notifications";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import Link from "@material-ui/core/Link";
 import { AuthContext } from "./UserContext";
-import "../sharedComponents/styles.css"
+import "../sharedComponents/styles.css";
+import Movies from "./Movies";
+import { useHistory } from "react-router-dom";
+import Tooltip from "@material-ui/core/Tooltip";
+import Zoom from "@material-ui/core/Zoom";
 
 const useStyles = makeStyles((theme) => ({
   grow: {
     display: "flex",
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
   },
   menuButton: {
     width: "70px",
@@ -78,6 +82,8 @@ const useStyles = makeStyles((theme) => ({
     display: "none",
     [theme.breakpoints.up("md")]: {
       display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
     },
   },
   sectionMobile: {
@@ -96,6 +102,7 @@ export default function Header(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const login = useContext(AuthContext);
+  let history = useHistory();
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -133,8 +140,6 @@ export default function Header(props) {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>Settings</MenuItem>
       <MenuItem onClick={handleSignOut}>Sign Out</MenuItem>
     </Menu>
   );
@@ -151,71 +156,60 @@ export default function Header(props) {
       onClose={handleMobileMenuClose}
     >
       <MenuItem>
-        <IconButton aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="secondary">
-            <MailIcon />
-          </Badge>
-        </IconButton>
-        <p>Messages</p>
+        <p>Movies</p>
       </MenuItem>
       <MenuItem>
-        <IconButton aria-label="show 11 new notifications" color="inherit">
-          <Badge badgeContent={11} color="secondary">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
-        <p>Notifications</p>
+        <p>Shows</p>
       </MenuItem>
       <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
-          aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
-          color="inherit"
-        >
-          <AccountCircle />
-        </IconButton>
-        <p>Profile</p>
+        <p>Favorites</p>
+      </MenuItem>
+      <MenuItem onClick={handleProfileMenuOpen}>
+        <p>Watchlist</p>
+      </MenuItem>
+      <MenuItem onClick={handleProfileMenuOpen}>
+        <p>Sign In</p>
+      </MenuItem>
+      <MenuItem onClick={handleProfileMenuOpen}>
+        <p>Sign Up</p>
       </MenuItem>
     </Menu>
   );
 
   return (
     <div className={classes.grow}>
-       <div className={classes.sectionDesktop}>
-          <Typography className="subTitles" variant="h5" noWrap>
-          {!login.isLogged && (
-                <Link href="/signin">
-                Movies
-                </Link>
-              )}
-            
-          </Typography>
-          <Typography className="subTitles" variant="h5" noWrap>
-          {!login.isLogged && (
-                <Link href="/signin">
-              Shows
-                </Link>
-              )}
-            
-          </Typography>
-          <Typography className="subTitles" variant="h5" noWrap>
-          {!login.isLogged && (
-                <Link href="/signin">
-               Favorites
-                </Link>
-              )}
-            
-          </Typography>
-          <Typography className="subTitles" variant="h5" noWrap>
-          {!login.isLogged && (
-                <Link href="/signin">
-                  Watchlist
-                </Link>
-              )}
-            
-          </Typography>
-            {login.isLogged && (
+      <div className={classes.sectionDesktop}>
+        <Typography className="subTitles" variant="h5" noWrap>
+          {!login.isLogged ? (
+            <Link href="/signin">Movies</Link>
+          ) : (
+            <Link href="/movies">Movies</Link>
+          )}
+        </Typography>
+        <Typography className="subTitles" variant="h5" noWrap>
+          {!login.isLogged ? (
+            <Link href="/signin">Shows</Link>
+          ) : (
+            <Link href="/shows">Shows</Link>
+          )}
+        </Typography>
+        <Typography className="subTitles" variant="h5" noWrap>
+          {!login.isLogged ? (
+            <Link href="/signin">Favorites</Link>
+          ) : (
+            <Link href="/favorites">Favorites</Link>
+          )}
+        </Typography>
+        <Typography className="subTitles" variant="h5" noWrap>
+          {!login.isLogged ? (
+            <Link href="/signin">Watchlist</Link>
+          ) : (
+            <Link href="/watchlist">Watchlist</Link>
+          )}
+        </Typography>
+        {login.isLogged && (
+          <div>
+            <Tooltip TransitionComponent={Zoom} title={login.email} arrow>
               <IconButton
                 edge="end"
                 aria-label="account of current user"
@@ -226,33 +220,27 @@ export default function Header(props) {
               >
                 <AccountCircle />
               </IconButton>
-            )}
-            <Typography className="subTitles" variant="h5" noWrap>
-              {!login.isLogged && (
-                <Link href="/signin">
-                  Sign In
-                </Link>
-              )}
-            </Typography>
-            <Typography className="subTitles" variant="h5" noWrap>
-              {!login.isLogged && (
-                <Link href="/signup">
-                  Sign Up
-                </Link>
-              )}
-            </Typography>
+            </Tooltip>
           </div>
-          <div className={classes.sectionMobile}>
-            <IconButton
-              aria-label="show more"
-              aria-controls={mobileMenuId}
-              aria-haspopup="true"
-              onClick={handleMobileMenuOpen}
-              color="inherit"
-            >
-              <MoreIcon />
-            </IconButton>
-        </div>
+        )}
+        <Typography className="subTitles" variant="h5" noWrap>
+          {!login.isLogged && <Link href="/signin">Sign In</Link>}
+        </Typography>
+        <Typography className="subTitles" variant="h5" noWrap>
+          {!login.isLogged && <Link href="/signup">Sign Up</Link>}
+        </Typography>
+      </div>
+      <div className={classes.sectionMobile}>
+        <IconButton
+          aria-label="show more"
+          aria-controls={mobileMenuId}
+          aria-haspopup="true"
+          onClick={handleMobileMenuOpen}
+          color="inherit"
+        >
+          <MoreIcon />
+        </IconButton>
+      </div>
       {renderMobileMenu}
       {renderMenu}
     </div>
