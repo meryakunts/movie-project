@@ -18,6 +18,7 @@ import { userLogin } from "./components/UserContext";
 import db from "./firebase";
 import { onSnapshot, collection } from "firebase/firestore";
 import Dashboard from "./components/Dashboard";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 function App() {
   const [user, setUser] = useState(userLogin);
@@ -56,13 +57,13 @@ function App() {
   useEffect(() => {
     let data = localStorage.getItem("user");
     const initialValue = JSON.parse(data);
-    console.log("data", data);
+    // console.log("data", data);
     if (initialValue) {
       setUser({ ...initialValue, signOut: signOutCallback });
     }
   }, []);
 
-  const setLogedInUser = (us) => {
+  const setLoggedInUser = (us) => {
     setUser({ ...us, signOut: signOutCallback });
     localStorage.setItem("user", JSON.stringify(us));
   };
@@ -77,8 +78,8 @@ function App() {
     setfilteredShows(filteredData[1]);
   };
 
-  console.log(movies);
-  console.log(shows);
+  // console.log(movies);
+  // console.log(shows);
   let filteredData = [];
   let allData = [movies, shows];
 
@@ -170,7 +171,7 @@ function App() {
               <Route
                 path="/signin"
                 render={(props) => (
-                  <SignInComponent setLogIn={setLogedInUser} {...props} />
+                  <SignInComponent setLogIn={setLoggedInUser} {...props} />
                 )}
               />
               {!user.isLogged && (

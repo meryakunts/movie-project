@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
@@ -16,6 +16,18 @@ import "./styles.css";
 import DialogComponent from "./DialogComponent";
 import { OpenInBrowser, OpenInNew } from "@material-ui/icons";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { userLogin } from "../components/UserContext";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import db from "../firebase";
+import {
+  collection,
+  addDoc,
+  doc,
+  query,
+  where,
+  deleteDoc,
+  getDocs,
+} from "firebase/firestore";
 
 const useStyles = makeStyles({
   root: {
@@ -26,6 +38,20 @@ const useStyles = makeStyles({
 function CardComponent(props) {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
+  const [currentUser, setCurrentUser] = useState("");
+  const [userFavorites, setUserFavorites] = useState("");
+  const [userWatchlist, setUserWatchlist] = useState("");
+  const auth = getAuth();
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      const uid = user.uid;
+      setCurrentUser(uid);
+    } else {
+      const uid = "";
+      setCurrentUser(uid);
+    }
+  });
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -35,16 +61,66 @@ function CardComponent(props) {
     setOpen(false);
   };
 
-  const { description, name } = props.itemData;
+  const { description, name, id } = props.itemData;
+
+  const handleDeleteFave = async (docId) => {
+    console.log("handling delete");
+    const docRef = doc(db, "favorites", docId);
+    deleteDoc(docRef);
+    currentFavorites();
+  };
+
+  const handleFavorite = async () => {
+    console.log(id);
+    const pickedItemId = id;
+    let alreadyAdded = false;
+    userFavorites.map((item) => {
+      if (item.id === pickedItemId) {
+        alreadyAdded = true;
+        return;
+      }
+    });
+    // console.log(alreadyAdded);
+    if (alreadyAdded) {
+      return handleDeleteFave(pickedItemId);
+    } else {
+      const collectionRef = collection(db, "favorites");
+      const payload = { name, pickedItemId, currentUser, description };
+      const docRef = await addDoc(collectionRef, payload);
+      currentFavorites();
+    }
+  };
+
+  const currentFavorites = async () => {
+    const collectionRef = collection(db, "favorites");
+    const q = query(collectionRef, where("currentUser", "==", currentUser));
+    const snapshot = await getDocs(q);
+    const results = snapshot.docs.map((doc) => ({
+      ...doc.data(),
+      id: id,
+    }));
+    console.log(results);
+    setUserFavorites(results);
+  };
+
+  useEffect(() => {
+    // console.log(currentUser);
+    currentFavorites();
+  }, [currentUser]);
+
+  const handleWatchlist = (e) => {
+    console.log("added to watchlist");
+    console.log(id);
+  };
 
   return (
     <Card className={classes.root}>
-      <Link
-        to="/moviepage"
-        style={{ textDecoration: "none" }}
-        state={{ from: "Main" }}
-      >
-        <CardActionArea>
+      <CardActionArea>
+        <Link
+          to="/moviepage"
+          style={{ textDecoration: "none" }}
+          state={{ from: "Main" }}
+        >
           <CardMedia
             component="img"
             alt="Contemplative Reptile"
@@ -66,50 +142,44 @@ function CardComponent(props) {
               <span className="textEllipsis gray-text">{description}</span>
             </Typography>
           </CardContent>
-        </CardActionArea>
-        <CardActions>
-          <div className="flex-btw">
-            <div>
-              <Tooltip
-                TransitionComponent={Zoom}
-                title="add to favorites"
-                arrow
+        </Link>
+      </CardActionArea>
+      <CardActions>
+        <div className="flex-btw">
+          <div>
+            <Tooltip TransitionComponent={Zoom} title="add to favorites" arrow>
+              <IconButton
+                aria-label="add to favorites"
+                color="inherit"
+                onClick={handleFavorite}
               >
-                <IconButton aria-label="add to favorites" color="inherit">
-                  <FavoriteBorderIcon />
-                </IconButton>
-              </Tooltip>
-              <Tooltip
-                TransitionComponent={Zoom}
-                title="add to watchlist"
-                arrow
+                <FavoriteBorderIcon />
+              </IconButton>
+            </Tooltip>
+            <Tooltip TransitionComponent={Zoom} title="add to watchlist" arrow>
+              <IconButton
+                color="primary"
+                aria-label="add to watchlist"
+                onClick={handleWatchlist}
               >
-                <IconButton color="primary" aria-label="aadd to watchlist">
-                  <AddToQueueOutlinedIcon />
-                </IconButton>
-              </Tooltip>
-            </div>
-            <div>
-              <Tooltip
-                TransitionComponent={Zoom}
-                title="more information"
-                arrow
-              >
-                <IconButton
-                  color="primary"
-                  aria-label="more information"
-                  onClick={handleClickOpen}
-                >
-                  <InfoOutlinedIcon />
-                </IconButton>
-              </Tooltip>
-            </div>
+                <AddToQueueOutlinedIcon />
+              </IconButton>
+            </Tooltip>
           </div>
-        </CardActions>
-        {open && (
-          <DialogComponent onClose={handleClose} data={props.itemData} />
-        )}
-      </Link>
+          <div>
+            <Tooltip TransitionComponent={Zoom} title="more information" arrow>
+              <IconButton
+                color="primary"
+                aria-label="more information"
+                onClick={handleClickOpen}
+              >
+                <InfoOutlinedIcon />
+              </IconButton>
+            </Tooltip>
+          </div>
+        </div>
+      </CardActions>
+      {open && <DialogComponent onClose={handleClose} data={props.itemData} />}
     </Card>
   );
 }
