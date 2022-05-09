@@ -18,6 +18,8 @@ import { OpenInBrowser, OpenInNew } from "@material-ui/icons";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import MoviePage from "../components/MoviePage";
 import { DataContext } from "../components/DataContext";
+import { AuthContext } from "../components/UserContext";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles({
   root: {
@@ -30,6 +32,8 @@ function CardComponent(props) {
   const [open, setOpen] = useState(false);
   const [clicked, setClicked] = useState(false);
   const {itemClicked} = useContext(DataContext);
+  let history = useHistory();
+  const { isLogged } = useContext(AuthContext);
 
   const handleClickOpen = (e) => {
     setOpen(true);
@@ -42,7 +46,10 @@ function CardComponent(props) {
   };
 
   const handleClickItem = () => {
-    itemClicked(props.itemData)
+    itemClicked(props.itemData);
+    if (!isLogged) {
+      history.push("/signIn")
+    }
   };
 
   const { description, name } = props.itemData;
