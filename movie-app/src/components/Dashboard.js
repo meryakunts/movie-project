@@ -264,7 +264,7 @@ export default function Dashboard(props) {
   const [open, setOpen] = React.useState(true);
   const { onResetFilter, searchFunc, searchString, clickedData, itemClicked } =
     useContext(DataContext);
-  const { email } = useContext(AuthContext);
+  const { email, isLogged } = useContext(AuthContext);
   const isMovies = props.type === "movies";
   const isMain = props.type === "main";
   const isShows = props.type === "shows";
@@ -448,7 +448,7 @@ export default function Dashboard(props) {
                     </Container>
                   </div>
                   <div>
-                    {clickedData ? (
+                    {isLogged && clickedData ? (
                       <MoviePage data={clickedData} />
                     ) : searchString != "" ? (
                       <div>

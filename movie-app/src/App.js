@@ -18,8 +18,10 @@ import { userLogin } from "./components/UserContext";
 import db from "./firebase";
 import { onSnapshot, collection } from "firebase/firestore";
 import Dashboard from "./components/Dashboard";
+import { useHistory } from "react-router-dom";
 
 function App() {
+  let history = useHistory();
   const [user, setUser] = useState(userLogin);
   const [movies, setMovies] = useState([]);
   const [filteredMovies, setfilteredMovies] = useState([]);
@@ -148,8 +150,9 @@ function App() {
   };
 
   const handleClick = (item) => {
-    setItemclickedData(item)
+    setItemclickedData(item);
   }
+  
 
   return (
     <>
