@@ -123,6 +123,7 @@ function CardComponent(props) {
       };
       const docRef = await addDoc(WhichCollection, customDocument);
       currentFavorites();
+      console.log(docRef.id);
     }
   };
 
@@ -155,6 +156,7 @@ function CardComponent(props) {
       };
       const docRef = await addDoc(WhichCollection, customDocument);
       currentWatchlist();
+      console.log(docRef.id);
     }
   };
 
@@ -167,7 +169,7 @@ function CardComponent(props) {
       ...doc.data(),
       id: doc.id,
     }));
-    setUserFavorites(results);
+    await setUserFavorites(results);
   };
 
   const currentWatchlist = async () => {
@@ -179,7 +181,7 @@ function CardComponent(props) {
       ...doc.data(),
       id: doc.id,
     }));
-    setUserWatchlist(results);
+    await setUserWatchlist(results);
   };
 
   useEffect(() => {
