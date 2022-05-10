@@ -109,6 +109,10 @@ body {
   height: 48px;
 }
 
+.flex-btw button {
+  color: #4069bf;
+}
+
 /* global dialog style */
 .MuiDialogActions-spacing {
   padding: 0 !important;
