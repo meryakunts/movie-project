@@ -14,11 +14,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 import Zoom from "@material-ui/core/Zoom";
 import "./styles.css";
 import DialogComponent from "./DialogComponent";
-import { OpenInBrowser, OpenInNew } from "@material-ui/icons";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import { userLogin } from "../components/UserContext";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import MoviePage from "../components/MoviePage";
 import { DataContext } from "../components/DataContext";
 import { AuthContext } from "../components/UserContext";
 import { useHistory } from "react-router-dom";
@@ -45,7 +41,6 @@ function CardComponent(props) {
   const [currentUser, setCurrentUser] = useState("");
   const [userFavorites, setUserFavorites] = useState("");
   const [userWatchlist, setUserWatchlist] = useState("");
-  const [clicked, setClicked] = useState(false);
   const auth = getAuth();
 
   onAuthStateChanged(auth, (user) => {
@@ -98,7 +93,7 @@ function CardComponent(props) {
         return;
       }
     });
-    // console.log(alreadyAdded);
+
     if (alreadyAdded) {
       console.log("already added, deleting");
       return handleDeleteFave(pickedItemId);
@@ -124,7 +119,6 @@ function CardComponent(props) {
   };
 
   useEffect(() => {
-    // console.log(currentUser);
     currentFavorites();
   }, [currentUser]);
 

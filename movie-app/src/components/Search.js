@@ -1,10 +1,8 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import { alpha, makeStyles } from "@material-ui/core/styles";
 import InputBase from "@material-ui/core/InputBase";
 import SearchIcon from "@material-ui/icons/Search";
 import { DataContext } from "../components/DataContext";
-import Item from "../sharedComponents/Item";
-import CardComponent from "../sharedComponents/CardComponent";
 
 const useStyles = makeStyles((theme) => ({
   search: {
@@ -51,27 +49,15 @@ const useStyles = makeStyles((theme) => ({
 
 function Search(props) {
   const classes = useStyles();
-  const {searchFunc} = useContext(DataContext);
+  const { searchFunc } = useContext(DataContext);
 
   const searchItems = (event) => {
-    if (event.key == "Enter") {
+    if (event.key === "Enter") {
       let value = event.target.value;
       if (value !== "") {
-        searchFunc(value)
+        searchFunc(value);
       }
-     
     }
-    // if (searchInput !== "") {
-    //   const filteredData = allData.filter((item) => {
-    //     return Object.values(item)
-    //       .join("")
-    //       .toLowerCase()
-    //       .includes(searchInput.toLowerCase());
-    //   });
-    //   setFilteredResults(filteredData);
-    // } else {
-    //   setFilteredResults(allData);
-    // }
   };
 
   return (
@@ -87,7 +73,7 @@ function Search(props) {
             input: classes.inputInput,
           }}
           inputProps={{ "aria-label": "search" }}
-          onKeyDown = {searchItems}
+          onKeyDown={searchItems}
         />
       </div>
     </>
