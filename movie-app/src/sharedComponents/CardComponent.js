@@ -14,11 +14,11 @@ import Tooltip from "@material-ui/core/Tooltip";
 import Zoom from "@material-ui/core/Zoom";
 import "./styles.css";
 import DialogComponent from "./DialogComponent";
-import { OpenInBrowser, OpenInNew } from "@material-ui/icons";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import { userLogin } from "../components/UserContext";
+// import { OpenInBrowser, OpenInNew } from "@material-ui/icons";
+// import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+// import { userLogin } from "../components/UserContext";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import MoviePage from "../components/MoviePage";
+// import MoviePage from "../components/MoviePage";
 import { DataContext } from "../components/DataContext";
 import { AuthContext } from "../components/UserContext";
 import { useHistory } from "react-router-dom";
@@ -44,14 +44,15 @@ function CardComponent(props) {
   const [open, setOpen] = useState(false);
   const [currentUser, setCurrentUser] = useState("");
   const [userFavorites, setUserFavorites] = useState("");
-  const [userWatchlist, setUserWatchlist] = useState("");
-  const [clicked, setClicked] = useState(false);
+  // const [userWatchlist, setUserWatchlist] = useState("");
+  // const [clicked, setClicked] = useState(false);
   const auth = getAuth();
 
   onAuthStateChanged(auth, (user) => {
     if (user) {
       const uid = user.uid;
       setCurrentUser(uid);
+      currentFavorites();
     } else {
       const uid = "";
       setCurrentUser(uid);
@@ -82,55 +83,64 @@ function CardComponent(props) {
   const { description, name, id, src } = props.itemData;
 
   const handleDeleteFave = async (docId) => {
-    console.log("handling delete");
+    console.log("handleDelete entered");
     const docRef = doc(db, "favorites", docId);
     deleteDoc(docRef);
-    currentFavorites();
   };
 
   const handleFavorite = async () => {
-    console.log(id);
     let pickedItemId = id;
     let alreadyAdded = false;
-    userFavorites.map((item) => {
-      if (item.id === pickedItemId) {
+    userFavorites.forEach((item) => {
+      if (pickedItemId === item.id) {
+        console.log("first if entered");
         alreadyAdded = true;
-        return;
+        return handleDeleteFave(pickedItemId);
+      } else if (pickedItemId === item.pickedItemId) {
+        console.log("else if entered");
+        alreadyAdded = true;
+        return handleDeleteFave(item.id);
       }
     });
-    // console.log(alreadyAdded);
-    if (alreadyAdded) {
-      console.log("already added, deleting");
-      return handleDeleteFave(pickedItemId);
-    } else {
-      alreadyAdded = false;
-      const collectionRef = collection(db, "favorites");
-      const payload = { name, pickedItemId, currentUser, description };
-      const docRef = await addDoc(collectionRef, payload);
-      currentFavorites();
+    if (!alreadyAdded) {
+      const WhichCollection = collection(db, "favorites");
+      const customDocument = {
+        name,
+        description,
+        src,
+        currentUser,
+        pickedItemId,
+      };
+      const docRef = await addDoc(WhichCollection, customDocument);
+      console.log(docRef.id);
     }
   };
 
   const currentFavorites = async () => {
+    console.log("currentFavorites entered");
     const collectionRef = collection(db, "favorites");
     const q = query(collectionRef, where("currentUser", "==", currentUser));
     const snapshot = await getDocs(q);
-    const results = snapshot.docs.map((doc) => ({
-      ...doc.data(),
-      id: id,
-    }));
-    console.log(results);
-    setUserFavorites(results);
+    const results = snapshot.docs.map((doc) =>
+      // console.log(doc.data()),
+      ({
+        ...doc.data(),
+        id: doc.id,
+      })
+    );
+    // console.log(results);
+    await setUserFavorites(results);
   };
 
-  useEffect(() => {
-    // console.log(currentUser);
-    currentFavorites();
-  }, [currentUser]);
+  // useEffect(() => {
+  //   currentFavorites();
+  // }, []);
 
   const handleWatchlist = (e) => {
-    console.log("added to watchlist");
+    currentFavorites();
+    console.log("watchlist Entered");
     console.log(id);
+    console.log(userFavorites);
   };
 
   return (
