@@ -1,18 +1,10 @@
 import React, { useContext } from "react";
 import clsx from "clsx";
-import {
-  makeStyles,
-  createStyles,
-  Theme,
-  alpha,
-} from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Drawer from "@material-ui/core/Drawer";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
 import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
@@ -29,8 +21,6 @@ import Data from "../sharedComponents/Data";
 import Button from "@material-ui/core/Button";
 import RotateLeftIcon from "@material-ui/icons/RotateLeft";
 import Header from "./Header";
-// import InputBase from "@material-ui/core/InputBase";
-// import SearchIcon from "@material-ui/icons/Search";
 import logo from "../Images/logo.png";
 import Search from "./Search";
 import Movies from "./Movies";
@@ -48,6 +38,7 @@ const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
+    height: "100vh",
   },
   toolbar: {
     paddingRight: 24, // keep right padding when drawer closed
@@ -59,9 +50,6 @@ const useStyles = makeStyles((theme) => ({
     color: "rgb(255, 223, 222)",
     padding: "0 8px",
     ...theme.mixins.toolbar,
-  },
-  rotateLeftIcon: {
-    color: "#b597c2",
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
@@ -119,7 +107,6 @@ const useStyles = makeStyles((theme) => ({
   appBarSpacer: theme.mixins.toolbar,
   content: {
     flexGrow: 1,
-    // height: "100vh",
     overflow: "auto",
   },
   container: {
@@ -144,16 +131,16 @@ const useStyles = makeStyles((theme) => ({
   isOpen: {
     "&:hover": {
       backgroundColor: "rgba(0, 0, 0, 0.04)",
-      "border": "1px solid #ffdfde",
-    }
+      border: "1px solid #ffdfde",
+    },
   },
   rotateLeftIcon: {
-    color: '#ffdfde',
+    color: "#ffdfde",
   },
   resetAll: {
-    color: '#ffdfde',
+    color: "#ffdfde",
     fontWeight: "bold",
-  }, 
+  },
   header: {
     marginLeft: "100px",
     color: "#96a5d4",
@@ -172,23 +159,21 @@ const useStyles = makeStyles((theme) => ({
     color: "black",
   },
   bgColor: {
-    background:
-      " linear-gradient(to right top, hsl(236, 50%, 50%), hsl(195, 50%, 50%))",
     color: "rgb(97, 97, 97)",
     transition: "box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
     boxShadow: "none",
-    borderRadius: "12px",
+    borderRadius: "4px",
     overflow: "hidden",
     marginBottom: "10px",
     border: "1px solid #5c95c96b",
     background: "rgb(255, 255, 255)",
     "& div": {
       minHeight: "100%",
-      padding: "10px",
+      padding: "8px",
     },
     "& p": {
       margin: "0",
-      lineHeight: "1",
+      lineHeight: "1.2",
       fontSize: "1rem",
     },
   },
@@ -230,46 +215,6 @@ const useStyles = makeStyles((theme) => ({
   cardContent: {
     flexGrow: 1,
   },
-  // search: {
-  //   position: "relative",
-  //   borderRadius: theme.shape.borderRadius,
-  //   backgroundColor: alpha(theme.palette.common.white, 0.15),
-  //   "&:hover": {
-  //     backgroundColor: alpha(theme.palette.common.white, 0.25),
-  //   },
-  //   marginRight: theme.spacing(4),
-  //   marginLeft: 0,
-  //   width: "100%",
-  //   [theme.breakpoints.up("sm")]: {
-  //     marginLeft: theme.spacing(3),
-  //     width: "auto",
-  //   },
-  //   flex: "1",
-  // },
-  // searchIcon: {
-  //   padding: theme.spacing(0, 2),
-  //   height: "100%",
-  //   position: "absolute",
-  //   pointerEvents: "none",
-  //   display: "flex",
-  //   alignItems: "center",
-  //   justifyContent: "center",
-  //   color: "rgb(255, 223, 222)",
-  // },
-  // inputRoot: {
-  //   color: "rgb(255, 223, 222)",
-  //   width: "100%",
-  // },
-  // inputInput: {
-  //   padding: theme.spacing(1, 1, 1, 0),
-  //   // vertical padding + font size from searchIcon
-  //   paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
-  //   transition: theme.transitions.create("width"),
-  //   width: "100%",
-  //   [theme.breakpoints.up("md")]: {
-  //     width: "100%",
-  //   },
-  // },
 }));
 
 export default function Dashboard(props) {
@@ -277,7 +222,7 @@ export default function Dashboard(props) {
   const [open, setOpen] = React.useState(true);
   const { onResetFilter, searchFunc, searchString, clickedData, itemClicked } =
     useContext(DataContext);
-  const { email, isLogged } = useContext(AuthContext);
+  const { isLogged } = useContext(AuthContext);
   const isMovies = props.type === "movies";
   const isMain = props.type === "main";
   const isShows = props.type === "shows";
@@ -287,10 +232,10 @@ export default function Dashboard(props) {
   const handleDrawerOpen = () => {
     setOpen(true);
   };
+
   const handleDrawerClose = () => {
     setOpen(false);
   };
-  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   return (
     <div className={classes.root}>
@@ -331,19 +276,6 @@ export default function Dashboard(props) {
                 <img src={logo} alt={logo} width="50" height="50" />
               </Link>
             </Typography>
-            {/* <div className={classes.search}>
-              <div className={classes.searchIcon}>
-                <SearchIcon />
-              </div>
-              <InputBase
-                placeholder="Search…"
-                classes={{
-                  root: classes.inputRoot,
-                  input: classes.inputInput,
-                }}
-                inputProps={{ "aria-label": "search" }}
-              />
-            </div> */}
             <Search />
             <Header />
           </div>
@@ -362,14 +294,15 @@ export default function Dashboard(props) {
           </IconButton>
         </div>
         <Divider />
-        <Button 
-          variant="outlined" 
-          color="primary" 
+        <Button
+          variant="outlined"
+          color="primary"
           size="large"
-          onClick={onResetFilter} 
-          className={clsx(classes.resetButton, open && classes.isOpen)}>   
-        {!open && <RotateLeftIcon className={classes.rotateLeftIcon}/>}
-        {open && <div className={classes.resetAll}>Reset All</div>}
+          onClick={onResetFilter}
+          className={clsx(classes.resetButton, open && classes.isOpen)}
+        >
+          {!open && <RotateLeftIcon className={classes.rotateLeftIcon} />}
+          {open && <div className={classes.resetAll}>Reset All</div>}
         </Button>
         <Divider />
         <NestedList />
@@ -384,7 +317,7 @@ export default function Dashboard(props) {
                   <AppBar position="relative" className={classes.bgColor}>
                     <Toolbar>
                       <Typography variant="h6" color="inherit" noWrap>
-                        {searchString != "" ? (
+                        {searchString !== "" ? (
                           <p>Search results</p>
                         ) : isMain ? (
                           <p>Home Page</p>
@@ -447,7 +380,7 @@ export default function Dashboard(props) {
                         color="textPrimary"
                         gutterBottom
                       >
-                        {searchString != ""
+                        {searchString !== ""
                           ? " Search Results"
                           : "Let's film together!"}
                       </Typography>
@@ -466,7 +399,7 @@ export default function Dashboard(props) {
                   <div>
                     {isLogged && clickedData ? (
                       <MoviePage data={clickedData} />
-                    ) : searchString != "" ? (
+                    ) : searchString !== "" ? (
                       <div>
                         <Data />
                       </div>

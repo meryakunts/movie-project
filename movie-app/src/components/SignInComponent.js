@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
@@ -11,7 +11,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { useHistory } from "react-router-dom";
-import Header from "./Header";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -22,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
     background: "#f4fbffe8",
     padding: theme.spacing(2),
     borderRadius: "4px",
-    boxShadow: "rgb(0 0 0 / 25%) 0px 14px 28px, rgb(0 0 0 / 22%) 0px 10px 10px"
+    boxShadow: "rgb(0 0 0 / 25%) 0px 14px 28px, rgb(0 0 0 / 22%) 0px 10px 10px",
   },
   avatar: {
     margin: theme.spacing(1),
@@ -34,7 +33,8 @@ const useStyles = makeStyles((theme) => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
-    background: "linear-gradient(to right top, hsl(236, 50%, 50%), hsl(195, 50%, 50%))",
+    background:
+      "linear-gradient(to right top, hsl(236, 50%, 50%), hsl(195, 50%, 50%))",
   },
 }));
 
@@ -58,7 +58,7 @@ function SignInComponent(props) {
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        alert(errorMessage);
+        alert(errorMessage, errorCode);
       });
   };
 
