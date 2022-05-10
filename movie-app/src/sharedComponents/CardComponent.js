@@ -77,55 +77,113 @@ function CardComponent(props) {
   const { description, name, id, src } = props.itemData;
 
   const handleDeleteFave = async (docId) => {
-    console.log("handling delete");
+    console.log("handleDelete entered");
     const docRef = doc(db, "favorites", docId);
     deleteDoc(docRef);
     currentFavorites();
   };
 
+  const handleDeleteWatch = async (docId) => {
+    console.log("handleDeleteWatch entered");
+    const docRef = doc(db, "watchlist", docId);
+    deleteDoc(docRef);
+    currentWatchlist();
+  };
+
   const handleFavorite = async () => {
-    console.log(id);
+    if (!isLogged) {
+      history.push("/signIn");
+    }
     let pickedItemId = id;
     let alreadyAdded = false;
     userFavorites.map((item) => {
-      if (item.id === pickedItemId) {
+      if (pickedItemId === item.id) {
+        console.log("first if entered");
         alreadyAdded = true;
-        return;
+        return handleDeleteFave(pickedItemId);
+      } else if (pickedItemId === item.pickedItemId) {
+        console.log("else if entered");
+        alreadyAdded = true;
+        return handleDeleteFave(item.id);
       }
     });
-
-    if (alreadyAdded) {
-      console.log("already added, deleting");
-      return handleDeleteFave(pickedItemId);
-    } else {
-      alreadyAdded = false;
-      const collectionRef = collection(db, "favorites");
-      const payload = { name, pickedItemId, currentUser, description };
-      const docRef = await addDoc(collectionRef, payload);
+    if (!alreadyAdded) {
+      const WhichCollection = collection(db, "favorites");
+      const customDocument = {
+        name,
+        description,
+        src,
+        currentUser,
+        pickedItemId,
+      };
+      const docRef = await addDoc(WhichCollection, customDocument);
       currentFavorites();
+      console.log(docRef.id);
+    }
+  };
+
+  const handleWatchlist = async () => {
+    if (!isLogged) {
+      history.push("/signIn");
+    }
+    console.log("watchlist Entered");
+    let pickedItemId = id;
+    let alreadyAdded = false;
+    userWatchlist.map((item) => {
+      if (pickedItemId === item.id) {
+        console.log("first if entered");
+        alreadyAdded = true;
+        return handleDeleteWatch(pickedItemId);
+      } else if (pickedItemId === item.pickedItemId) {
+        console.log("else if entered");
+        alreadyAdded = true;
+        return handleDeleteWatch(item.id);
+      }
+    });
+    if (!alreadyAdded) {
+      const WhichCollection = collection(db, "watchlist");
+      const customDocument = {
+        name,
+        description,
+        src,
+        currentUser,
+        pickedItemId,
+      };
+      const docRef = await addDoc(WhichCollection, customDocument);
+      currentWatchlist();
+      console.log(docRef.id);
     }
   };
 
   const currentFavorites = async () => {
+    console.log("currentFavorites entered");
     const collectionRef = collection(db, "favorites");
     const q = query(collectionRef, where("currentUser", "==", currentUser));
     const snapshot = await getDocs(q);
     const results = snapshot.docs.map((doc) => ({
       ...doc.data(),
-      id: id,
+      id: doc.id,
     }));
-    console.log(results);
-    setUserFavorites(results);
+    await setUserFavorites(results);
+  };
+
+  const currentWatchlist = async () => {
+    console.log("currentWatchlist entered");
+    const collectionRef = collection(db, "watchlist");
+    const q = query(collectionRef, where("currentUser", "==", currentUser));
+    const snapshot = await getDocs(q);
+    const results = snapshot.docs.map((doc) => ({
+      ...doc.data(),
+      id: doc.id,
+    }));
+    await setUserWatchlist(results);
   };
 
   useEffect(() => {
     currentFavorites();
+    currentWatchlist();
+    return;
   }, [currentUser]);
-
-  const handleWatchlist = (e) => {
-    console.log("added to watchlist");
-    console.log(id);
-  };
 
   return (
     <div>
