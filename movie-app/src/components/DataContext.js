@@ -7,7 +7,7 @@ export const data = {
   searchFunc: () => {},
   searchString: "",
   itemClicked: (item) => {},
-  clickedData: {}
+  clickedData: {},
 };
 
 export const DataContext = createContext(data);
