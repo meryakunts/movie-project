@@ -1,16 +1,6 @@
-import React, { useState, useEffect, useContext } from "react";
-import db from "../firebase";
-import { onSnapshot, collection } from "firebase/firestore";
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import FormControl from "@material-ui/core/FormControl";
-import InputLabel from "@material-ui/core/InputLabel";
-import Select from "@material-ui/core/Select";
-// import ReactPlayer from "react-player";
-import ReactPlayer from 'react-player/youtube'
-import { Gradient, LocalPrintshopSharp } from "@material-ui/icons";
-import { DataContext } from "../components/DataContext";
-import ArrowBackRoundedIcon from "@material-ui/icons/ArrowBackRounded";
-import { useLocation } from "react-router-dom";
+import ReactPlayer from "react-player/youtube";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -18,17 +8,20 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     flexDirection: "column",
     alignItems: "center",
+    "& div": {
+      width: "100%",
+    },
   },
   title: {
     fontSize: "1.6rem",
     margin: "10px",
-    color: "#4069bf"
+    color: "#4069bf",
   },
   description: {
     fontSize: "1rem",
     color: "#222",
     margin: "5px",
-    textAlign: "center"
+    textAlign: "center",
   },
   details: {
     color: "#222",
@@ -38,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
     margin: "5px",
     "& span": {
       padding: "3px",
-      lineHeight: "1.2"
+      lineHeight: "1.2",
     },
   },
   trailer: {
@@ -46,8 +39,8 @@ const useStyles = makeStyles((theme) => ({
     "& div": {
       width: "100% !important",
       height: "100%",
-    }
-  }
+    },
+  },
 }));
 
 export default function MoviePage(props) {
@@ -64,15 +57,6 @@ export default function MoviePage(props) {
     trailer,
     year,
   } = props.data;
-
-  // console.log("props", LocalPrintshopSharp)
-  // const location = useLocation();
-  // const { from } = location.state;
-
-  // const handleArrow = () => {
-  //   // console.log(props.location);
-  //   props.history.goBack();
-  // };
 
   return (
     <div className={classes.root}>

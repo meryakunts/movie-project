@@ -1,6 +1,5 @@
 import React from "react";
-import "./SimpleList.css";
-import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
+import { makeStyles, createStyles } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
@@ -27,8 +26,8 @@ const useStyles = makeStyles((theme) =>
         fontWeight: "400",
         letterSpacing: "0.7px",
         textTransform: "capitalize",
-      }
-    }
+      },
+    },
   })
 );
 
@@ -55,10 +54,20 @@ export default function SimpleList({ data, onItemClick, onFilterClick }) {
         <List component="div" disablePadding>
           {data.items.map((item) => {
             return (
-              <ListItem key={item.name || item} button className={classes.nested}>
-                <ListItemText onClick={() => {
-                  onItemClick([data.filterBy || data.name, item.filterBy || item]);
-                }} primary={item.name || item} />
+              <ListItem
+                key={item.name || item}
+                button
+                className={classes.nested}
+              >
+                <ListItemText
+                  onClick={() => {
+                    onItemClick([
+                      data.filterBy || data.name,
+                      item.filterBy || item,
+                    ]);
+                  }}
+                  primary={item.name || item}
+                />
               </ListItem>
             );
           })}

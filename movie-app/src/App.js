@@ -1,27 +1,16 @@
-import React, { useState, useEffect, useStyles } from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import SignInComponent from "./components/SignInComponent";
 import SignUpComponent from "./components/SignUpComponent";
-import Main from "./components/Main";
 import ForgotPasswordComponent from "./components/ForgotPasswordComponent";
-import AllShowing from "./components/AllShowing";
-import MoviePage from "./components/MoviePage";
-import Movies from "./components/Movies";
-import Shows from "./components/Shows";
-import TopShows from "./components/HomeTopshows";
-import TopMovies from "./components/HomeTopMovies";
-import Watchlist from "./components/HomeWatchlist";
-import NestedList from "./components/sidebar/NestedList";
 import { AuthContext } from "./components/UserContext";
 import { DataContext } from "./components/DataContext";
 import { userLogin } from "./components/UserContext";
 import db from "./firebase";
 import { onSnapshot, collection } from "firebase/firestore";
 import Dashboard from "./components/Dashboard";
-import { useHistory } from "react-router-dom";
 
 function App() {
-  let history = useHistory();
   const [user, setUser] = useState(userLogin);
   const [movies, setMovies] = useState([]);
   const [filteredMovies, setfilteredMovies] = useState([]);
@@ -59,13 +48,12 @@ function App() {
   useEffect(() => {
     let data = localStorage.getItem("user");
     const initialValue = JSON.parse(data);
-    console.log("data", data);
     if (initialValue) {
       setUser({ ...initialValue, signOut: signOutCallback });
     }
   }, []);
 
-  const setLogedInUser = (us) => {
+  const setLoggedInUser = (us) => {
     setUser({ ...us, signOut: signOutCallback });
     localStorage.setItem("user", JSON.stringify(us));
   };
@@ -80,8 +68,6 @@ function App() {
     setfilteredShows(filteredData[1]);
   };
 
-  console.log(movies);
-  console.log(shows);
   let filteredData = [];
   let allData = [movies, shows];
 
@@ -112,27 +98,33 @@ function App() {
     } else if (filterKey === "price") {
       filteredData = allData.map((data) => {
         if (filterOption[1] === "free") {
-         return data.filter(item => {
+          return data.filter((item) => {
             return item[filterKey] === "free";
-          })
+          });
         } else if (filterOption[1] === "buy") {
-          return data.filter(item => {
-             return item[filterKey] !== "free";
-           })
+          return data.filter((item) => {
+            return item[filterKey] !== "free";
+          });
         } else {
-          return data.filter(item => {
-            return (item[filterKey] === "free" || +item[filterKey].slice(1) <= filterOption[1]);
-          })
+          return data.filter((item) => {
+            return (
+              item[filterKey] === "free" ||
+              +item[filterKey].slice(1) <= filterOption[1]
+            );
+          });
         }
-      })
-      } else if (filterKey === "rating") {
-        filteredData = allData.map(data => {
-          return data.filter(item => {
-              return +item[filterKey] >= filterOption[1].from && +item[filterKey] <= filterOption[1].to
-          }) 
-      })
+      });
+    } else if (filterKey === "rating") {
+      filteredData = allData.map((data) => {
+        return data.filter((item) => {
+          return (
+            +item[filterKey] >= filterOption[1].from &&
+            +item[filterKey] <= filterOption[1].to
+          );
+        });
+      });
     }
-    console.log(filterOption)
+    console.log(filterOption);
     setDataState();
   };
 
@@ -140,6 +132,7 @@ function App() {
     filteredData = allData;
     setDataState();
   };
+
   const handleSearch = (str) => {
     setSearchedString(str);
   };
@@ -165,7 +158,6 @@ function App() {
         >
           <Router>
             <Switch>
-              {/* <Route exact path="/home" render={(props) => <Main />} /> */}
               <Route
                 exact
                 path="/"
@@ -174,14 +166,14 @@ function App() {
               <Route
                 path="/signin"
                 render={(props) => (
-                  <SignInComponent setLogIn={setLogedInUser} {...props} />
+                  <SignInComponent setLogIn={setLoggedInUser} {...props} />
                 )}
               />
               {!user.isLogged && (
                 <Route
                   path="/signup"
                   render={(props) => (
-                    <SignUpComponent setLogIn={setLogedInUser} {...props} />
+                    <SignUpComponent setLogIn={setLoggedInUser} {...props} />
                   )}
                 ></Route>
               )}
@@ -213,12 +205,6 @@ function App() {
                   )}
                 ></Route>
               )}
-              {user.isLogged && (
-                <Route path="/allshowing" component={AllShowing}></Route>
-              )}
-              {user.isLogged && (
-                <Route path="/moviepage" component={MoviePage}></Route>
-              )}
               {!user.isLogged && (
                 <Route
                   path="/forgotpassword"
@@ -227,7 +213,6 @@ function App() {
               )}
             </Switch>
           </Router>
-          {/* <NestedList className="sidebar" onFilter={handleFilter}/> */}
         </DataContext.Provider>
       </AuthContext.Provider>
     </>

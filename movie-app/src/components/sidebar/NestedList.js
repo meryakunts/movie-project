@@ -1,11 +1,6 @@
 import { React, useState, useContext } from "react";
 import SimpleList from "./SimpleList";
-import {
-  makeStyles,
-  Theme,
-  useTheme,
-  createStyles,
-} from "@material-ui/core/styles";
+import { makeStyles, createStyles } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
 import MovieIcon from "@material-ui/icons/Movie";
 import ShopIcon from "@material-ui/icons/Shop";
@@ -13,8 +8,6 @@ import TheatersIcon from "@material-ui/icons/Theaters";
 import StarsIcon from "@material-ui/icons/Stars";
 import CreditCardIcon from "@material-ui/icons/CreditCard";
 import { DataContext } from "../DataContext";
-
-// const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -24,27 +17,19 @@ const useStyles = makeStyles((theme) =>
       top: "22px",
       color: "#ffffff",
     },
-    // menuButton: {
-    //   marginRight: theme.spacing(5),
-    //   marginLeft: "240px",
-    //   width: "10px",
-    // },
     hide: {
       display: "none",
     },
     drawer: {
-      // width: drawerWidth,
       flexShrink: 0,
     },
     drawerPaper: {
-      // width: drawerWidth,
       backgroundColor: "#4c2b5b",
     },
     drawerHeader: {
       display: "flex",
       alignItems: "center",
       padding: theme.spacing(0, 1),
-      // necessary for content to be below app bar
       ...theme.mixins.toolbar,
       justifyContent: "flex-end",
     },
@@ -56,7 +41,6 @@ const useStyles = makeStyles((theme) =>
 
 export default function NestedList({onSideBarOpen}) {
   const classes = useStyles();
-  const theme = useTheme();
   const [open, setOpen] = useState(false);
   const { filterFunc } = useContext(DataContext);
 
@@ -93,14 +77,16 @@ export default function NestedList({onSideBarOpen}) {
         { name: "2000 & Older", filterBy: { from: null, to: 2000 } },
       ],
     },
-    { title: "rating",
-      name: "rating", 
-      Icon: StarsIcon, 
+    {
+      title: "rating",
+      name: "rating",
+      Icon: StarsIcon,
       items: [
-        {name: "From 1 to 4.99", filterBy: {from: 1, to: 4.99}},
-        {name: "From 5 to 6.99", filterBy: {from: 5, to: 6.99}},
-        {name: "From 7 to 10", filterBy: {from: 7, to: 10}}
-      ]},
+        { name: "From 1 to 4.99", filterBy: { from: 1, to: 4.99 } },
+        { name: "From 5 to 6.99", filterBy: { from: 5, to: 6.99 } },
+        { name: "From 7 to 10", filterBy: { from: 7, to: 10 } },
+      ],
+    },
     {
       title: "price",
       name: "price",

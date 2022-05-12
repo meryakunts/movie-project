@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
@@ -14,12 +14,20 @@ import Tooltip from "@material-ui/core/Tooltip";
 import Zoom from "@material-ui/core/Zoom";
 import "./styles.css";
 import DialogComponent from "./DialogComponent";
-import { OpenInBrowser, OpenInNew } from "@material-ui/icons";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import MoviePage from "../components/MoviePage";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { DataContext } from "../components/DataContext";
 import { AuthContext } from "../components/UserContext";
 import { useHistory } from "react-router-dom";
+import db from "../firebase";
+import {
+  collection,
+  addDoc,
+  doc,
+  query,
+  where,
+  deleteDoc,
+  getDocs,
+} from "firebase/firestore";
 
 const useStyles = makeStyles({
   root: {
@@ -30,8 +38,22 @@ const useStyles = makeStyles({
 function CardComponent(props) {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
-  const [clicked, setClicked] = useState(false);
-  const {itemClicked} = useContext(DataContext);
+  const [currentUser, setCurrentUser] = useState("");
+  const [userFavorites, setUserFavorites] = useState("");
+  const [userWatchlist, setUserWatchlist] = useState("");
+  const auth = getAuth();
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      const uid = user.uid;
+      setCurrentUser(uid);
+    } else {
+      const uid = "";
+      setCurrentUser(uid);
+    }
+  });
+
+  const { itemClicked } = useContext(DataContext);
   let history = useHistory();
   const { isLogged } = useContext(AuthContext);
 
@@ -48,21 +70,134 @@ function CardComponent(props) {
   const handleClickItem = () => {
     itemClicked(props.itemData);
     if (!isLogged) {
-      history.push("/signIn")
+      history.push("/signIn");
     }
   };
 
-  const { description, name, src } = props.itemData;
+  const { description, name, id, src } = props.itemData;
+
+  const handleDeleteFave = async (docId) => {
+    console.log("handleDelete entered");
+    const docRef = doc(db, "favorites", docId);
+    deleteDoc(docRef);
+    currentFavorites();
+  };
+
+  const handleDeleteWatch = async (docId) => {
+    console.log("handleDeleteWatch entered");
+    const docRef = doc(db, "watchlist", docId);
+    deleteDoc(docRef);
+    currentWatchlist();
+  };
+
+  const handleFavorite = async () => {
+    if (!isLogged) {
+      history.push("/signIn");
+    }
+    let pickedItemId = id;
+    let alreadyAdded = false;
+    userFavorites.map((item) => {
+      if (pickedItemId === item.id) {
+        console.log("first if entered");
+        alreadyAdded = true;
+        return handleDeleteFave(pickedItemId);
+      } else if (pickedItemId === item.pickedItemId) {
+        console.log("else if entered");
+        alreadyAdded = true;
+        return handleDeleteFave(item.id);
+      }
+    });
+    if (!alreadyAdded) {
+      const WhichCollection = collection(db, "favorites");
+      const customDocument = {
+        name,
+        description,
+        src,
+        currentUser,
+        pickedItemId,
+      };
+      const docRef = await addDoc(WhichCollection, customDocument);
+      currentFavorites();
+      console.log(docRef.id);
+    }
+  };
+
+  const handleWatchlist = async () => {
+    if (!isLogged) {
+      history.push("/signIn");
+    }
+    console.log("watchlist Entered");
+    let pickedItemId = id;
+    let alreadyAdded = false;
+    userWatchlist.map((item) => {
+      if (pickedItemId === item.id) {
+        console.log("first if entered");
+        alreadyAdded = true;
+        return handleDeleteWatch(pickedItemId);
+      } else if (pickedItemId === item.pickedItemId) {
+        console.log("else if entered");
+        alreadyAdded = true;
+        return handleDeleteWatch(item.id);
+      }
+    });
+    if (!alreadyAdded) {
+      const WhichCollection = collection(db, "watchlist");
+      const customDocument = {
+        name,
+        description,
+        src,
+        currentUser,
+        pickedItemId,
+      };
+      const docRef = await addDoc(WhichCollection, customDocument);
+      currentWatchlist();
+      console.log(docRef.id);
+    }
+  };
+
+  const currentFavorites = async () => {
+    console.log("currentFavorites entered");
+    const collectionRef = collection(db, "favorites");
+    const q = query(collectionRef, where("currentUser", "==", currentUser));
+    const snapshot = await getDocs(q);
+    const results = snapshot.docs.map((doc) => ({
+      ...doc.data(),
+      id: doc.id,
+    }));
+    await setUserFavorites(results);
+  };
+
+  const currentWatchlist = async () => {
+    console.log("currentWatchlist entered");
+    const collectionRef = collection(db, "watchlist");
+    const q = query(collectionRef, where("currentUser", "==", currentUser));
+    const snapshot = await getDocs(q);
+    const results = snapshot.docs.map((doc) => ({
+      ...doc.data(),
+      id: doc.id,
+    }));
+    await setUserWatchlist(results);
+  };
+
+  useEffect(() => {
+    currentFavorites();
+    currentWatchlist();
+    return;
+  }, [currentUser]);
 
   return (
     <div>
-      <Card className={classes.root} onClick={handleClickItem}>
-        <CardActionArea>
+      <Card className={classes.root}>
+        <CardActionArea onClick={handleClickItem}>
           <CardMedia
             component="img"
             alt="Contemplative Reptile"
             height="140"
-            image={src ? src : "https://images.cdn1.stockunlimited.net/preview1300/film-reel-with-popcorn_1972467.jpg"}
+            image={
+              src
+                ? src
+                : "https://images.cdn1.stockunlimited.net/preview1300/film-reel-with-popcorn_1972467.jpg"
+            }
             title={name}
             className="cardTitle"
           />
@@ -88,7 +223,11 @@ function CardComponent(props) {
                 title="add to favorites"
                 arrow
               >
-                <IconButton aria-label="add to favorites" color="inherit">
+                <IconButton
+                  aria-label="add to favorites"
+                  color="inherit"
+                  onClick={handleFavorite}
+                >
                   <FavoriteBorderIcon />
                 </IconButton>
               </Tooltip>
@@ -97,7 +236,11 @@ function CardComponent(props) {
                 title="add to watchlist"
                 arrow
               >
-                <IconButton color="primary" aria-label="aadd to watchlist">
+                <IconButton
+                  color="primary"
+                  aria-label="add to watchlist"
+                  onClick={handleWatchlist}
+                >
                   <AddToQueueOutlinedIcon />
                 </IconButton>
               </Tooltip>

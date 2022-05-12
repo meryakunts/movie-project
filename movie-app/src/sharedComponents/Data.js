@@ -79,7 +79,7 @@ function Data() {
                 .includes(searchString.toLowerCase())
             ) {
               return (
-                <Grid item key={item.id} xs={12} sm={6} md={2}>
+                <Grid item key={item.id} xs={12} sm={6} md={3}>
                   <Item key={item.id}>
                     <CardComponent itemData={item} />
                   </Item>
