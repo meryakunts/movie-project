@@ -31,11 +31,13 @@ const useStyles = makeStyles((theme) =>
   })
 );
 
-export default function SimpleList({ data, onItemClick }) {
+export default function SimpleList({ data, onItemClick, onFilterClick }) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const handleClick = () => {
     setOpen(!open);
+    onFilterClick();
+
   };
   const { Icon } = data;
 

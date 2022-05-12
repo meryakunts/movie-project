@@ -8,6 +8,7 @@ export const data = {
   searchString: "",
   itemClicked: (item) => {},
   clickedData: {},
+  onResetFilter: () => {},
 };
 
 export const DataContext = createContext(data);
