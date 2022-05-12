@@ -14,8 +14,8 @@ const breakPoints = [
 
 function CarouselComponent(props) {
   const data = useContext(DataContext);
-  const isMovies = (props.type === "movies");
- 
+  const isMovies = props.type === "movies";
+
   return (
     <div className="CarouselComponent">
       <div className="carousel-wrapper">
@@ -29,7 +29,7 @@ function CarouselComponent(props) {
           {!isMovies &&
             data.showsData.map((item) => (
               <Item key={item.id}>
-                <CardComponent itemData={item} /> 
+                <CardComponent itemData={item} />
               </Item>
             ))}
         </Carousel>
