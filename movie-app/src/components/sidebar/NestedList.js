@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme) =>
   })
 );
 
-export default function NestedList() {
+export default function NestedList({onSideBarOpen}) {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = useState(false);
@@ -115,6 +115,7 @@ export default function NestedList() {
 
   const handleItemClick = (filter) => {
     filterFunc(filter);
+    onSideBarOpen();
   };
 
   return (
@@ -135,6 +136,7 @@ export default function NestedList() {
         >
           {list.map((item) => (
             <SimpleList
+              onFilterClick={onSideBarOpen}
               onItemClick={handleItemClick}
               key={item.title}
               data={item}
