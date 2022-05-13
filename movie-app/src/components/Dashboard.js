@@ -236,6 +236,12 @@ export default function Dashboard(props) {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+  const handleSideBarOpen = ()=> {
+    if (!open) {
+      handleDrawerOpen();
+    }
+  }
+  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   return (
     <div className={classes.root}>
@@ -305,7 +311,7 @@ export default function Dashboard(props) {
           {open && <div className={classes.resetAll}>Reset All</div>}
         </Button>
         <Divider />
-        <NestedList />
+        <NestedList onSideBarOpen={handleSideBarOpen}/>
       </Drawer>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />

@@ -74,7 +74,18 @@ function CardComponent(props) {
     }
   };
 
-  const { description, name, id, src } = props.itemData;
+  const {
+    description,
+    name,
+    id,
+    src,
+    genre,
+    year,
+    stars,
+    rating,
+    price,
+    trailer,
+  } = props.itemData;
 
   const handleDeleteFave = async (docId) => {
     console.log("handleDelete entered");
@@ -115,6 +126,12 @@ function CardComponent(props) {
         src,
         currentUser,
         pickedItemId,
+        genre,
+        year,
+        stars,
+        rating,
+        price,
+        trailer,
       };
       const docRef = await addDoc(WhichCollection, customDocument);
       currentFavorites();
@@ -148,6 +165,12 @@ function CardComponent(props) {
         src,
         currentUser,
         pickedItemId,
+        genre,
+        year,
+        stars,
+        rating,
+        price,
+        trailer,
       };
       const docRef = await addDoc(WhichCollection, customDocument);
       currentWatchlist();
